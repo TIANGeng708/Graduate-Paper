@@ -1,6 +1,6 @@
 % !TeX root = ../sustechthesis-example.tex
 
-\chapter{图、表及条目示例}
+\chapter{图表示例}
 
 \section{插图}
 
@@ -10,20 +10,11 @@
 其他的栅格图应使用无损的 PNG 格式。
 注意，LaTeX 不支持 TIFF 格式；EPS 格式已经过时。
 
-建议图的大小一般为宽 \SI{6.67}{\centi\meter} \times 高 \SI{5.00}{\centi\meter}。特殊情况下，也可为宽 \SI{9.00}{\centi\meter} \times 高 \SI{6.75}{\centi\meter}，或宽 \SI{13.5}{\centi\meter} \times 高 \SI{9.00}{\centi\meter}。总之，一篇论文中，同类图片的大小应该一致，编排美观、整齐。图应尽可能显示在同一页（屏）。
-
 \begin{figure}
   \centering
   \includegraphics[width=0.6\linewidth]{example-image-a.pdf}
   \caption{示例图片}
   \label{fig:example}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.6\linewidth, angle=90]{example-image-a.pdf}
-  \caption{示例图片旋转90度}
-  \label{fig:exampleRotate90}
 \end{figure}
 
 若图或表中有附注，采用英文小写字母顺序编号，附注写在图或表的下方。
@@ -122,24 +113,6 @@
   \end{tabularx}
 \end{table}
 
-如果表格横向宽度不够，可以使用 \pkg{sidewaystable} 将表格旋转90度，如表~\ref{tab:three-line-rotate}。
-
-\begin{sidewaystable}
-  \centering
-  \caption{旋转90度的三线表示例}
-  \begin{tabular}{ll}
-    \toprule
-    文件名          & 描述                         \\
-    \midrule
-    thuthesis.dtx   & 模板的源文件，包括文档和注释 \\
-    thuthesis.cls   & 模板文件                     \\
-    thuthesis-*.bst & BibTeX 参考文献表样式文件    \\
-    thuthesis-*.bbx & BibLaTeX 参考文献表样式文件  \\
-    thuthesis-*.cbx & BibLaTeX 引用样式文件        \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:three-line-rotate}
-\end{sidewaystable}
 
 
 如果您要排版的表格长度超过一页，那么推荐使用 \pkg{longtable} 或者 \pkg{supertabular}
@@ -236,9 +209,9 @@ class HelloWorldApp {
 }
 \end{lstlisting}
 \end{minipage}
- 
+
 \section{伪代码}
- 
+
 
 推荐使用 \pkg{algorithm2e} 宏包中的 \pkg{algorithm} 环境书写伪代码。\pkg{algorithm2e} 可选参数 \verb|linesnumbered| 控制代码行号显示。引用效果如算法 \ref{algo:sample-pseudocode}。
 
@@ -249,39 +222,15 @@ class HelloWorldApp {
   \KwResult{Optimal order quantity $Q^{\ast}_{t}$}
   $r\leftarrow t$\;
   $\Delta B^{\ast}\leftarrow -\infty$\;
-  \While{$\Delta B\leq \Delta B^{\ast}$ \rm{and} $r\leq T$}{$Q\leftarrow\arg\max_{Q\geq 0}\Delta B^{Q}_{t,r}(I_{t-1},B_{t-1})$\;
+  \While{$\Delta B\leq \Delta B^{\ast}$ and $r\leq T$}{$Q\leftarrow\arg\max_{Q\geq 0}\Delta B^{Q}_{t,r}(I_{t-1},B_{t-1})$\;
   $\Delta B\leftarrow \Delta B^{Q}_{t,r}(I_{t-1},B_{t-1})/(r-t+1)$\;
   \If{$\Delta B\geq \Delta B^{\ast}$}{$Q^{\ast}\leftarrow Q$\;
   $\Delta B^{\ast}\leftarrow \Delta B$\;}
   $r\leftarrow r+1$\;}
 \end{algorithm}
 
-
-\begin{algorithm}
-  \caption{SumExample}
-  \label{algo:sample-pseudocode2}
-  \KwResult{$s$}
-  $s\leftarrow 0$ \Comment*[r]{这是默认多行注释}
-  \Comment{这是默认独占一行的注释}
-  \SetNoFillComment %
-  \Comment{这是在取消独占一行后的注释}
-  \SetFillComment
-  \Comment{这是恢复独占一行的注释}
-  % \LeftComment{左对齐}
-  \ForEach{$i\in [1, 100]$}{
-    \uIf{$i\% 3= 0$}{
-      $s\leftarrow s+i$   \SingleComment*[r]{这是单行注释，一个没有end的if}
-    }\uElseIf{$i\%3=1$}{
-      \Break  \TriComment*{这是三角形的单行注释，一个没有end的else if}
-    }\Else{
-      \Continue \Comment*[r]{这是超长多行注释，关于伪代码的if-then-else详细查看https://texdoc.org/serve/algorithm2e/0的10.4}
-    }
-  }
-  \Return{s} \;
-\end{algorithm}
-
 \newpage
-\section{图表格式测试}
+\section{测试}
 
 图题在图之下，段前空 6 磅，段后空 12 磅。图整体前后距离未定义，目前默认距离：段前空 12 磅，段后空 12 磅。
 
@@ -315,79 +264,3 @@ class HelloWorldApp {
 
 表后，表后，表后，表后，表后，表后，表后，表后，表后，表后，表后。
 \emph{图表前后是否有空行不影响图表与正文之间的距离}。
-
-
-\section{条目编写}
-
-\subsection{支持三级目录显示}
-
-支持三级目录显示
-
-
-\subsection{条目要求}
-
-条目要求首行左缩进 2 个汉字符，避免悬挂缩进。如需使用带括号的条目列表，请自行添加 \verb|label=<style>| 参数。
-下面是两个例子，还有更多用法，查阅 \pkg{enumitem} 宏包的文档。
-
-默认条目序号：
-
-\verb|\begin{enumerate} ... \end{enumerate}|
-
-\begin{enumerate}
-  \item 一级
-  \begin{enumerate}
-    \item 二级
-    \begin{enumerate}
-      \item 三级
-      \begin{enumerate}
-        \item 四级，《写作要求》未定义，请自行定义或者选择。
-      \end{enumerate}
-    \end{enumerate}
-  \end{enumerate}
-\end{enumerate}
-
-自定义序号样式定义如表~\ref{tab:enum-style}。
-
-\begin{table}[h]
-  \centering
-  \caption{条目样式选项}
-  \label{tab:enum-style}
-  \begin{tabular}{@{}ll@{}}
-  \toprule
-  \textbf{Code}          & \textbf{Description}                      \\ \midrule
-  \textbackslash{}alph   & Lowercase letter (a, b, c, ...)           \\
-  \textbackslash{}Alph   & Uppercase letter (A, B, C, ...)           \\
-  \textbackslash{}arabic & Arabic number (1, 2, 3, ...)              \\
-  \textbackslash{}roman  & Lowercase Roman numeral (i, ii, iii, ...) \\
-  \textbackslash{}Roman  & Uppercase Roman numeral (I, II, III, ...) \\ \bottomrule
-  \end{tabular}
-\end{table}
-
-\subsubsection{条目测试}
-
-
-条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字，条目前文字。
-
-\begin{enumerate}
-  \item 一级条目，超长行。南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学。
-  \item 一级条目，南方科技大学，南方科技大学，南方科技大学。
-  \item 一级条目，南方科技大学，南方科技大学，南方科技大学。
-  \begin{enumerate}
-    \item 二级条目，超长行。南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学，南方科技大学。
-    \item 二级条目，南方科技大学，南方科技大学，南方科技大学。
-    \item 二级条目，南方科技大学，南方科技大学，南方科技大学。
-    \item 二级条目，南方科技大学，南方科技大学，南方科技大学。
-    \item 二级条目，南方科技大学，南方科技大学，南方科技大学。
-    \item 二级条目，南方科技大学，南方科技大学，南方科技大学。
-    \begin{enumerate}
-      \item 三级条目，南方科技大学，南方科技大学，南方科技大学。
-      \item 三级条目，南方科技大学，南方科技大学，南方科技大学。
-      \item 三级条目，南方科技大学，南方科技大学，南方科技大学。
-      \begin{enumerate}
-        \item \textbf{四级条目及之后的条目无规定序号格式，请自行设定选择。}
-      \end{enumerate}
-    \end{enumerate}
-  \end{enumerate}
-\end{enumerate}
-
-条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字，条目后文字。

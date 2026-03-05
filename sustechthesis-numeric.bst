@@ -8,7 +8,7 @@
 %% -------------------------------------------------------------------
 %% GB/T 7714 BibTeX Style
 %% https://github.com/zepinglee/gbt7714-bibtex-style
-%% Version: 2022/10/03 v2.1.5
+%% Version: 2022/03/21 v2.1.4
 %% -------------------------------------------------------------------
 %% Copyright (C) 2016--2022 by Zeping Lee <zepinglee AT gmail.com>
 %% -------------------------------------------------------------------
@@ -877,7 +877,7 @@ FUNCTION {format.volume}
     { volume is.number
         { entry.lang lang.zh =
             { "第 " volume * " 卷" * }
-            { "Vol." volume tie.or.space.connect }
+            { "volume" volume tie.or.space.connect }
           if$
         }
         { volume }
@@ -892,7 +892,7 @@ FUNCTION {format.number}
     { number is.number
         { entry.lang lang.zh =
             { "第 " number * " 册" * }
-            { "No." number tie.or.space.connect }
+            { "number" number tie.or.space.connect }
           if$
         }
         { number }
@@ -1301,10 +1301,7 @@ FUNCTION {format.year}
     { year extract.before.slash extra.label * }
     { date empty$ not
         { date extract.before.dash extra.label * }
-        { entry.is.electronic not
-            { "empty year in " cite$ * warning$ }
-            'skip$
-          if$
+        { "empty year in " cite$ * warning$
           urldate empty$ not
             { "[" urldate extract.before.dash * extra.label * "]" * }
             { "" }

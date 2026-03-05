@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import sys
 
 
 def change_line(filename, old, new):
@@ -91,7 +92,7 @@ if __name__ == "__main__":
         if not args.undo:
             change_line(filename,
                         "documentclass.+{sustechthesis}",
-                        "documentclass[degree=master,language=chinese,font=external,cjk-font=external]{sustechthesis}"
+                        "documentclass[degree=master,language=chinese,cjk-font=external]{sustechthesis}"
                         )
     elif args.recipe == 2:
         # english
@@ -100,7 +101,7 @@ if __name__ == "__main__":
         if not args.undo:
             change_line(filename,
                         "documentclass.+{sustechthesis}",
-                        "documentclass[degree=master,language=english,font=external,cjk-font=external]{sustechthesis}"
+                        "documentclass[degree=master,language=english,cjk-font=external]{sustechthesis}"
                         )
     elif args.recipe == 3:
         # biber
@@ -113,9 +114,11 @@ if __name__ == "__main__":
         filename = "sustech-setup.tex"
         backup(filename, TOBACKUP)
         if not args.undo:
-            comment_line(filename, "{natbib}", True)
+            comment_line(filename, "{gbt7714}", True)
+            comment_line(filename, "citestyle{super}", True)
+            comment_line(filename, "citestyle{numbers}", True)
             comment_line(filename, "bibliographystyle{sustechthesis-numeric}", True)
-            comment_line(filename, "gb7714-2015,.*{biblatex}", False)
+            comment_line(filename, "{biblatex}", False)
             comment_line(filename, "addbibresource{ref/refs.bib}", False)
     elif args.recipe == 4:
         # progress
@@ -123,7 +126,7 @@ if __name__ == "__main__":
         backup(filename, TOBACKUP)
         if not args.undo:
             change_line(filename,
-                        "(?<!\S)type = \S+,",
+                        "type = \S+,",
                         "type = progress,"
                         )
     elif args.recipe == 5:
@@ -132,6 +135,6 @@ if __name__ == "__main__":
         backup(filename, TOBACKUP)
         if not args.undo:
             change_line(filename,
-                        "(?<!\S)type = \S+,",
+                        "type = \S+,",
                         "type = proposal,"
                         )

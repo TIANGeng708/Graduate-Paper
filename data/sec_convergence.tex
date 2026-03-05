@@ -1,0 +1,208 @@
+% !TeX root = ../tg.tex
+\chapter{}
+\section{分割-联邦学习的收敛性分析}
+本部分从理论上分析带标签噪声的非独立同分布数据集对分割-联邦学习收敛性的影响 ，其中关键挑战在于回答如何在收敛性分析中量化标签噪声这一问题。
+
+
+
+如前所述，文献\cite{ke2023impact} 在联邦学习（FL）中量化了标签噪声，但其重点是模型的泛化能力，而非收敛性，因此其分析方法在此并不适用。同时，据我们所知，目前尚无研究在分割-联邦学习或联邦学习的收敛性分析中对标签噪声进行过量化。
+
+为填补这一空白，我们提出首先量化标签噪声对随机梯度的值及其方差 的影响，从而可以沿用传统的证明路径来推导出收敛速率。这种方法为将标签噪声纳入分割-联邦学习收敛性分析提供了分析框架，并可扩展至其他分割-联邦学习或联邦学习算法。
+
+具体而言，令 $\zetacle_n$ 表示客户端 $n$ 的干净数据集 $\Dcle_n$ 中的一个小批量。设 $F_n(\omegab;\zetacle_n)$ 表示完整模型 $\omegab$ 在客户端 $n$ 的小批量 $\zetacle_n$ 上的损失函数。客户端 $n$ 的期望损失为  
+\begin{equation}\label{eq:exp-fn}
+\fcle_n\left(\omegab\right)=\mathbb{E}_{\zetacle_n\sim \Dcle_n}\left[F_n\left(\omegab;\zetacle_n\right)\right].
+\end{equation}
+
+分割-联邦学习的目标是学习一个模型 $\omegab^*$，使其最小化所有客户端上损失函数 $F_{n}(\omegab)$ 的加权平均值 \cite{b8}：
+\begin{equation}\label{Objective of SFL}
+\omegab^* =\arg \min_{\omegab}f(\omegab)\triangleq \sum_{n=1}^{N}\frac{|\D_n|}{\sum_{n'=1}^{N}|\D_{n'}|}F^{cle}_{n}(\omegab).
+\end{equation}
+
+需要注意的是，分割-联邦学习的训练过程是基于所有客户端 $n\in\N$ 的带噪声数据集 $\Dnoi_n$ 进行的；而如式 (\ref{Objective of SFL}) 所述，其优化目标仍然是使模型 $\omegab^R$ 拟合所有客户端的干净数据集 $\Dcle_n$。
+
+接下来，我们将分别在标签噪声环境下，针对均方误差（MSE）损失函数与交叉熵（Cross-Entropy）损失函数对分割-联邦学习的收敛性进行分析。
+
+\section{均方误差损失函数}\label{subsec:mse}
+\subsection{标签噪声下的损失函数}
+在本节中，我们考虑使用均方误差（MSE）作为损失函数。均方误差可用于机器学习中的任务，例如回归。对于这些任务，由于标签通常是连续值，我们在标签 $y_i$ 上添加一个服从正态分布的随机噪声 $\epsilon_i$，即 $\epsilon_i \sim \mathbb{N}(\mu, \sigma^2)$，其中 $\mu$ 和 $\sigma^2$ 分别为噪声的均值和方差。这种噪声设置被现有研究广泛采用（例如 \cite{frenay2013classification}）。
+
+同时，我们设置 $\mu=0$ 以确保加入噪声后标签的平均值不变。  
+则数据集 $\Dnoi_n$ 中的样本 $i$ 表示为 $(x_i,\tilde{y}_i \triangleq y_i+\epsilon_i)$。令 $h(x_i;\omegab)$ 表示使用模型 $\omegab$ 对特征 $x_i$ 的预测标签值。模型 $\omegab$ 在一个小批量 $\zeta$ 上的 MSE 损失函数 $F_{n}(\omegab;\zeta)$ 定义如下：
+\begin{equation}\label{eq:mse}
+F_n\left(\omegab;\zeta\right)=\frac{1}{|\zeta|}\sum_{\left(x_i,{y}_i\right)\in \zeta}\left(h\left(x_i;\omegab\right)-{y}_i\right)^2.
+\end{equation}
+
+因此，我们可以将含噪声数据集下的损失函数用干净数据集下的损失函数表示如下：
+
+\begin{lemma}[带标签噪声的均方误差]\label{lem:mse}
+考虑一个小批量 $\zetanoi_n$ 及其对应的干净小批量 $\zetacle_n$，则有
+\begin{multline}
+F_n\left(\omegab;\zetanoi_n\right)=F_n\left(\omegab;\zetacle_n\right)\\
+    +\frac{1}{|\zetanoi_n|}\sum_{\left(x_i,\tilde{y}_i\right)\in \zetanoi_n}\left( \epsilon_i^2 - 2\left(h\left(x_i;\omegab\right)-y_i\right)\epsilon_i \right).
+\end{multline}
+\end{lemma}
+
+\subsection{假设条件}
+如同许多已有工作（例如 \cite{b4,b11,b8}），我们在收敛分析中对随机梯度和损失函数做出一些假设。令 $\gb_n\left(\omegab,\zeta_n\right)$ 表示 $F_n\left(\omegab;\zeta_n\right)$ 在小批量 $\zeta_n$ 上的随机梯度，即 $\gb_n\left(\omegab,\zeta_n\right)\triangleq \nabla F_n\left(\omegab;\zeta_n\right)$。令 $\nabla \fcle_n(\omegab)$ 表示客户端 $n\in\N$ 的干净数据集上期望损失 $\fcle_n(\omegab)$ 的梯度，定义见公式 \eqref{eq:exp-fn}。令 $\nabla \fnoi_n(\omegab)$ 表示对应于噪声数据集的期望损失梯度。对于任意客户端 $n\in\N$，来自干净数据集 $\Dcle_n$ 的小批量上的随机梯度满足以下假设：
+
+\begin{assumption}[均方误差下随机梯度的方差]\label{ass:gradient-variance}
+对于任意客户端 $n\in\N$，$\gb_n\left(\omegab,\zetacle_n\right)$ 在干净小批量上的期望方差是有界的，即：
+\begin{equation}\label{eq:gradient-variance}
+    \mathbb{E}_{\zetacle_n\sim \Dcle_n}\left[\left\Vert \gb_n\left(\omegab,\zetacle_n\right) - \nabla \fcle_n\left(\omegab\right) \right\Vert^2 \right] \leq \phi_n^2.
+\end{equation}
+\end{assumption}
+
+\begin{assumption}[均方误差下的随机梯度]\label{ass:gradient}
+对于任意客户端 $n\in\N$，$\gb_n\left(\omegab,\zetacle_n\right)$ 在 clean 数据集 $\Dcle_n$ 上的期望随机梯度是有界的，即：
+\begin{equation}\label{eq:gradient}
+\mathbb{E}_{\zetacle_n\sim \mathcal{D}_n^{cle}}\left[\left\Vert \gb_n\left(\omegab, \zetacle_n\right) \right\Vert^2\right] \leq G_n^2.
+\end{equation}
+\end{assumption}
+
+\begin{assumption}[数据异构性]\label{ass:heter}
+所有客户端 $n\in\N$ 的期望梯度 $\nabla \f_n(\boldsymbol{\omega})$ 的方差是有界的，即：
+\begin{equation}
+\textstyle \left\Vert 
+\nabla \f_n\left(\boldsymbol{\omega}\right)- \sum_{n\in\N}
+\nabla\f_n(\boldsymbol{\omega})/N \right\Vert^2 \le \lambda^2.
+\end{equation}
+这里，$\nabla \f_n(\boldsymbol{\omega})$ 同时表示 $\nabla \f_n^{cle}(\boldsymbol{\omega})$ 和 $\nabla \f_n^{noi}(\boldsymbol{\omega})$。\footnote{注意，非独立同分布（non-IID）和标签噪声可以建模为相互独立的事件，前者涉及客户端的数据分布，后者涉及标签如何被破坏。}
+
+\end{assumption}
+
+我们对损失函数作出如下假设：\footnote{虽然我们使用均方差作为损失函数，但损失函数相对于全局模型的性质依赖于分割-联邦学习中的模型结构和小批量中的数据样本。因此，如同现有工作（例如 \cite{b4,b11,b8}），我们需要对损失函数施加假设以便进行分析。}
+
+\begin{assumption}[$S$-平滑性]\label{ass:smooth}
+对于任意模型 $\omegab_1, \omegab_2\in \mathbb{R}^d$，损失函数是 $S$-平滑的，即：
+$$
+F_n(\omegab_2) \leq F_n(\omegab_1)+\langle \nabla F_n(\omegab_1), \omegab_2-\omegab_1\rangle +\frac{S}{2}\|\omegab_2-\omegab_1\|^2.
+$$
+\end{assumption}
+
+\subsection{收敛性分析}\label{proofC}
+我们首先分析在噪声数据集下随机梯度相关的界，然后对分割-联邦学习的收敛性进行界定。
+
+\textbf{标签噪声存在时的随机梯度：} 考虑到数据集中存在标签噪声，\eqref{eq:gradient-variance} 和 \eqref{eq:gradient} 中定义的随机梯度 $\gb_n(\cdot)$ 相关的界会增加。特别地，含噪声数据集上的随机梯度 $\gb_n(\omegab,\zetanoi_n)$ 可表示为干净数据集上的随机梯度 $\gb_n(\omegab,\zetacle_n)$ 的表达式，如下所示：
+\begin{multline}\label{Gradient of clean loss}
+\gb_n\left(\omegab,\zetanoi_n\right) %= \nabla F_n\left(\boldsymbol{\omega};\zetanoi_n\right)\\
+=\gb_n\left(\omegab,\zetacle_n\right)\\
+-\frac{1}{|\zetanoi_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i \nabla h\left(x_i;\boldsymbol{\omega}\right).
+\end{multline}
+
+因此，我们可以分别界定含噪声数据集下的随机梯度的方差和值。
+
+\begin{proposition}[均方差损失下含标签噪声的随机梯度的方差]\label{prop:variance-g mse}
+在假设 \ref{ass:gradient-variance} 下，任意客户端 $n\in\N$ 在噪声小批量上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 的期望方差是有界的：
+\begin{equation}\label{bounded-variance with noise}
+     \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\boldsymbol{\omega},\zetanoi_n\right) - \nabla \fnoi_n\left(\boldsymbol{\omega}\right) \right\Vert^2 \right] \leq \phi_n^2+H_1^2,
+\end{equation}
+其中 $H_1^2$ 定义为：
+\begin{align}\label{eq:H}
+    H_1^2 &= \frac{8\sigma^2}{|\mathcal{D}_n^{noi}|^2}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(
+\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2 \notag\\
+    &+\frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(
+\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2
+\end{align}
+\end{proposition}
+
+\begin{proposition}[均方差损失下含标签噪声的随机梯度的平方的期望]\label{prp:square-g mse}
+在假设 \ref{ass:gradient} 下，任意客户端 $n\in\N$ 在噪声数据集 $\Dnoi_n$ 上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 是有界的，即：
+\begin{equation}
+    \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] \leq G_n^2 + H_2^2,
+\end{equation}
+其中 $H_2^2$ 定义为：
+\begin{align}\label{eq:H}
+    H_2^2 &= \sum_{\zeta_n^{noi}\subset\mathcal{D}_n^{noi}} \frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(
+\nabla_\omega  h\left(x_{j};\boldsymbol{\omega}\right)\right)^2
+\end{align}
+\end{proposition}
+
+命题~\ref{prop:variance-g mse}--\ref{prp:square-g mse} 的证明分别见附录 \ref{app:pro1}--\ref{app:pro2}。
+
+为了处理分割-联邦学习中的模型拆分操作，根据 \cite{b8}，我们提出以下引理，将期望损失的界分解为两个项，分别对应服务器端和客户端模型。令 $\omegab^*\triangleq(\omegabc^*; \omegabs^*)$ 表示使 $f(\omegab)$ 最小化的最优全局模型，定义见 \eqref{Objective of SFL}。令 $\omegab^R\triangleq(\omegabc^R; \omegabs^R)$ 表示经过 $R$ 轮训练后获得的全局模型。
+
+\begin{lemma}[收敛性分析中的模型拆分 \cite{b8}]\label{lemma:decomp}
+通过分割-联邦学习训练得到的模型与最优模型之间的性能差距上界如下：
+\begin{equation}
+\mathbb{E}\left[f(\omegab^{R})\right]- f(\omegab^*)\le\frac{S}{2}\left(\mathbb{E}||\omegabs^{R}-\omegabs^*||^2+\mathbb{E}||\omegabc^{R}-\omegabc^*||^2\right).
+\end{equation}
+\end{lemma}
+
+然后，我们可以得出关于含噪声数据集的分割-联邦学习收敛性的主要结果。我们沿用了 \cite{b8} 的证明路径，由于篇幅限制，省略了详细证明。令 $b$ 表示小批量大小，我们定义以下几个记号：
+$$
+\kappa= \left\lceil \frac{D_n}{b} \right\rceil \times E, \quad a_n= \frac{D_n}{\sum_{n'=1}^{N}D_{n'}}, \quad \forall n.
+$$
+
+现在给出收敛性结果。
+
+\begin{theorem}[均方差损失下的收敛性]\label{theorem-nonconvex}
+在假设 \ref{ass:gradient-variance}--\ref{ass:smooth} 以及均方差损失函数 \eqref{eq:mse} 下，若 $\eta^r \leq \min\left\{ {1}/{(16S\kappa)},  {1}/{(8SN\kappa\sum_{n=1}^Na_n^2})\right\}$，则：
+\begin{equation}\label{bound-v2-nc-full}
+\begin{aligned}
+&\frac{1}{R}\sum_{r=0}^{R-1}\eta^r\mathbb{E}\left[\left\Vert
+\nabla_{\omegab}f\left(\omegab^{r}\right)\right\Vert^2\right]\leq \frac{4}{R\kappa}\left(f\left(\omegab^{0}\right)-f(\omega^*)\right)\\
+&+O\left(\frac{NS\kappa }{R} \sum_{n=1}^Na_n^2\left(\phi_n^2+\lambda^2+H_1^2+H_2^2\right)\sum_{R=0}^{R-1}\left(\eta^r\right)^2\right).
+\end{aligned}
+\end{equation}
+\end{theorem}
+
+收敛界随着客户端噪声的方差 $\sigma^2$ 增大而增大。这从理论上刻画了在均方差损失下标签噪声如何减缓分割-联邦学习的收敛速度。
+
+\section{交叉熵损失函数}
+在本节中，我们将收敛性分析扩展至分类任务中常用的交叉熵（cross-entropy）损失函数。对于这些任务，标签通常是离散的，因此我们考虑标签的随机翻转，而不是像均方误差（MSE）情况下那样添加随机噪声。具体来说，设 $\mathcal{K}$ 表示标签类别集合。
+
+令 $\delta$ 表示噪声率，即标签 $y_i$ 被替换成不同标签 $\tilde{y}_i$ 的概率。
+% \revw{如已有文献 \cite{b9,li2024feddiv} 所假设，一个标签以相等的概率翻转为其他任意一个标签。}
+回顾一下，$h\left(x_i;\boldsymbol{\omega}\right)$ 是模型 $\boldsymbol{\omega}$ 下特征 $x_i$ 的输出。对于交叉熵损失，$h\left(x_i;\boldsymbol{\omega}\right)$ 是一个包含 $K\triangleq|\mathcal{K}|$ 个项的向量，在深度学习中称为 logits。令 $ M(x_i, {y}_i; \boldsymbol{\omega}) $ 表示对模型输出的 logits 应用 softmax 函数后，给定输入 $x_i$ 和模型参数 $\boldsymbol{\omega}$ 时模型预测标签 $y_i$ 的概率，其定义如下：
+\begin{equation}\label{eq:cross}
+    M(x_i, {y}_i; \boldsymbol{\omega})= \frac{e^{[h\left(x_i;\boldsymbol{\omega}\right)]_{{y}_i}}}{\sum_{{y}\in\mathcal{K}}e^{[h\left(x_i;\boldsymbol{\omega}\right)]_{{y}}}},
+\end{equation}
+其中 $[h\left(x_i;\boldsymbol{\omega}\right)]_{{y}_i}$ 表示 $h\left(x_i;\boldsymbol{\omega}\right)$ 中与 ${y}_i$ 对应的项。于是，小批量 $\zeta$ 上的交叉熵损失 $F_{n}(\omegab;\zeta)$ 定义如下：
+\begin{equation}\label{eq:cross-entropy}
+F_n\left(\boldsymbol{\omega};\zeta\right)=\frac{1}{|\zeta|}\sum_{\left(x_i,y_i\right)\in \zeta}-\log\left(M(x_i, {y}_i; \boldsymbol{\omega})\right),
+\end{equation}
+其中 $F_n\left(\boldsymbol{\omega};\zeta\right)$ 仍满足假设 \ref{ass:smooth}。
+
+令 $r_i$ 表示数据样本 $(x_i,y_i)$ 是否被翻转的指示变量，即 $r_i\sim Bernoulli(\delta)$。将 \eqref{eq:cross-entropy} 中定义的交叉熵损失代入梯度 $\gb_n\left(\omegab,\zeta_n\right)\triangleq \nabla F_n\left(\omegab;\zeta_n\right)$，我们可以得到含噪小批量 $\zetanoi_n$ 上的梯度与其对应的干净小批量 $\zetacle_n$ 上的梯度之间的关系：
+%\begin{lemma}[Stochastic Gradients with Noise(Cross-Entropy)]\label{lem:g cross entropy}
+%The stochastic gradient  $\gb_n(\omegab,\zetanoi_n)$ over noisy dataset can be represented by
+\begin{multline}\label{Gradient of clean loss}
+\gb_n\left(\omegab,\zetanoi_n\right) %=\nabla F_n\left(\boldsymbol{\omega};\zetanoi_n\right)\\
+=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)
++\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_i,\tilde{y}_i\right)\in \zeta_n^{noi}}r_i\\ \times\left(\frac{\nabla_{\boldsymbol{\omega}} M(x_i, y_i; \boldsymbol{\omega})}{M(x_i,  y_i; \boldsymbol{\omega})} -\frac{\nabla_{\boldsymbol{\omega}} M(x_i, \tilde{y}_i; \boldsymbol{\omega})}{M(x_i, \tilde{y}_i; \boldsymbol{\omega})}\right).
+\end{multline}
+%\end{lemma}
+
+为了进行收敛性分析，我们假设 $M(x_i, {y}_i; \boldsymbol{\omega})$ 的梯度与其本身的比值始终有界。
+\begin{assumption}[与 $M(\cdot)$ 相关的界]\label{ass: bound of m}
+设 $\left(x_i,\tilde{y}_i\right)$ 和 $\left(x_j,\tilde{y}_j\right)$ 表示来自 $\Dnoi_n$ 或 $\Dcle_n$ 的任意一对数据样本。假设以下内积始终有上下界：
+\begin{equation}
+   \psi_{min} \leq \left\langle\frac{\nabla M(x_i, \tilde{y}_i; \boldsymbol{\omega})}{M(x_i, \tilde{y}_i; \boldsymbol{\omega})},\frac{\nabla M(x_j, \tilde{y}_j; \boldsymbol{\omega})}{M(x_j, \tilde{y}_j; \boldsymbol{\omega})}\right\rangle\leq \psi_{max},
+\end{equation}
+\end{assumption}
+
+由于模型 $\omegab$ 的输出和 softmax 函数是光滑的，且每个样本的预测概率是有界的，因此该内积的上下界存在。根据假设 \ref{ass: bound of m}，我们可以放松假设 \ref{ass:gradient-variance} 和 \ref{ass:gradient}，并确定干净数据集上随机梯度的方差和期望平方梯度的上界形式如下：
+\begin{multline}\label{eq:gradient-variance cross-entropy}
+    \mathbb{E}_{\zetacle_n\sim \Dcle_n}\left[\left\Vert \gb_n\left(\omegab,\zetacle_n\right) - \nabla \fcle_n\left(\omegab\right) \right\Vert^2 \right] \\ \leq \phi^2_n \triangleq 2\psi_{max}-2\psi_{min},
+\end{multline}
+\begin{equation}\label{eq:gradient cross-entropy}
+\mathbb{E}_{\zetacle_n\sim \mathcal{D}_n^{cle}}\left[\left\Vert \gb_n\left(\omegab, \zetacle_n\right) \right\Vert^2\right] \leq G_n^2 \triangleq  \psi_{max}.
+\end{equation}
+
+为了分析收敛性，类似于第 \ref{subsec:mse} 节中对均方误差损失的处理，我们可以首先通过将 $\gb_n\left(\omegab,\zetanoi_n\right)$ 代入表达式 $\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n(\boldsymbol{\omega},\zetanoi_n) - \nabla \fnoi_n(\boldsymbol{\omega}) \Vert^2 ]$ 和 $\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]$ 并结合期望变换来求出含噪情况下的随机梯度方差和期望平方梯度的上界。然后根据引理 \ref{lemma:decomp}，我们可以得到在交叉熵损失下分割-联邦学习的收敛性结果如下。
+
+\begin{theorem}[交叉熵损失下的收敛性]\label{thm:cross-entropy}
+在假设 \ref{ass:heter}--\ref{ass: bound of m} 以及 \eqref{eq:cross} 中定义的交叉熵损失函数下，若 $\eta^r \leq \min\left\{ {1}/{(16S\kappa)},  {1}/{(8SN\kappa\sum_{n=1}^Na_n^2})\right\}$，则 $\frac{1}{R}\sum_{r=0}^{R-1}\eta^r\mathbb{E}[\Vert\nabla_{\omegab}f(\omegab^{r})\Vert^2]$ 的上界如定理 \ref{theorem-nonconvex} 所述成立，只不过 $H_1^2$ 和 $H^2_2$ 改为如下形式：
+\begin{equation}\label{eq:H}
+    H_1^2=4\delta\left(\frac{\Delta}{Z}+\frac{3\Delta}{D}\right)
+    -4\delta^2\left(4+\frac{\Delta}{Z}+\frac{3\Delta}{D}\right),
+\end{equation}
+\begin{equation}\label{eq:H}
+    H_2^2 =4\delta\frac{\Delta}{Z}+4\delta^2\left(1-\frac{\Delta}{Z}\right),
+\end{equation}
+其中 $\Delta \triangleq \psi_{max}-\psi_{min}$，$Z \triangleq |\zeta_n^{noi}| = |\zeta_n^{cle}|$，且 $D\triangleq |\Dnoi_n|=|\Dcle_n|$ 对于所有 $n\in\N$ 成立。
+\end{theorem}
+
+收敛速率的上界随着客户端噪声方差 $O(\delta^2)$ 的增加而增大。这从理论上刻画了在交叉熵损失下，标签噪声如何减缓分割-联邦学习的收敛速度。
+

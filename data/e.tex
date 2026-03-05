@@ -1,0 +1,479 @@
+\chapter{标签噪声存在时对联邦分割学习的收敛性分析及改进}
+\section{分割-联邦学习的训练过程}
+分割-联邦学习包含两种基准算法：SFL-V1和SFL-V2，它们两个的区别在于服务器中模型的个数不同。在SFL-V1中，所有用户的
+数据都会在同一个服务器模型上进行训练；在SFL-V2中不同用户的数据会在不同的服务器模型上进行训练，在合适的时候，这些服务器模型会被聚合为全局服务器模型。
+下面以SFL-V2为例，介绍分割-联邦学习的训练过程。
+
+分割-联邦学习的训练过程会持续$R$轮。在$r$轮的训练开始时，用户$n\in \N$会从聚合服务器中下载最新的客户端模型$\omegabc^{r-1}$。
+该模型会作为用户$n$在第$r$轮的的本地初始模型$\omegabc^{r-1}$。
+$\omegabs^{r}$表示第$r$轮计算服务器端的初始模型，该模型是用在$r-1$轮中确定的服务器模型$\omegabs^{r-1}$初始化的。
+% Let $\omegabsn^{r}$ denote the server-side model of client $n$ at the training server, which was initialized with the previous global server-side model $\omegabs^{r-1}$ determined in round $r-1$.
+% Then, each client $n$ and the training server performs training over its dataset $\Dnoi_n$ for $E$ epochs. In each epoch, the client divides its dataset into multiple mini-batches, with each of which the client and the training server perform training to update $\omegabcn^{r}$ and $\omegabs^r$ in a cooperative manner. The training process over a mini-batch $\zetanoi_n\subset\Dnoi_n$ in an epoch of round $r$ consists of four steps:
+然后，每个客户端$n$和训练服务器在其数据集$\Dnoi_n$上执行$E$个周期的训练。在每个周期中，客户端将其数据集划分为多个数据块，每个数据块中客户端和训练服务器以合作的方式执行训练以更新$\omegabcn^{r}$和$\omegabs^r$。在一个周期为$r$的数据块$\zetanoi_n\subset\Dnoi_n$上的训练过程包括四个步骤：
+
+\textbf{步骤 1: 客户端前向传播}. 客户端$n$使用数据块$\zetanoi_n$通过其本地客户端模型$\omegabcn^{r}$向前传播。由于客户端模型只包含完整模型的第一个$l_c$层，因此客户端目前无法确定模型更新的预测标签。因此，每个客户端将处理后的数据（即前向传播计算的中间结果）与标签一起发送给训练服务器。
+
+\textbf{步骤 2: 计算服务器前向传播和反向传播}. 训练服务器接收到客户端的中间结果后，通过服务器端模型$\omegabs^{r}$进行前向传播。注意，$\omegabs^{r}$对客户端中间数据的更新只有在上一次更新（对另一个客户端更早到达的中间数据的更新）完成后才会开始。
+
+由于服务器端模型$\omegabs^{r}$只包含完整模型的$l_s$层，因此训练服务器需要将中间梯度发送到客户端$n$以更新客户端模型$\omegabcn$，从而完成反向传播过程。
+
+\textbf{步骤 3: 客户端反向传播}. 在接收到中间梯度后，客户端$n$继续反向传播过程以更新本地客户端模型$\omegabcn^r$。这就完成了一个数据块的训练。
+
+\textbf{步骤 4: 模型聚合}. 在第$r$轮的第$E$个周期之后，客户端将其本地客户端模型$\omegabcn^r$发送到聚合服务器。聚合服务器通过对本地模型取加权平均值来计算全球客户端模型$\omegabc^r$：
+
+%We will initially consider the case of client model aggregation. When all the data owned by all clients has been trained once, each client n will have a locally updated model $w_{c,n}^{r,E}$. All clients participating in SFL aggregate these local models into a new global model $w_{c}^{r+1}$ under the command of the scheduling server and replace the original global client model $w_{c}^{r}$ with this new model$w_{c}^{r+1}$:
+\begin{equation}\label{eq:c-agg}
+\omegabc^r=\sum_{n=1}^{N}\frac{D_n}{\sum_{n'=1}^{N}D_{n'}}\omegabcn^r.
+\end{equation}
+训练服务器维护全局服务器端模型$\omegabs^r$，不需要聚合。 
+在客户端和服务器完成$R$轮训练后，得到最终的完整模型$\omegab^R=(\omegabc^R,\omegabs^R)$。
+
+\section{对分割-联邦学习训练过程的数学描述}
+在有$N$个用户参与的分割-联邦学习框架中，其用户集合为$\mathcal{N}=\{1,2,\ldots, N\}$。任意用户$n\in \mathcal{N}$
+都拥有专属数据$\mathcal{D}_n \subset \mathcal{D}$,其中$\mathcal{D}$是用于训练的全部数据。用户$n$的数据会被分成多个数据块 $\zeta_n\subset\mathcal{D}_n$，
+单次训练只使用一个数据块。
+参与分割-联邦学习训练的$l_c+l_s$层完整模型$\omega$会被分成一个$l_c$层的客户端
+模型$\omega_c$和一个$l_s$层的服务器模型$\omega_s$。
+
+在分割-联邦学习进行训练时，每轮训练通常包括$E$个epoch，训练会在$R$轮之后自动停止。$F_n(\omega;\zeta_n)$
+表示完整模型$\omega$在数据块$\zeta_n$上的损失函数，
+则损失函数在用户$n$上的期望为
+\begin{equation}\label{eq:exp-fn}
+f_n\left(\omega\right)=\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[F_n\left(\omega;\zeta_n\right)\right].
+\end{equation}
+分割-联邦学习的最终目标是获得模型$\omega^*$,使得$F_n(\omega)$在所有用户上的加权平均值最小：
+\begin{equation}\label{Objective of SFL}
+\omega^* =\arg \min_{\omega}f(\omega)\triangleq \sum_{n=1}^{N}\frac{D_n}{\sum_{n'=1}^{N}D_{n'}}f_{n}(\omega).
+\end{equation}
+
+\section{对分割-联邦学习进行收敛性分析}
+\subsection{非独立同分布数据}
+首先，定义$g_n(\omega,\zeta_n)$为$F_n(\omega,\zeta_n)$的
+随机梯度,即$g_n(\omega,\zeta_n=\nabla F_n(\omega,\zeta_n))$，$\nabla F_n(\omega)$为期望损失$F_n(\omega)$的梯度。
+在对分布式算法进行收敛性证明时，通常对非独立同分布数据训练的损失函数的梯度有三个假设\cite{li2019convergence}:
+
+\noindent \textbf{假设一}:对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的方差的期望具有上界$\phi_n^2$。
+\begin{equation}\label{j1}
+\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\left\Vert g_n\left(\omega,\zeta_n\right) - \nabla f_n\left(\omega\right) \right\Vert^2 \right] \leq \phi_n^2.
+\end{equation}
+
+\noindent \textbf{假设二}:对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的期望具有上界$G^2$。
+\begin{equation}\label{j2}
+\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\left\Vert g_n\left(\omega, \zeta_n\right) \right\Vert^2\right] \leq G^2. 
+\end{equation}
+
+\noindent \textbf{假设三}:对任意用户$n\in \mathcal{N}$,$\nabla f_n(\omega)$的方差具有上界$\lambda^2$。
+\begin{equation}
+\textstyle \left\Vert \nabla f_n\left(\omega\right)- \sum_{n\in\mathcal{N}}\nabla f_n(\omega) /N \right\Vert^2 \le \lambda^2.
+\label{j3}
+\end{equation}
+
+此外，还需要假设每一个用户的损失函数$F_n$都是光滑的，被称为S-Smoothness：
+\begin{equation}
+F_n(\omega_2)\leq F_n(\omega_1)+<\nabla F_n(\omega_1),\omega_2-\omega_1>+\frac{S}{2}\Vert\omega_2-\omega_1\Vert^2.
+\end{equation}
+
+为了建立客户端模型$\omega_c$和服务器模型$\omega_s$的收敛性与完整模型$\omega$之间的关系，有如下推论：
+
+\begin{equation}
+\mathbb{E}\left[f\left(\omega^r\right)\right]-f\left(\omega^*\right) \leq \frac{S}{2}\left(\mathbb{E}\Vert
+\omega_s^r-\omega_s^*\Vert^2+\mathbb{E}\Vert\omega_c^r-\omega_c^*\Vert^2\right) 
+\end{equation}
+
+基于上述假设和推论，可以得到分割-联邦学习的收敛性结果：
+
+\noindent \textbf{1.损失函数为凸函数}（Learning rate $\eta^r \leq 1/{(2 S\tau})$）
+\begin{align}\label{bound-v2-gc-full2}
+\mathbb{E}\left[f\left(\omega^{r}\right)\right]-f(\omega^*)\le& \frac{S||\omega^0-\omega^*||^2}{2(R+1)}+ \\\notag
+&O\left(\left(\frac{||\omega^0-\omega^*||^2 N}{R+1}\sum_{n=1}^Na_n^2\left(2\phi_n^2+G^2\right)\right)^{\frac{1}{2}}\right).
+\end{align}
+
+\noindent \textbf{2.损失函数为非凸函数}（Learning rate $\eta^r \leq \min\left\{ {1}/{(16S\tau)}, {1}/{(8SN\tau\sum_{n=1}^Na_n^2})\right\}$）
+\begin{align}\label{bound-v2-nc-full3}
+\frac{1}{R}\sum_{r=0}^{R-1}\eta^r\mathbb{E}\left[\left\Vert\nabla_{\omega}f\left(\omega^{r}\right)\right\Vert^2\right]\leq& \frac{4}{R\tau}\left(f\left(\omega^{0}\right)-f(\omega^*)\right)+\\\notag
+&O\left(\frac{NS\tau }{R} \sum_{n=1}^Na_n^2\left(\phi_n^2+\lambda^2\right)\sum_{R=0}^{R-1}\left(\eta^r\right)^2\right)
+\end{align}
+
+\subsection{标签噪声}
+不存在标签噪声时，干净数据集$\mathcal{D}_n^{cle}$中的任意一个数据可被写为$(x_i,y_i)$;当存在标签噪声时，
+噪声数据集$\mathcal{D}_n^{noi}$中的任意一个数据可被写为$(x_i,y_i+\epsilon_i)$,其中$\epsilon_i \sim N(0,\sigma^2)$. $h(x_i;\omega)$
+表示模型$\omega$根据特征$x_i$预测标签的过程。
+
+使用噪声数据块$\zeta_n^{noi}$的损失函数$F_n(\omega;\zeta_n^{noi})$与使用干净数据块
+$\zeta_n^{cle}$的损失函数$F_n(\omega;\zeta_n^{cle})$之间有如下联系：
+
+\begin{equation}
+F_n\left(\omega;\zeta_n^{noi}\right)=F_n\left(\omega;\zeta_n^{cle}\right)
++\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zeta_n^{noi}}\left( \epsilon_i^2 - 2\left(h\left(x_i;\omega\right)-y_i\right)\epsilon_i \right).
+\end{equation}
+使用噪声数据块$\zeta_n^{noi}$的损失函数的梯度$g_n(\omega;\zeta_n^{noi})$与使用干净数据块
+$\zeta_n^{cle}$的损失函数的梯度$g_n(\omega;\zeta_n^{cle})$之间有如下联系：
+\begin{equation}\label{Gradient of clean loss}
+g_n\left(\omega,\zeta_n^{noi}\right) 
+=g_n\left(\omega,\zeta_n^{cle}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zeta_n^{noi}}2\epsilon_i\nabla h\left(x_i;\boldsymbol{\omega}\right).
+\end{equation}
+\ref{j1},\ref{j2}中的两个假设表示无噪声标签的非独立同分布数据的训练情况，在可能存在
+标签噪声的环境中它们被改写为下列两个假设：
+
+\noindent \textbf{假设四}:对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的方差的期望具有上界$\phi_n^2$。
+\begin{equation}\label{j4}
+\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}\left[\left\Vert g_n\left(\omega,\zeta_n^{cle}\right) - \nabla f_n^{cle}\left(\omega\right) \right\Vert^2 \right] \leq \phi_n^2.
+\end{equation}
+
+\noindent \textbf{假设五}:对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的期望具有上界$G^2$。
+\begin{equation}\label{j5}
+\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}\left[\left\Vert g_n\left(\omega, \zeta_n^{cle}\right) \right\Vert^2\right] \leq G^2. 
+\end{equation}
+
+当存在标签噪声时，关于假设四有如下推论：
+
+\noindent \textbf{推论一}：对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的方差的期望具有上界$\phi_n^2+8\sigma^2H^2$。
+\begin{equation}\label{j6}
+\mathbb{E}_{\zeta_n^{noi}\sim \mathcal{D}_n^{noi}}\left[\left\Vert g_n\left(\omega,\zeta_n^{noi}\right) - \nabla f_n^{noi}\left(\omega\right) \right\Vert^2 \right] \leq \phi_n^2+8\sigma^2H^2.
+\end{equation}
+
+\noindent \textbf{证明}：
+为了方便描述，本文将 $\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ]$ 改写为 $\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ]$, 
+% where $\epsilon\sim \mathcal{N}(\mu, \sigma^2)$ represents any of the noise and $\zetacle_n\sim\Dcle_n$. Such a transformation is an equivalent transformation, because the random noise $\epsilon$ and clean data $(x,y)$ of any data sample are independent. 
+同时有 $|\zetanoi_n|=|\zetacle_n|=|\zeta_n|$ 和 $|\Dnoi_n|=|\Dcle_n|=D_n$成立. 基于上述推论，可以得到： 
+%Bring the data with the noise label into \eqref{ass:gradient-variance} and derive \eqref{bounded-variance with noise}.
+\begin{multline}\label{eq:proof-v1}
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n\left(\omegab\right) \right\Vert^2 \right]
+\\=\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\Biggl[\Big\Vert \gb_n\left(\omegab,\zetacle_n\right) -\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)
+\\ -\left(\nabla \fcle_n\left(\omegab\right)-\frac{1}{D_n}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right)\Big\Vert^2\Biggl].
+\end{multline}
+假设 $L_n^{noi}\triangleq\frac{1}{D_n}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right) 
+-\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)$. 对于 \eqref{eq:proof-v1} 有：
+\begin{multline}\label{eq:proof-v2}
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[\Vert \gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)-L_n^{noi}\Vert^2\biggl]\\=\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)\Vert^2\right]
++\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \\
++\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[2|<\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right),L_n^{noi}>|\right].
+\end{multline}
+在 \eqref{eq:proof-v2}中, 第一项的值小于 $\phi^2_n$. 第三项的值等于0，因为噪声数据和干净数据是独立的. 将第二项展开可以得到：
+\begin{align}\label{eq:proof-v3}
+&\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \notag \\
+=~&\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \frac{1}{D_n}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right\Vert^2\right]\notag \\
+&+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert\frac{1}{|\zeta_n|}\sum_{\left(x_{j},y_j+\epsilon_j\right)\in \zetanoi_n}2\epsilon_j\nabla h\left(x_j;\omegab\right)\right\Vert^2\right]\notag \\
+&+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[ \frac{1}{D_n}\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zetanoi_n}\notag \\
+&4\epsilon_i\epsilon_j\nabla h\left(x_i;\omegab\right)\nabla h\left(x_j;\omegab\right)\biggl].
+\end{align}
+在\eqref{eq:proof-v3}中, 基于数据块的随机抽取, 前两项的和为 $8\sigma^2 H^2$. 由于噪声均值为零以及不同数据样本
+的噪声独立分布，最后一项等于零。结合\eqref{eq:proof-v3} 和\eqref{eq:proof-v2}, 即可完成证明.
+% \begin{align}\notag
+% &\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\left\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{noi}\right) - \nabla f_n^{noi}\left(\boldsymbol{\omega}\right) \right\Vert^2 \right]\\\notag
+% &=\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\biggl[\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla f_n^{cle}\left(\boldsymbol{\omega}\right)\\\notag
+% &+\underbrace{\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_s,y_s+\epsilon_s\right)\in \mathcal{D}_n^{noi}}2\epsilon_s\nabla h\left(x_s;\boldsymbol{\omega}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_t,y_t+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_t\nabla h\left(x_t;\boldsymbol{\omega}\right)}_{=L_n^{noi}}\Vert^2\biggl]\\\notag
+% &=\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right)+L_n^{noi}\Vert^2\right]\\\notag
+% &\leq \mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\biggl[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right)\Vert^2\\\notag
+% &+\Vert L_n^{noi}\Vert^2+2|<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right),L_n^{noi}>|\biggl]\\\notag
+% &= \mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right)\Vert^2\right]\\\notag
+% &+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert L_n^{noi}\Vert^2\right]+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[2|<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right),L_n^{noi}>|\right]\\\notag
+% &\leq \phi^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert L_n^{noi}\Vert^2\right]+\underbrace{\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[2|<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla F_n^{cle}\left(\boldsymbol{\omega}\right),L_n^{noi}>|\right]}_{=0}\\\notag
+% &= \phi^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert L_n^{noi}\Vert^2\right]\\\notag
+% &= \phi^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert \frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_s,y_s+\epsilon_s\right)\in \mathcal{D}_n^{noi}}2\epsilon_s\nabla h\left(x_s;\boldsymbol{\omega}\right)\\\notag
+% &-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_t,y_t+\epsilon_t\right)\in \zeta_n^{noi}}2\epsilon_t\nabla h\left(x_t;\boldsymbol{\omega}\right)\Vert^2\Biggl]\\\notag
+% &= \phi^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert \frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_s,y_s+\epsilon_s\right)\in \mathcal{D}_n^{noi}}2\epsilon_s\nabla h\left(x_s;\boldsymbol{\omega}\right)\Vert^2\\\notag
+% &+\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_t,y_t+\epsilon_t\right)\in \zeta_n^{noi}}2\epsilon_t\nabla h\left(x_t;\boldsymbol{\omega}\right)\Vert^2\Biggl]\\\notag
+% &+\underbrace{\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[ \frac{1}{|\mathcal{D}_n^{noi}|}\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_s,y_s+\epsilon_s\right)\in \mathcal{D}_n^{noi}}\sum_{\left(x_t,y_t+\epsilon_t\right)\in \zeta_n^{noi}}4\epsilon_s\epsilon_t\nabla h\left(x_s;\boldsymbol{\omega}\right)\nabla h\left(x_t;\boldsymbol{\omega}\right)\right]}_{=0}\\\notag
+% &= \phi^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert \frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_s,y_s+\epsilon_s\right)\in \mathcal{D}_n^{noi}}2\epsilon_s\nabla h\left(x_s;\boldsymbol{\omega}\right)\Vert^2\\\notag
+% &+\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_t,y_t+\epsilon_t\right)\in \zeta_n^{noi}}2\epsilon_t\nabla h\left(x_t;\boldsymbol{\omega}\right)\Vert^2\Biggl]\\\notag
+% &= \phi^2+\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_{s1},y_{s1}+\epsilon_{s1}\right)\in \mathcal{D}_n^{noi}}\sum_{\left(x_{s2},y_{s2}+\epsilon_{s2}\right)\in \mathcal{D}_n^{noi}}4\epsilon_{s1}\epsilon_{s2}\nabla h\left(x_{s1};\boldsymbol{\omega}\right)\nabla h\left(x_{s2};\boldsymbol{\omega}\right)\\\notag
+% &+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\frac{4}{|\zeta_n^{noi}|}\sum_{\left(x_{t1},y_{t1}+\epsilon_{t1}\right)\in \mathcal{D}_n^{noi}}\sum_{\left(x_{t2},y_{t2}+\epsilon_{t2}\right)\in \mathcal{D}_n^{noi}}\epsilon_{t1}\epsilon_{t2}\nabla h\left(x_{t1};\boldsymbol{\omega}\right)\nabla h\left(x_{t2};\boldsymbol{\omega}\right)\right]\\\notag
+% &= \phi^2+\frac{\sigma^2}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_{s},y_{s}+\epsilon_{s}\right)\in \mathcal{D}_n^{noi}}\left(2\nabla h\left(x_{s};\boldsymbol{\omega}\right)\right)^2\\\notag
+% &+\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\frac{\sigma^2}{|\zeta_n^{noi}|}\sum_{\left(x_{t},y_{t}+\epsilon_{t}\right)\in \mathcal{D}_n^{noi}}\left(2\nabla h\left(x_{t};\boldsymbol{\omega}\right)\right)^2\right]\\\notag
+% &= \phi_n^2++8\sigma^2H^2\\
+% \end{align}
+
+关于假设五有如下推论：
+
+\noindent \textbf{推论二}:对任意用户$n\in \mathcal{N}$,$g_n(\omega,\zeta_n)$的期望具有上界$G^2+4\sigma^2H^2$。
+\begin{equation}\label{j7}
+\mathbb{E}_{\zeta_n^{noi}\sim \mathcal{D}_n^{noi}}\left[\left\Vert g_n\left(\omega, \zeta_n^{noi}\right) \right\Vert^2\right] \leq G^2+4\sigma^2H^2. 
+\end{equation}
+
+\noindent \textbf{证明}：为了方便描述，这里将 $\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]$ 改写为 $\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2$。
+% where $\epsilon\sim \mathcal{N}(\mu, \sigma^2)$ represents any of the noise and $\zetacle_n\sim\Dcle_n$, and it is an equivalent transformation. % Let $K=\epsilon_j\nabla h\left(x_{i};\omegab\right)$. 
+% \begin{align}\label{Expected squared norm1}
+% K=2\epsilon_j\nabla h\left(x_{i};\omegab\right)
+% \end{align}
+% According to Lemma \ref{lem:g}, we have
+\begin{multline}\label{eq:proof-s1}
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] 
+= \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)\Vert^2\right] \\
+-\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left|<\gb_n\left(\omegab,\zetacle_n\right),\frac{4}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\!\!\!\!\!\!\!\!\!\!\epsilon_i\nabla h\left(x_{i};\omegab\right)>\right|\right]\\
++\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \frac{2}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\epsilon_i\nabla h\left(x_{i};\omegab\right)\right\Vert^2\right].
+\end{multline}
+第一项的上界是 $G^2$ 。 第二项等于零，因为标签噪声项与标签值之间是独立的. 由于数据块是随机选取的，所以第三项等于 $4\sigma^2H^2$。证明完毕。 
+
+% \noindent \textbf{证明}：
+% \begin{align}\notag
+% &\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega}, \zeta_n^{noi}\right) \right\Vert^2\\\notag
+% &=\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)\Vert^2\right]\\\notag
+% &\leq\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)\Vert^2+\Vert \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)\Vert^2\\\notag
+% &-2|<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right),\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)>|\Biggl]\\\notag
+% &=\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)\Vert^2\right]+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)\Vert^2\right]\\\notag
+% &-\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[2|<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right),\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)>|\right]\\\notag
+% &=\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)\Vert^2\right]+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)\Vert^2\right]\\\notag
+% & \leq G^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\Vert \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla h\left(x_{j};\boldsymbol{\omega}\right)\Vert^2\right]\\\notag
+% & = G^2+\\\notag
+% &\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[ \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_{j1},y_{j1}+\epsilon_{j1}\right)\in \zeta_n^{noi}}\sum_{\left(x_{j2},y_{j2}+\epsilon_{j2}\right)\in \zeta_n^{noi}}4\epsilon_{j1}\epsilon_{j2}\nabla h\left(x_{j1};\boldsymbol{\omega}\right)\nabla h\left(x_{j2};\boldsymbol{\omega}\right)\right]\\\notag
+% & = G^2+\mathbb{E}_\epsilon\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[ \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(2\epsilon_{j}\nabla h\left(x_{j};\boldsymbol{\omega}\right)\right)^2\right]\\\notag
+% & = G^2+\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[ \frac{\sigma^2}{|\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(2\nabla h\left(x_{j};\boldsymbol{\omega}\right)\right)^2\right]\\\notag
+% &= G^2+4\sigma^2H^2\\
+% \end{align}
+
+基于上述假设和推论，可以得到存在标签噪声时分割-联邦学习的收敛性结果：
+
+\noindent \textbf{1.损失函数为凸函数}（Learning rate $\eta^r \leq 1/{(2 S\tau})$）
+\begin{align}\label{bound-v2-gc-full4}
+\mathbb{E}\left[f\left(\omega^{r}\right)\right]-f(\omega^*)\le \frac{S||\omega^0-\omega^*||^2}{2(R+1)}+ \\\notag
+&O\left(\left(\frac{||\omega^0-\omega^*||^2 N}{R+1}\sum_{n=1}^Na_n^2\left(2\phi_n^2+G^2+20\sigma^2H^2\right)\right)^{\frac{1}{2}}\right).
+\end{align}
+
+\noindent \textbf{2.损失函数为非凸函数}（Learning rate $\eta^r \leq \min\left\{ {1}/{(16S\tau)}, {1}/{(8SN\tau\sum_{n=1}^Na_n^2})\right\}$）
+\begin{align}\label{bound-v2-nc-full5}
+\frac{1}{R}\sum_{r=0}^{R-1}\eta^r\mathbb{E}\left[\left\Vert\nabla_{\omega}f\left(\omega^{r}\right)\right\Vert^2\right]\leq& \frac{4}{R\tau}\left(f\left(\omega^{0}\right)-f(\omega^*)\right)+\\\notag
+&O\left(\frac{NS\tau }{R} \sum_{n=1}^Na_n^2\left(\phi_n^2+\lambda^2+8\sigma^2H^2\right)\sum_{R=0}^{R-1}\left(\eta^r\right)^2\right)
+\end{align}
+
+\section{算法改进}
+SFLCorr的主要思想是检测并校正噪声标签。它包括三个阶段：第一阶段使用分割-联邦学习训练全局模型，然后进行噪声检测和校正；第二阶段使用分割-联邦学习更新全局模型，并进一步进行噪声校正；第三阶段进行常规训练。为了表示简单，我们使用$\omegab$表示需要训练的全局模型，省略训练轮数的标识。在每一个轮中要训练的初始全局模型是在前一阶段中获得的训练全局模型。本文在算法开始时使用$\D_{0,n}$表示客户端$n$的数据集。在第一阶段和第二阶段，对客户端的标签噪声进行校正，得到更新后的客户端$n$数据集（分别用$\D_{1,n}$和$\D_{2,n}$表示）。此外，为了表示简单，本文使用$(x_i, \tilde{y}_i)$表示数据样本。这里，$\tilde{y}_i$是标签，它可能包含也可能不包含噪声。这种表示法可以更好地模拟客户机和训练服务器不知道任何数据样本中存在噪声的情况。
+
+\begin{algorithm}[H]
+% \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+% \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\caption{SFLCorr 第一阶段}\label{alg1}
+\begin{algorithmic}[1]
+\STATE 初始化全局模型 $\omegab=(\omegabc,\omegabs)$ 和局部模型 $(\omegab_n, n\in\N)$, 其中 $\omegab_n = (\omegabcn, \omegabs)$;
+\STATE 初始化 $(\l_{n}, n\in\N)$，为计算LID做准备;
+\FOR{$r = 1$ \textbf{to} $R_1$}
+% \STATE $\N=\{1,2,...,N\}$
+\FOR{对任意用户 $n\in\N$ 同时}
+\STATE 分割-联邦学习训练过程 ;
+%\STATE $\omegabcn\leftarrow\omegabc$ from fed server;
+%\FOR{each mini-batch $\zeta_n\subseteq\mathcal{D}_{0,n}$}
+%\STATE Client $n$ computes $h(\zeta_n;\omegabcn)$ and sends the smashed data to training server;
+%\STATE Training server updates $\omegabs$ and sends the intermediate gradients to client $n$; 
+%\STATE Client $n$ updates $\omegabcn$;
+%\ENDFOR
+\STATE $l_{n}\leftarrow l_{n}+LID_n$, 其中 $LID_n$ 根据 \eqref{definition of lid}进行计算;
+% \STATE \revw{Update $\omegab_n$ and $\llocn$ by SFL-V2 for each client $n\in\N$};
+% \STATE \revw{Client $n\in\N$ sends $\omegab_n$ and $\llocn$ to server}; 
+\ENDFOR
+\STATE 模型聚合;%Fed server updates $\omegabc$ with $(\omegabcn, n\in\N)$ using \eqref{eq:c-agg};
+\ENDFOR
+\STATE 训练服务器基于 $(l_{n},n\in\N)$ 使用GMM区分干净用户 $\N_{cle}$ 和噪声用户 $\N_{noi}$ ;
+\FOR{任意用户 $n\in\N_{noi}$} 
+\FOR{$(x_i,\tilde{y}_i)\in\mathcal{D}_{0,n}$}
+\STATE 用户 $n$ 计算 $h(x_i;\omegabcn)$ 并发送中间结果给训练服务器;
+\STATE 训练服务器基于收到的中间结果计算 $h(x_i;\omegab_n)$ ;
+\STATE 对$\mathcal{D}_{0,n}$中的任意数据块 $i$，有$\tilde{y}_i\leftarrow h\left(x_i;\omegab_n \right)$ ;
+\ENDFOR
+\STATE 基于训练损失和GMM，将用户$n$ 的数据集区分为干净子集 $\boldsymbol{d}_n^{cle}$ 和噪声子集 $\boldsymbol{d}_n^{noi}$ ;
+\ENDFOR
+\RETURN $\omegab$, $(\mathcal{D}_{1,n}, n\in\N)$, $(\boldsymbol{d}_n^{cle},n\in\N)$, $(\boldsymbol{d}_n^{noi},n\in\N)$.
+\end{algorithmic}
+\end{algorithm}
+% \textbf{第二阶段}：使用不包含标签噪声的数据对模型进行微调。\\
+\begin{algorithm}[H]
+\caption{SFLCorr 第二阶段}\label{alg2}
+\begin{algorithmic}[1]
+\STATE $\mathcal{N}_{cle}'\leftarrow \{n~|~{|\boldsymbol{d}_n^{cle}|}/{|\mathcal{D}_{1,n}|}<\xi, n\in\mathcal{N}\}$;
+\STATE $\mathcal{N}_{noi}'\leftarrow \{n~|~{|\boldsymbol{d}_n^{noi}|}/{|\mathcal{D}_{1,n}|}\geq\xi, n\in\mathcal{N}\}$;
+\FOR{$r=1$ \textbf{to} $R_2$}
+\FOR{任意用户 $n\in\mathcal{N}_{cle}'$}
+\STATE 分割-联邦学习训练过程; 
+\ENDFOR
+\STATE 模型聚合;
+\ENDFOR
+\FOR{ $n\in\mathcal{N}_{noi}'$}
+\FOR{$(x_i,\tilde{y}_i)\in\mathcal{D}_{1,n}$}
+\STATE 用户 $n$ 计算 $h(x_i;\omegabcn)$ 并发送中间结果给训练服务器;
+\STATE 训练服务器基于收到的中间结果计算 $h(x_i;\omegab_n)$;
+\STATE $\tilde{y}_i\leftarrow h\left(x_i;\omegab_n \right)$ 对 $\mathcal{D}_{1,n}$中的任意数据块;
+\ENDFOR
+\ENDFOR
+\RETURN $\omegab$, 更新过的数据集 $(\mathcal{D}_{2,n},n\in\N)$.
+\end{algorithmic}
+\end{algorithm}
+% \textbf{第三阶段}：使用不包含标签噪声的数据和纠正过的包含标签噪声的数据共同训练模型。\\
+\begin{algorithm}[H]
+\caption{SFLCorr 第三阶段}\label{alg3}
+\begin{algorithmic}[1]
+\FOR{$r=1 \textbf{ to } R_3$}
+\FOR{任意用户 $n\in\mathcal{N}$}
+\STATE 分割-联邦学习训练过程; 
+\ENDFOR
+\STATE 模型聚合;
+\ENDFOR
+\RETURN $\omegab$.
+\end{algorithmic}
+\end{algorithm}
+
+算法\ref{alg1}给出了SFLCorr的第一阶段。客户端使用分割-联邦学习训练全局模型，然后在此基础上检测和纠正噪声。在第3-9行中，客户端执行联邦分割学习。在这个过程中，训练服务器通过计算LID分数来评估每个客户端的噪音水平。具体来说，对于每个数据点$(x_i,\tilde{y}_i)$，其LID计算公式如下\cite{xu2022fedcorr}：
+\begin{align}\label{eq:lid}
+LID(x_i,\tilde{y}_i)=-\left(\frac{1}{k}\sum_{j=1}^klog\frac{d_j\left(h\left(x_i,\omegab\right)\right)}{d_{max}\left(h\left(x_i,\omegab\right)\right)}\right)^{-1},
+\end{align}
+\eqref{eq:lid}中$d_j\left(h\left(x_i,\omegab\right)\right)$表示数据样本$(x_i,\tilde{y}_i)$的$h\left(x_i,\omegab\right)$与数据样本$(x_j,\tilde{y}_j)$的之间的欧氏距离。考虑数据样本$(x_i,\tilde{y}_i)$的最近邻居$k$，即具有最小$d_j\left(h\left(x_i,\omegab\right)\right)$的数据样本$k$。设$d_{max}\left(h\left(x_i,\omegab\right)\right)$表示$k$最近邻居中与$(x_j,\tilde{y}_j)$的最远距离（即最大的$d_j\left(h\left(x_i,\omegab\right)\right)$）。直观地说，在\eqref{eq:lid}中定义的数据样本的LID表征了该数据样本是否接近其他数据样本，这间接揭示了该数据样本具有噪声标签的可能性。每个客户端的LID得分$n$为$\mathcal{D}_n$中所有数据样本的LID值的平均值：\begin{equation}\label{definition of lid}
+\textstyle LID_n = \sum_{(x_i,\tilde{y}_i)\in\D_{0,n}} LID(x_i,\tilde{y}_i)/D_n.
+\end{equation}
+训练后，SFLCorr使用训练好的全局模型$\omegab$使用高斯混合模型（GMM）检测具有干净和有噪声数据集的客户端（第10行）。然后，每个带有噪声数据集的客户端（即$n\in\N_{noi}$）在训练服务器的帮助下，基于最新的全局模型$\omegab$更新每个数据样本的标签（第11- 18行）。在此过程中，标签被纠正的数据样本被放置在噪声子集$\boldsymbol{d}_n^{noi}$中，而其他数据样本被放置在干净子集$\boldsymbol{d}_n^{cle}$中（第17行）。第一阶段返回训练好的模型$\omegab$和更新的数据集$\mathcal{D}_{1,n}$, $n\in\ n $。
+% any clients in set $\N$ cooperatively perform conventional SFL training with their local datasets $\D_{0,n}$. The goal is to obtain a trained global model $\omegab$. 
+% At the beginning of the training, clients with and without label noise are added to the SFLCorr, and the server cannot distinguish between the two types of clients. 
+%SFLCorr will use the data of all clients $\{\mathcal{D}_{n}|n\in\N\}$ to train $T1$ rounds(line 2). 
+%\revw{While training the local model in each round, it will also calculate the real-time LID score $\boldsymbol{l}_{cal,n}$ for each client(line 17), and then add real-time LID $\boldsymbol{l}_{cal,n}$ to sum LID $\boldsymbol{l}_{sum,n}$. Then detect potential noise clients according to the sum LID $\{\boldsymbol{l}_{sum,n}|n\in\N\}$(line 22). At the end of each round, SFLCorr uses the global model $\omegab$ to predict the noise client's labels and uses predicted results as new labels(line 24--line 29). Finally, SFLCorr also distinguishes between clean and noisy subsets of the data set based on each client's training loss to evaluate the noise rate of each client(line 30).} After the first stage, SFLCorr will return the trained model $\omegab$ and the corrected dataset $\mathcal{D}_1$.
+
+
+
+第二阶段是算法\ref{alg2}，对全局模型和客户端数据集进行微调。根据每个客户端（即${|\boldsymbol{d}_n^{cle}|}/{|\mathcal{D}_{1,n}|}$）的噪声率，将客户端分为$\mathcal{N}_{noi}'$中的噪声客户端和$\mathcal{N}_{cle}'$中的干净客户端（第1-2行）。然后，$\mathcal{N}_{cle}'$中的客户端第二次基于分割-联邦学习进行训练第3—8行）。在完成训练过程后，每个客户端$n\in \mathcal{N}_{noi}'$使用更新的全局模型更新其数据样本的标签（第9- 15行）。第二阶段返回新训练的模型$\omegab$和经过微调的数据集$\mathcal{D}_{2,n}$, $n\in\N$。
+%After the first stage of label correction, many of the noise labels in $\mathcal{D}_0$ were corrected to the correct labels. SFLCorr uses noise rates to re-distinguish between noise and clean clients, with noise rates higher than $\xi$ being a noise client(line 1--line2). The model is then trained from the data of the newly segmented clean users$\mathcal{N}_{cle}$(line4--line14). Finally, the trained global model $\omegab$ is used to fine-tune the noise labels of the remaining noise clients(line 18--line25). After the second stage, SFLCorr will return the trained model $\omegab$ and the fine-tuned dataset $\mathcal{D}_2$.
+
+第三阶段在算法\ref{alg3}中给出。在此阶段，客户端第三次基于分割-联邦学习进行训练，得到最终的全局模型。
+
+第三阶段在算法\ref{alg3}中给出。在此阶段，客户端第三次基于分割-联邦学习进行训练，得到最终的全局模型。
+% 参考现有文献，本文提出了基于分割-联邦学习的三步训练算法SFLCorr。SFLCorr可以在不均匀数据和标签噪声同时存在的情况下收敛，准确率较原始版本的分割-联邦学习提升至少20\%。
+% SFLCorr训练的三个步骤分别为：\\
+% \textbf{第一阶段}：使用全部数据对模型进行训练，并使用高斯混合模型分辨包含标签噪声的用户。每一轮结束前，都会对识别到的噪声用户进行标签纠正。\\
+
+本文将SFLCorr在噪声数据下的训练结果与联邦学习和标准分割-联邦学习进行了比较。\ref{fig:subfig-a1}显示，在非独立同分布数据下，SFLCorr的
+准确率随着噪声率的增加而线性下降，但不论噪声数据占比高低，SFLCorr的准确率始终高于联邦学习和标准的分割-联邦学习。\ref{fig:subfig-b2}
+显示，在独立同分布数据下，SFLCorr的准确率随着噪声率的增加先下降后持平，但SFLCorr的准确率始终高于联邦学习和标准的分割-联邦学习。
+\begin{figure}[H]
+\centering
+\subcaptionbox{非独立同分布数据\label{fig:subfig-a1}}
+{\includegraphics[width=0.45\linewidth]{cifar10_compare_01_60.pdf}}
+\subcaptionbox{独立同分布数据\label{fig:subfig-b2}}
+{\includegraphics[width=0.45\linewidth]{cifar10_compare_i_60.pdf}}
+\caption{SFLCorr与常用分布式学习框架的准确率比较}
+\label{fig:multi-image2}
+\end{figure}
+
+\section{仿真实验}
+
+在仿真实验中，可以通过标签分组分配法\cite{mcmahan2017communication}或使用迪利克雷分布\cite{lin2020ensemble}将常见的数据集构
+造为非独立同分布数据（例如Cifar10，MNIST等）。百分比分配法根据特定标签的比例将数据分配到不同客户端，确保某些标签在某些客户端上占主
+导地位\cite{mcmahan2017communication}。迪利克雷分布通过设定不同类别的浓度参数，模拟非独立同分布（non-IID）数据，浓度参数的设
+定决定了每个客户端获得的样本数量和类别比例，不同的浓度参数可以生成不同客户端的样本分配\cite{lin2020ensemble}。生成数据集中的标签噪声
+时可以选择随机噪声或者实例预测噪声。随机噪声是向随机地修改一部分标签值，使之标签中混入噪声值。实例预测是使用准确率较差地模型去预测
+数据集的标签，并将预测的标签看作真实的标签去训练。
+本文采用的数据集为Cifar10，使用迪利克雷分布构造非独立同分布的用户数据，并向噪声用户的数据中添加随机噪声。
+
+分割-联邦学习框架包括SFL-V1和SFL-V2两个基础算法，本文测试了在不同情况下
+两种算法在多种情况下的准确率情况：\\
+\subsection{超参数对准确率的影响}
+在分割-联邦学习中，每轮训练时数据的迭代次数$E$是可以选择的。一般而言，$E$的值过小可能导致用户的模型在没有学习到足够的信息时就
+被联邦服务器聚合，学到的信息也随之消散；$E$的值过大可能导致用户的模型在非独立同分布的数据上产生过大的偏差，联邦服务器无法
+将大量存在过大偏差的模型聚合为无偏差的模型。本文选择$E \in \{2,5,10\}$三个值进行实验。根据图\ref{fig:multi-image9}显示，模型的最终准确率
+相差无几，但$E=2$时模型的收敛速率更快。
+\begin{figure}[H]
+\centering
+\subcaptionbox{SFL-V1\label{fig:subfi}}
+{\includegraphics[width=0.4\linewidth]{E.pdf}}
+\subcaptionbox{SFL-V2\label{fig:sub}}
+{\includegraphics[width=0.4\linewidth]{E (1).pdf}}
+\caption{每轮训练数据迭代次数E对准确率的影响}
+\label{fig:multi-image9}
+\end{figure}
+
+在分割-联邦学习中，参与训练的用户数$N$也会对模型的准确率产生很大的影响。用户数量较少时，每一个用户可以在
+全局模型中占有较大的比重，可以提升全局模型在所有用户上的泛化能力。但同时全局模型也可能被不均匀的数据严重
+影响，导致准确率低下。用户数量较多时，每一个用户的模型在全局模型中的比重降低，会降低全局模型的泛化能力。但同时，
+单个用户的不均匀数据对全局模型的影响也会降低。本文选择$N\in\{10,50,100\}$三个值进行实验。根据图\ref{fig:multi-image00}显示模型的最终准确率差别不大，
+$N$越大时模型的收敛速率越慢。
+\begin{figure}[H]
+\centering
+\subcaptionbox{SFL-V1\label{fig:subfin}}
+{\includegraphics[width=0.4\linewidth]{N.pdf}}
+\subcaptionbox{SFL-V2\label{fig:subn}}
+{\includegraphics[width=0.4\linewidth]{N (1).pdf}}
+\caption{参与训练的用户数$N$对准确率的影响}
+\label{fig:multi-image00}
+\end{figure}
+在分割-联邦学习中，每轮参与训练的用户比例$q$会显著影响模型的准确率和收敛速率。当每轮参与训练的比例过低时，
+模型每轮难以学习到足够的信息，且模型获得的信息总是带有偏向性的，这种情况会严重影响模型的训练。本文选择$q\in\{0.2,0.5,1\}$
+三个值进行实验。根据图\ref{fig:multi-image0000}显示，随着q的增大，模型的收敛速率加快的同时，最终准确率也会提高。
+\begin{figure}[H]
+\centering
+\subcaptionbox{SFL-V1\label{fig:subfiq}}
+{\includegraphics[width=0.4\linewidth]{q.pdf}}
+\subcaptionbox{SFL-V2\label{fig:subq}}
+{\includegraphics[width=0.4\linewidth]{q (1).pdf}}
+\caption{每轮参与训练的用户比例$q$对准确率的影响}
+\label{fig:multi-image0000}
+\end{figure}
+\subsection{标签噪声对准确率的影响}
+本文分四种情况在SFL-V1和SFL-V2上测试了标签噪声和非独立同分布数据对模型训练的影响。图\ref{fig:multi-image00000}和图\ref{fig:multi-image008}显示非独立同分布数据会降低
+全局模型的最终准确率，并大幅降低模型的收敛速率；噪声标签会降低全局模型的最终准确率，但不会影响模型的收敛速率。图\ref{fig:subfinon}和图\ref{fig:subfinon2}
+显示SFL-V2比SFL-V1具有更好的对非独立同分布数据的鲁棒性。
+\begin{figure}[H]
+\centering
+\subcaptionbox{非独立同分布数据,所有用户均有标签噪声\label{fig:subfinon}}
+{\includegraphics[width=0.33\linewidth]{v1_cifar10_noniid.pdf}}
+\subcaptionbox{非独立同分布数据,60\%的用户有标签噪声\label{fig:subnon}}
+{\includegraphics[width=0.33\linewidth]{v1_cifar10_0.6_noniid.pdf}}
+\subcaptionbox{独立同分布数据,所有用户均有标签噪声\label{fig:subfinona}}
+{\includegraphics[width=0.33\linewidth]{v1_cifar10_iid.pdf}}
+\subcaptionbox{独立同分布数据,60\%的用户有标签噪声\label{fig:subnona}}
+{\includegraphics[width=0.33\linewidth]{v1_cifar10_0.6_iid.pdf}}
+\caption{SFL-V1}
+\label{fig:multi-image00000}
+\end{figure}
+\begin{figure}[H]
+\centering
+\subcaptionbox{非独立同分布数据,所有用户均有标签噪声\label{fig:subfinon2}}
+{\includegraphics[width=0.33\linewidth]{v2_cifar10_noniid.pdf}}
+\subcaptionbox{非独立同分布数据,60\%的用户有标签噪声\label{fig:subnon2}}
+{\includegraphics[width=0.33\linewidth]{v2_cifar10_0.6_noniid.pdf}}
+\subcaptionbox{独立同分布数据,所有用户均有标签噪声\label{fig:subfinona2}}
+{\includegraphics[width=0.33\linewidth]{v2_cifar10_iid.pdf}}
+\subcaptionbox{独立同分布数据,60\%的用户有标签噪声\label{fig:subnona2}}
+{\includegraphics[width=0.33\linewidth]{v2_cifar10_0.6_iid.pdf}}
+\caption{SFL-V2}
+\label{fig:multi-image008}
+\end{figure}
+
+
+\section{树莓派实验}
+本文使用树莓派，个人电脑，WiFi路由器搭建了一个基于分割-联邦学习的树莓派试验台，该试验台可以在
+真实的场景中运行分割-联邦学习框架，并可以记录系统的能耗情况。在此之前，还没有类似的分割-联邦学习实验台。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{testbed.pdf}
+\caption{树莓派系统}
+\label{fig:examp4}
+\end{figure}
+该树莓派试验台使用HTTP协议传输数据，利用HTTP协议的可靠性来消除网络波动可能带来的数据损失，从而可以将更多的注意力集中到
+分割-联邦学习框架本身。
+\begin{figure}[H]
+\centering
+\subcaptionbox{系统设计图\label{fig:subfig-a5}}
+{\includegraphics[width=0.45\linewidth]{demo.pdf}}
+\subcaptionbox{时间序列图\label{fig:subfig-b6}}
+{\includegraphics[width=0.45\linewidth]{time.pdf}}
+\caption{树莓派试验台的架构}
+\label{fig:multi-image7}
+\end{figure}
+本文使用该树莓派试验台，分别测试了标签噪声对不同分割-联邦学习算法的能耗影响。结果显示，当标签噪声的比率较大时，与SFL-V1和SFL-V2相比，SFLCorr达到
+收敛所需要的能耗并没有增大太多，在高标签噪声率的环境中表现出了极佳的节能效果。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{power_test2.pdf}
+\caption{分割-联邦学习算法的能耗变化}
+\label{fig:examp8}
+\end{figure}
+% \begin{table}
+% \centering
+% \caption{附录中的表格示例}
+% \begin{tabular}{ll}
+% \toprule
+% 文件名 & 描述 \\
+% \midrule
+% sustechthesis.dtx & 模板的源文件，包括文档和注释 \\
+% sustechthesis.cls & 模板文件 \\
+% thuthesis-*.bst & BibTeX 参考文献表样式文件 \\
+% thuthesis-*.bbx & BibLaTeX 参考文献表样式文件 \\
+% thuthesis-*.cbx & BibLaTeX 引用样式文件 \\
+% \bottomrule
+% \end{tabular}
+% \label{tab:appendix-table}
+% \end{table}

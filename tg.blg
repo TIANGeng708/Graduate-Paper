@@ -1,0 +1,62 @@
+This is BibTeX, Version 0.99d (TeX Live 2024)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: tg.aux
+The style file: sustechthesis-numeric.bst
+A level-1 auxiliary file: bu.aux
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 150 items from 100.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: ref/tg.bib
+Warning--I didn't find a database entry for "amsaleg2015estimating"
+Warning--I didn't find a database entry for "houle2013dimensionality"
+You've used 37 entries,
+            5366 wiz_defined-function locations,
+            1225 strings with 14377 characters,
+and the built_in function-call counts, 345281 in all, are:
+= -- 6359
+> -- 40685
+< -- 51005
++ -- 14118
+- -- 2510
+* -- 1840
+:= -- 47448
+add.period$ -- 111
+call.type$ -- 37
+change.case$ -- 283
+chr.to.int$ -- 12534
+cite$ -- 37
+duplicate$ -- 994
+empty$ -- 2660
+format.name$ -- 1286
+if$ -- 89952
+int.to.chr$ -- 1
+int.to.str$ -- 38
+missing$ -- 0
+newline$ -- 217
+num.names$ -- 111
+pop$ -- 18729
+preamble$ -- 1
+purify$ -- 37
+quote$ -- 0
+skip$ -- 35720
+stack$ -- 0
+substring$ -- 15747
+swap$ -- 49
+text.length$ -- 917
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 407
+warning$ -- 0
+while$ -- 953
+width$ -- 0
+write$ -- 495
+(There were 2 warnings)

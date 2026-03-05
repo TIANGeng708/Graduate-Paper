@@ -1,0 +1,35 @@
+\chapter{后续工作和时间安排}
+\section{当前进行的工作}
+\subsection{SFLCorr的优化}
+非独立同分布数据会削弱SFLCorr对标签噪声的鲁棒性。原因是非独立同分布数据的
+异常分布会干扰SFLCorr对噪声标签的检测，进而导致SFLCorr无法识别包含标签噪声的用户。
+在数据分布极不均匀的情况下，SFLCorr对标签的检测功能会完全失效。本文针对SFLCorr进行了扩展实验，发现公开噪声用户名单能够显著提升模型的准确率和收敛速率。
+这说明检测噪声用户是提升SFLCorr性能的一个瓶颈。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{future.png}
+    \caption{预期的性能提升}
+    \label{fig:examp56}
+  \end{figure}
+因此，未来的工作的一个重点是，利用数据的标签特征消除非独立同分布数据对噪声标签检测的影响，提升SFLCorr对非独立同分布
+数据和标签噪声的鲁棒性。
+\subsection{收敛性证明的完善}
+本文中对收敛性的证明要假设标签噪声项的正态分布。但是在现实中，标签噪声项并不一定是正态分布的。因此，
+该假设限制了收敛性证明的通用性。
+
+在未来的工作中，在收敛性证明中加入不同的噪声项分布将是一个重点，这有助于提高收敛性证明的普适性。
+\section{时间安排}
+\begin{table}[H]
+    \centering
+    \caption{进度安排}
+    \label{tab:enum-style}
+    \begin{tabular}{@{}ll@{}}
+    \toprule
+    \textbf{时间}          & \textbf{预期目标}                      \\ \midrule
+    2024.11-2025.1   & 进一步提升SFLCorr算法的准确率           \\
+    2025.2-2025.8   & 完善收敛性证明          \\
+    2025.9-2025.12 & 构建多场景的树莓派平台           \\
+    2026.1-2026.3  & 撰写毕业论文，准备答辩                         \\
+    \bottomrule
+    \end{tabular}
+  \end{table}

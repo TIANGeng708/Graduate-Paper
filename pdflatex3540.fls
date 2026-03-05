@@ -1,0 +1,5 @@
+PWD d:/Project/latex/Graduation_Proposal
+INPUT d:/software/texlive/texlive/2024/texmf.cnf
+INPUT d:/software/texlive/texlive/2024/texmf-dist/web2c/texmf.cnf
+INPUT d:/software/texlive/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT d:/Project/latex/Graduation_Proposal/tg.tex

@@ -13,7 +13,7 @@
   % 输出格式
   %   选择打印版（print）或用于提交的电子版（electronic），前者会插入空白页以便直接双面打印
   %
-  output = print,
+  output = electronic,
   %
   % 文档类型
   %   选择开题报告（proposal）、年度考核报告（progress）或学位论文（thesis）【默认值】。
@@ -25,7 +25,8 @@
   %   如果需要使用副标题，取消 subtitle 和 subtitle* 的注释即可。
   %   特别字符允许小写，例如行内公式，其他所有字词全部大写。
   %
-  title  = {南方科技大学学位论文 \LaTeX{} 模板 (Support English and $\text{lower-case}$) 使用示例文档 v\version{}},
+  % title  = {分割-联邦学习(SplitFed)在标签噪声和非独立同分布数据下的性能评估与改进},
+  title  = {面向异构数据与资源受限场景的分割-联邦学习协同优化研究},
   title* = {An Introduction to \LaTeX{} Thesis Template (Support $\text{lower-case}$) of Southern University of Science and Technology v\version{}},
   % subtitle = {可选的副标题可选的副标题可选的副标题可选的副标题可选的副标题可选的副标题},
   % subtitle* = {optional subtitle optional subtitle optional subtitle optional subtitle optional subtitle optional subtitle},
@@ -34,7 +35,7 @@
   %
   degree-domain = {工学}, % 【中文】学科门类：可选理学、工学、医学
   degree-domain* = {Engineering}, % 【英文】学位等级：可选Science, Engineering, Medicine
-  degree-type = {academic},  % 学位类型：可选学术型（academic）【默认值】、专业型（professional）。
+  gongshuo = false, % 是否为专业型学位。专业型学位则填 true ，学术型或其他为 false 。
   %
   % 培养单位
   %   填写所属院系的全名
@@ -48,21 +49,21 @@
   %   2. 工程硕士
   %      工程领域名称
   %
-  discipline  = {计算机科学与技术},
+  discipline  = {电子科学与技术},
   discipline* = {Computer Science and Technology},
   %
   % 姓名
   %   英文用全拼，姓在前，名在后，姓和名的首字母大写，其余小写
   %
-  author-id  = {11900000},
-  author  = {李子强},
-  author* = {Li Ziqiang},
+  author-id  = {12332463},
+  author  = {田耕},
+  author* = {Tian Geng},
   %
   % 指导教师
   %   一般情况下，只写一名指导教师。
   %   填写导师姓名，后衬导师职称“教授”，“副教授”，“研究员”等
   %
-  supervisor  = {爱丽丝鲍勃助理教授},
+  supervisor  = {唐茗副教授},
   supervisor* = {Assistant Prof. Alice Bob},
   % 副指导教师
   %   一般无需启用该项，留空或者注释掉即可。
@@ -75,7 +76,7 @@
   %   date 为第一页全中文大写日期，defense-date 为第二、三页的答辩日期。
   %   需要按 {年-月-日} 格式填写，如不显示“日”，可以随意填一个日期，但是不能为空。
   %
-  date = {2020-12-20},
+  date = {2025-6-18},
   defense-date = {2020-12-20},
   %
   % 密级
@@ -95,7 +96,7 @@
   %
   % 数学字体
   % math-style = GB,  % GB （中文默认） | TeX （英文默认）
-  math-font  = cambria,  % cambria （默认，同 Word 默认数学字体一致） ｜ times （Times New Roman 的TeX克隆版）｜ xits ｜ stix
+  math-font  = cambria,  % cambria （默认，同 Word 默认数学字体一致） ｜ xits （TeX 内常用数学字体）
 }
 
 % 载入所需的宏包
@@ -112,7 +113,8 @@
 
 % 量和单位
 \usepackage{siunitx}
-
+\usepackage{algorithmic}
+\usepackage{adjustbox} % 在导言区加入
 % 定理类环境宏包
 \usepackage{amsthm}
 % 也可以使用 ntheorem
@@ -121,25 +123,17 @@
 %%%%%% 顺序编码制的文献引用形式
 %%%%%% 参考文献编译方式二选一，不要同时开启。
 %%%% 选择一：使用 BibTeX + natbib 宏包
-\usepackage[sort&compress]{natbib}
-% 全局上标数字模式
+\usepackage[sort&compress]{gbt7714}
+\citestyle{super} % 全局上标数字模式
+% \citestyle{numbers} % 全局行内数字模式，在写作指南2022年8月23日版本已废弃， 并决定中英文都采用上标数字格式
 \bibliographystyle{sustechthesis-numeric}
-% 全局著者-出版年制模式
-% \bibliographystyle{sustechthesis-author-year}
 
 %%%% 选择二：使用 BibLaTeX 宏包（兼容性不佳，不太推荐）
-% 全局上标数字模式，按照文献引用顺序排序
 % \usepackage[backend=biber,style=gb7714-2015,gbalign=left]{biblatex}
-% 全局上标数字模式，按照语言、作者、年份、标题、升序排列
-% \usepackage[backend=biber,style=gb7714-2015,sorting=gb7714-2015,gbalign=left]{biblatex}
-% 全局著者-出版年制模式
-% \usepackage[backend=biber,style=gb7714-2015ay]{biblatex}
 % \addbibresource{ref/refs.bib} % 声明 BibLaTeX 的数据库
 
 % 定义所有的图片文件在 figures 子目录下
 \graphicspath{{figures/}}
-
-% \enabledraftmode % 启用图片草稿模式，会以文字占位符替代图片，加快大量插入大尺寸图片时的编译速度，用于学位论文的调试，默认不启用
 
 % 数学命令
 \newcommand\dif{\mathop{}\!\mathrm{d}}  % 微分符号
@@ -153,7 +147,7 @@
 
 % 跨页表格，必须在 hyperref 之后使用否则会报错。
 \usepackage{longtable}
-
+\usepackage{float}
 % % 源代码 minted 高亮，二选一即可。【不再推荐，会有兼容性问题：导致图表间距异常】
 % %% 使用 minted 包有内置高亮颜色，需要 Python 环境编译，并安装 Pygement 包。
 % \usepackage{minted}
@@ -182,13 +176,41 @@
 
 % 伪代码环境
 \usepackage[ruled,linesnumbered]{algorithm2e}
-% 定义伪代码的continue
-\SetKw{Continue}{continue}
-\SetKw{Break}{break}
-% 定义算法注释
-\SetKwComment{Comment}{/* }{ */}
-\SetKwComment{SingleComment}{// }{}
-\SetKwComment{TriComment}{$\triangleright$\ }{}
+% \usepackage{algorithm, algorithmic}
+
+% \usepackage{amsmath,amssymb,amsfonts}
+% % \usepackage{algorithmic}
+% \usepackage{graphicx}
+% \usepackage{subfigure}
+% \usepackage{breqn}
+% \usepackage{textcomp}
+\usepackage{amsmath} % 用于数学公式
+\usepackage{amsthm}
+\usepackage{subcaption}
+\def\N{\mathcal{N}}
+\def\D{\mathcal{D}}
+\def\Dnoi{\mathcal{D}^{noi}}
+\def\Dnoih{\hat{\mathcal{D}}^{noi}}
+\def\Dcle{\mathcal{D}^{cle}}
+\def\omegab{\boldsymbol{\omega}}
+\def\omegabs{\omegab_{\text{s}}}
+\def\omegabc{\omegab_{\text{c}}}
+\def\omegabs{\omegab_{\text{s}}}
+\def\omegabsn{\omegab_{\text{s},n}}
+\def\omegabcn{\omegab_{\text{c},n}}
+\def\zetanoi{\zeta^{noi}}
+\def\zetacle{\zeta^{cle}}
+\def\gb{\boldsymbol{g}}
+\def \f{F}
+\def\fcle{F^{cle}}
+\def\fnoi{F^{noi}}
+\def\epsilonb{\boldsymbol{\epsilon}}
+\def\llocn{\boldsymbol{l}_{loc,n}}
+% \usepackage{xcolor}
+
+
+% \usepackage{algorithm, algorithmic}
+% \usepackage{comment}
 
 % tabular 扩展命令
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} % 定义R为表格左右居左，用于自定义表格列宽度

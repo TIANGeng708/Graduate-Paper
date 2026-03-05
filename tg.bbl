@@ -1,0 +1,271 @@
+\begin{thebibliography}{37}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[McMahan et~al.(2017)McMahan, Moore, Ramage, Hampson, and y~Arcas]{b1}
+MCMAHAN B, MOORE E, RAMAGE D, et~al.
+\newblock Communication-efficient learning of deep networks from decentralized
+  data\allowbreak[C]//\allowbreak
+Artificial intelligence and statistics.
+\newblock PMLR, 2017: 1273-1282.
+
+\bibitem[Thapa et~al.(2022)Thapa, Arachchige, Camtepe, and
+  Sun]{thapa2022splitfed}
+THAPA C, ARACHCHIGE P~C~M, CAMTEPE S, et~al.
+\newblock Splitfed: When federated learning meets split
+  learning\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~36.
+\newblock 2022: 8485-8493.
+
+\bibitem[Poirot(2020)]{b2}
+POIROT M~G.
+\newblock Split learning in health care: multi-center deep learning without
+  sharing patient data\allowbreak[D].
+\newblock University of Twente, 2020.
+
+\bibitem[Wang et~al.(2019)Wang, Tuor, Salonidis, Leung, Makaya, He, and
+  Chan]{wang2019adaptive}
+WANG S, TUOR T, SALONIDIS T, et~al.
+\newblock Adaptive federated learning in resource constrained edge computing
+  systems\allowbreak[J].
+\newblock IEEE journal on selected areas in communications, 2019, 37\allowbreak
+  (6): 1205-1221.
+
+\bibitem[Li et~al.(2020)Li, Huang, Yang, Wang, and Zhang]{li2020convergence}
+LI X, HUANG K, YANG W, et~al.
+\newblock On the convergence of fedavg on non-iid
+  data\allowbreak[C]//\allowbreak
+Proc. of ICLR.
+\newblock 2020.
+
+\bibitem[Khaled et~al.(2020)Khaled, Mishchenko, and
+  Richt{\'a}rik]{khaled2020tighter}
+KHALED A, MISHCHENKO K, RICHT{\'A}RIK P.
+\newblock Tighter theory for local SGD on identical and heterogeneous
+  data\allowbreak[C]//\allowbreak
+International Conference on Artificial Intelligence and Statistics.
+\newblock PMLR, 2020: 4519-4529.
+
+\bibitem[Karimireddy et~al.(2020)Karimireddy, Kale, Mohri, Reddi, Stich, and
+  Suresh]{karimireddy2020scaffold}
+KARIMIREDDY S~P, KALE S, MOHRI M, et~al.
+\newblock Scaffold: Stochastic controlled averaging for federated
+  learning\allowbreak[C]//\allowbreak
+International conference on machine learning.
+\newblock PMLR, 2020: 5132-5143.
+
+\bibitem[Koloskova et~al.(2020)Koloskova, Loizou, Boreiri, Jaggi, and
+  Stich]{koloskova2020unified}
+KOLOSKOVA A, LOIZOU N, BOREIRI S, et~al.
+\newblock A unified theory of decentralized sgd with changing topology and
+  local updates\allowbreak[C]//\allowbreak
+International Conference on Machine Learning.
+\newblock PMLR, 2020: 5381-5393.
+
+\bibitem[Li et~al.(2019)Li, Huang, Yang, Wang, and Zhang]{li2019convergence}
+LI X, HUANG K, YANG W, et~al.
+\newblock On the convergence of fedavg on non-iid data\allowbreak[A].
+\newblock 2019.
+
+\bibitem[Li et~al.(2023)Li and Lyu]{li2023convergence}
+LI Y, LYU X.
+\newblock Convergence Analysis of Sequential Federated Learning on
+  Heterogeneous Data\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems: volume~36.
+\newblock 2023: 56700-56755.
+
+\bibitem[Ke et~al.(2023)Ke, Huang, and Liu]{ke2023impact}
+KE S, HUANG C, LIU X.
+\newblock On the impact of label noise in federated
+  learning\allowbreak[C]//\allowbreak
+2023 21st International Symposium on Modeling and Optimization in Mobile, Ad
+  Hoc, and Wireless Networks (WiOpt).
+\newblock IEEE, 2023: 183-190.
+
+\bibitem[Wu et~al.(2023)Wu, Yu, Jiang, Cheng, and Yan]{wu2023fednoro}
+WU N, YU L, JIANG X, et~al.
+\newblock FedNoRo: Towards noise-robust federated learning by addressing class
+  imbalance and label noise heterogeneity\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Xu et~al.(2022)Xu, Chen, Quek, and Chong]{b9}
+XU J, CHEN Z, QUEK T~Q, et~al.
+\newblock Fedcorr: Multi-stage federated learning for label noise
+  correction\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition.
+\newblock 2022: 10184-10193.
+
+\bibitem[Lycklama et~al.(2023)Lycklama, Burkhalter, Viand, K{\"u}chler, and
+  Hithnawi]{lycklama2023rofl}
+LYCKLAMA H, BURKHALTER L, VIAND A, et~al.
+\newblock Rofl: Robustness of secure federated
+  learning\allowbreak[C]//\allowbreak
+2023 IEEE Symposium on Security and Privacy (SP).
+\newblock IEEE, 2023: 453-476.
+
+\bibitem[Yang et~al.(2022)Yang, Park, Byun, and Kim]{b23}
+YANG S, PARK H, BYUN J, et~al.
+\newblock Robust federated learning with noisy labels\allowbreak[J].
+\newblock IEEE Intelligent Systems, 2022, 37\allowbreak (2): 35-43.
+
+\bibitem[Ji et~al.(2024)Ji, Zhu, Xi, Gadyatskaya, Song, Cai, and
+  Liu]{ji2024fedfixer}
+JI X, ZHU Z, XI W, et~al.
+\newblock FedFixer: Mitigating Heterogeneous Label Noise in Federated
+  Learning\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 12830-12838.
+
+\bibitem[Zhou et~al.(2024)Zhou and Wang]{zhou2024federated}
+ZHOU X, WANG X.
+\newblock Federated label-noise learning with local diversity product
+  regularization\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 17141-17149.
+
+\bibitem[Li et~al.(2024)Li, Li, Cheng, Liao, and Yu]{li2024feddiv}
+LI J, LI G, CHENG H, et~al.
+\newblock FedDiv: Collaborative Noise Filtering for Federated Learning with
+  Noisy Labels\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 3118-3126.
+
+\bibitem[Li et~al.(2020)Li, Sahu, Zaheer, Sanjabi, Talwalkar, and
+  Smith]{li2020federated}
+LI T, SAHU A~K, ZAHEER M, et~al.
+\newblock Federated optimization in heterogeneous networks\allowbreak[J].
+\newblock Proceedings of Machine learning and systems, 2020, 2: 429-450.
+
+\bibitem[Reddi et~al.(2020)Reddi, Charles, Zaheer, Garrett, Rush,
+  Kone{\v{c}}n{\`y}, Kumar, and McMahan]{reddi2020adaptive}
+REDDI S, CHARLES Z, ZAHEER M, et~al.
+\newblock Adaptive federated optimization\allowbreak[A].
+\newblock 2020.
+
+\bibitem[Wu et~al.(2022)Wu, Ullah, Harvey, Kilpatrick, Spence, and
+  Varghese]{wu2022fedadapt}
+WU D, ULLAH R, HARVEY P, et~al.
+\newblock Fedadapt: Adaptive offloading for iot devices in federated
+  learning\allowbreak[J].
+\newblock IEEE Internet of Things Journal, 2022, 9\allowbreak (21):
+  20889-20901.
+
+\bibitem[Ma et~al.(2020)Ma, Lewis, and Kleijn]{ma2020hsic}
+MA W~D~K, LEWIS J, KLEIJN W~B.
+\newblock The HSIC bottleneck: Deep learning without
+  back-propagation\allowbreak[C]//\allowbreak
+Proceedings of the AAAI conference on artificial intelligence: volume~34.
+\newblock 2020: 5085-5092.
+
+\bibitem[Wang et~al.(2021)Wang, Dai, and Liu]{wang2021learning}
+WANG T, DAI X, LIU Y.
+\newblock Learning with Hilbert--Schmidt independence criterion: A review and
+  new perspectives\allowbreak[J].
+\newblock Knowledge-based systems, 2021, 234: 107567.
+
+\bibitem[Jacot et~al.(2018)Jacot, Gabriel, and Hongler]{jacot2018neural}
+JACOT A, GABRIEL F, HONGLER C.
+\newblock Neural tangent kernel: Convergence and generalization in neural
+  networks\allowbreak[J].
+\newblock Advances in neural information processing systems, 2018, 31.
+
+\bibitem[N{\o}kland(2016)]{nokland2016direct}
+N{\O}KLAND A.
+\newblock Direct feedback alignment provides learning in deep neural
+  networks\allowbreak[J].
+\newblock Advances in neural information processing systems, 2016, 29.
+
+\bibitem[Spall(1992)]{spall1992multivariate}
+SPALL J~C.
+\newblock Multivariate stochastic approximation using a simultaneous
+  perturbation gradient approximation\allowbreak[J].
+\newblock IEEE transactions on automatic control, 1992, 37\allowbreak (3):
+  332-341.
+
+\bibitem[Salimans et~al.(2017)Salimans, Ho, Chen, Sidor, and
+  Sutskever]{salimans2017evolution}
+SALIMANS T, HO J, CHEN X, et~al.
+\newblock Evolution strategies as a scalable alternative to reinforcement
+  learning\allowbreak[A].
+\newblock 2017.
+
+\bibitem[Jiang et~al.(2023)Jiang, Zhang, Xu, Yu, and Peng]{jiang2023one}
+JIANG J, ZHANG Z, XU C, et~al.
+\newblock One forward is enough for neural network training via likelihood
+  ratio method\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Lukasik et~al.(2020)Lukasik, Bhojanapalli, Menon, and
+  Kumar]{lukasik2020does}
+LUKASIK M, BHOJANAPALLI S, MENON A, et~al.
+\newblock Does label smoothing mitigate label noise?\allowbreak[C]//\allowbreak
+Proc. of ICML.
+\newblock PMLR, 2020: 6448-6458.
+
+\bibitem[Li et~al.(2020)Li, Huang, Yang, Wang, and Zhang]{b11}
+LI X, HUANG K, YANG W, et~al.
+\newblock On the convergence of fedavg on non-iid
+  data\allowbreak[C]//\allowbreak
+Proc. of ICLR.
+\newblock 2020.
+
+\bibitem[Han et~al.(2024)Han, Huang, Tian, Tang, and Liu]{b8}
+HAN P, HUANG C, TIAN G, et~al.
+\newblock Convergence Analysis of Split Federated Learning on Heterogeneous
+  Data\allowbreak[A].
+\newblock 2024.
+
+\bibitem[Fr{\'e}nay et~al.(2013)Fr{\'e}nay and
+  Verleysen]{frenay2013classification}
+FR{\'E}NAY B, VERLEYSEN M.
+\newblock Classification in the presence of label noise: a
+  survey\allowbreak[J].
+\newblock IEEE transactions on neural networks and learning systems, 2013,
+  25\allowbreak (5): 845-869.
+
+\bibitem[Karimireddy et~al.(2020)Karimireddy, Kale, Mohri, Reddi, Stich, and
+  Suresh]{b4}
+KARIMIREDDY S~P, KALE S, MOHRI M, et~al.
+\newblock Scaffold: Stochastic controlled averaging for federated
+  learning\allowbreak[C]//\allowbreak
+International conference on machine learning.
+\newblock PMLR, 2020: 5132-5143.
+
+\bibitem[Huang et~al.(2023)Huang, Tian, and Tang]{huang2023minibatch}
+HUANG C, TIAN G, TANG M.
+\newblock When minibatch sgd meets splitfed learning: Convergence analysis and
+  performance evaluation\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Hsu et~al.(2019)Hsu, Qi, and Brown]{hsu2019measuring}
+HSU T~M~H, QI H, BROWN M.
+\newblock Measuring the effects of non-identical data distribution for
+  federated visual classification\allowbreak[A].
+\newblock 2019.
+
+\bibitem[McMahan et~al.(2017)McMahan, Moore, Ramage, Hampson, and
+  y~Arcas]{mcmahan2017communication}
+MCMAHAN B, MOORE E, RAMAGE D, et~al.
+\newblock Communication-efficient learning of deep networks from decentralized
+  data\allowbreak[C]//\allowbreak
+Artificial intelligence and statistics.
+\newblock PMLR, 2017: 1273-1282.
+
+\bibitem[Vepakomma et~al.(2019)Vepakomma, Gupta, Swedish, and
+  Raskar]{vepakomma2018split}
+VEPAKOMMA P, GUPTA O, SWEDISH T, et~al.
+\newblock Split learning for health: Distributed deep learning without sharing
+  raw patient data\allowbreak[J].
+\newblock ICLR AI for social good workshop, 2019.
+
+\end{thebibliography}

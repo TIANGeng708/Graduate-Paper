@@ -17,7 +17,7 @@
 %
 % \iffalse
 %<*driver>
-\ProvidesFile{sustechthesis.dtx}[2025/07/19 1.3.23 Southern University of Science and Technology Thesis Template]
+\ProvidesFile{sustechthesis.dtx}[2022/09/07 1.3.18 Southern University of Science and Technology Thesis Template]
 \documentclass{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -360,45 +360,14 @@
 % 允许的选项有 \option{windows}、\option{mac}、\option{fandol}，详
 % 见 \pkg{ctex}、\pkg{xeCJK}、\pkg{fontspec} 等宏包的使用说明。
 %
-% \paragraph{英文字体}
-% \DescribeOption{font}
-% 用户可以通过 \option{font} 选项选择英文字体，可选值：
-% \begin{itemize}
-%   \item \option{auto}（默认）：自动选择系统自带字体
-%   \item \option{external}：使用包内字体
-%   \item \option{times}：Times New Roman 的 TeX 克隆版
-%   \item \option{termes}：TeX Gyre Termes 字体
-%   \item \option{none}：不指定字体
-% \end{itemize}
-%
-% Windows 和 macOS 系统上，系统自带对应字体，可以删除该参数。
-% Unix 系统推荐使用包内字体（\option{external}），而非 TeX 自带的克隆版字体，
-% 以达到和其他系统一致的字体效果。
-%
-% \begin{latex}
-%   \documentclass[font=external]{sustechthesis}
-% \end{latex}
-%
-% \paragraph{中文字体}
-% \DescribeOption{cjk-font}
-% 用户可以通过 \option{cjk-font} 选项选择中文字体，可选值：
-% \begin{itemize}
-%   \item \option{auto}（默认）：自动选择系统自带字体
-%   \item \option{external}：使用包内字体（推荐用于非 Windows 系统）
-%   \item \option{windows}：Windows 系统字体（中易宋体、中易黑体）
-%   \item \option{mac}：macOS 系统字体（华文宋体、华文黑体）
-%   \item \option{noto}：Noto 字体
-%   \item \option{fandol}：Fandol 字体
-%   \item \option{none}：不指定字体
-% \end{itemize}
-%
-% 在非 Windows 的系统上推荐使用包内字体（\option{external}），而非系统字体，
-% 以达到和 Windows 系统一致的字体效果。
-% Windows 系统自带对应字体，可以删除该参数。
+% 如在非 Windows 系统下还想使用其字体，可使用 \option{external} 选项调用包内带的 Windows 字体：
 %
 % \begin{latex}
 %   \documentclass[cjk-font=external]{sustechthesis}
 % \end{latex}
+%
+% 允许的选项有 \option{windows}、\option{mac}、\option{fandol}、
+% \option{external}，等。
 %
 % \subsection{论文设置}
 % 论文的设置可以通过 \file{sustech-setup.tex} 中的统一命令 \cs{thusetup} 设置 \emph{key=value} 形式完成。
@@ -439,15 +408,6 @@
 %
 % ^^A另外本科生要求有 0.2cm 留给装订线的宽度，这只有在打印版中才会生效。
 %
-% \subsubsection{文档类型}
-% \DescribeOption{type}
-% 选择文档类型，可选：\option{proposal}（开题报告）、\option{progress}（年度考核报告）、\option{thesis}（学位论文，默认）。
-%
-% \begin{latex}
-%   \thusetup{
-%     type = thesis,
-%   }
-% \end{latex}
 %
 % \subsection{封面信息}
 % \label{sec:titlepage}
@@ -475,7 +435,7 @@
 %    选项             & 可选值                  \\ \midrule
 %    degree-domain  & 理学，工学，医学             \\
 %    degree-domain* & Science, Engineering, Medicine \\
-%    degree-type    & academic (学术型，默认值，如学术硕士), professional (专业型，如工程硕士) \\
+%    gongshuo        & true (专业型，如工程硕士), false (学术型，如学术硕士或其他) \\
 %    \bottomrule
 %    \end{tabular}
 %  \end{table}
@@ -484,19 +444,16 @@
 %   \thusetup{
 %     degree-domain  = {学位领域},
 %     degree-domain* = {Degree domain in English},
-%     degree-type = academic,
+%     gongshuo = false,
 %   }
 % \end{latex}
-%
-% \note[注意：]{\option{degree-type} 的默认值为 \option{academic}，代表生成学术型研究生毕业设计模板；
-% 改为 \option{professional} 则将生成专业型研究生毕业设计模板。}
 %
 % \subsubsection{院系名称}
 % 院系名称，名称超长时可以使用换行|\\|。
 % \begin{latex}
 %   \thusetup{
 %     department = {系名全称},
-%     department* = {Department name in English}
+%     department* = {Department name in English}}
 %   }
 % \end{latex}
 %
@@ -739,22 +696,6 @@
 %   }
 % \end{latex}
 %
-% \DescribeOption{math-font}
-% 用户可以通过设置 \option{math-font} 选择数学字体，可选值：
-% \begin{itemize}
-%   \item \option{cambria}（默认，同 Word 默认数学字体一致）
-%   \item \option{times}：Times New Roman 的 TeX 克隆版
-%   \item \option{xits}：XITS Math 字体
-%   \item \option{stix}：STIX Math 字体
-%   \item \option{none}：不指定字体
-% \end{itemize}
-%
-% \begin{latex}
-%   \thusetup{
-%     math-font = cambria,
-%   }
-% \end{latex}
-%
 % 关于数学符号更多的用法，参考
 % \href{http://mirrors.ctan.org/macros/latex/contrib/unicode-math/unicode-math.pdf}{\pkg{unicode-math}}
 % 宏包的使用说明，
@@ -819,7 +760,7 @@
 % \subsubsection{引用方式}
 % \label{sec:citestyle}
 % 模板支持两种引用方式，分别为理工科常用的“顺序编码制”和文科常用
-% 的“著者-出版年制”。
+% 的“著者-出版年制”，对于\textbf{南方科技大学的毕业生使用“顺序编码制”即可}。
 % 使用者在设置参考文献表的格式
 % （\cs{bibliographystyle}，见第~\ref{sec:bibliography} 节）时，
 % 正文中引用文献的标注会自动调整为对应的格式。
@@ -831,18 +772,9 @@
 % \DescribeMacro{\inlinecite}
 % 顺序编码制的参考文献引用分为两种模式：
 % \begin{enumerate}
-%   \item 上标模式，比如“同样的工作有很多\textsuperscript{[1-2]}……”；
-%   \item 正文模式，比如“文 [3] 中详细说明了……”。
+%   \item 上标模式（super），比如“同样的工作有很多\textsuperscript{[1-2]}……”；
+%   \item 正文模式（inline），比如“文 [3] 中详细说明了……”。
 % \end{enumerate}
-%
-% \DescribeOption{cite-style}
-% 用户可以将引用标注的格式设为正文模式：
-% \begin{latex}
-%   \thusetup{
-%     cite-style = inline,
-%   }
-% \end{latex}
-% 也可以使用 \cs{inlinecite}\marg{key} 临时使用正文模式的引用标注。
 %
 % \paragraph{著者-出版年制}
 % 著者-出版年制的参考文献引用有两种模式：
@@ -974,7 +906,7 @@
 %    \begin{macrocode}
 %<cls>\NeedsTeXFormat{LaTeX2e}[2017/04/15]
 %<cls>\ProvidesClass{sustechthesis}
-%<cls>[2025/07/19 1.3.23 Southern University of Science and Technology Thesis Template]
+%<cls>[2022/09/07 1.3.18 Southern University of Science and Technology Thesis Template]
 %    \end{macrocode}
 %
 % 报错
@@ -1025,7 +957,7 @@
 \hyphenation{Thu-Thesis SUSTech-Thesis}
 \def\thuthesis{ThuThesis}
 \def\sustechthesis{SUSTechThesis}
-\def\version{1.3.23}
+\def\version{1.3.18}
 \RequirePackage{kvdefinekeys}
 \RequirePackage{kvsetkeys}
 \RequirePackage{kvoptions}
@@ -1177,7 +1109,6 @@
     default = master,
   },
   degree-type = {
-    default = academic,
     choices = {
       academic,
       professional,
@@ -1234,7 +1165,6 @@
       termes,
       auto,
       none,
-      external,
     },
     default = auto,
   },
@@ -1258,7 +1188,6 @@
       xits,
       stix,
       none,
-      times,
     },
     default = cambria,
   },
@@ -1480,12 +1409,7 @@
 % 本科生《写作指南》：
 % 页边距：上：3.8 厘米，下：3.2 厘米，左右：3 厘米，装订线：左 0.2 厘米。
 % 本科生 Word 模板：
-% 无页眉，页脚距边界：1.75 厘米。
-%
-% \pkg{fancyhdr} 的页眉是沿底部对齐的，所以只需设置 \cs{headsep}，
-% \cs{headheight} 可以适当增加高度允许多行页眉。
-% 研究生：\cs{headsep} = $\SI{3}{cm} - \SI{2.2}{cm} - \SI{10.5}{bp} \times 1.3
-% \approx \SI{0.3}{cm}$。
+% 页眉距边界：1.5 厘米，页脚距边界：1.75 厘米。
 %
 %    \begin{macrocode}
 \geometry{
@@ -1500,8 +1424,8 @@
       bottom     = 3.2cm,
       left       = 3.2cm,
       right      = 3cm,
-      headheight = 1.9cm,
-      headsep    = 1.9cm,
+      headheight = 0.5cm,
+      headsep    = 1.8cm,
       footskip   = 1.45cm,
     }%
     \ifthu@output@print
@@ -1517,7 +1441,7 @@
   \else
     \geometry{
       margin     = 3cm,
-      headheight = 2.7cm,
+      headheight = 0.5cm,
       headsep    = 0.3cm,
       footskip   = 0.8cm,
     }%
@@ -1636,10 +1560,11 @@
 \fi
 %    \end{macrocode}
 %
-% XITS 字体。
-% XITS 的文件名在 v1.109 2018-09-30
-% 从 \file{xits-regular.otf}、\file{xits-math.otf} 分别改为
-% \file{XITS-Regular.otf}、\file{XITSMath-Regular.otf}。
+% XITS 字体于 2018-10-03 更改了字体的文件名，所以需要判断。
+% 原文件名为 \file{xits-regular.otf}、\file{xits-math.otf} 等，
+% 后改为 \file{XITS-Regular.otf}、\file{XITSMath-Regular.otf} 等。
+%
+% Libertinus 字体同样。
 %    \begin{macrocode}
 \let\thu@font@family@xits\@empty
 \newcommand\thu@set@xits@names{%
@@ -1663,12 +1588,6 @@
     }%
   \fi
 }
-%    \end{macrocode}
-%
-% Libertinus 字体。
-% Libertinus 的文件名在 v6.7 2019-04-03 从小写改为驼峰式，
-% 在大小写敏感的平台上需要进行判断。
-%    \begin{macrocode}
 \let\thu@font@family@libertinus\@empty
 \newcommand\thu@set@libertinus@names{%
   \ifx\thu@font@family@libertinus\@empty
@@ -1693,25 +1612,6 @@
 }
 %    \end{macrocode}
 %
-% STIX Two 字体。
-% STIX 文件名在 v2.10 2020-12-19 从
-% \file{STIX2Text-Regular.otf}、\file{STIX2Math.otf} 分别改为
-% \file{STIXTwoText-Regular.otf}、\file{STIXTwoMath-Regular.otf}。
-%    \begin{macrocode}
-\let\thu@font@family@stix\@empty
-\newcommand\thu@set@stix@names{%
-  \ifx\thu@font@family@stix\@empty
-    \IfFontExistsTF{STIXTwoText-Regular.otf}{%
-      \gdef\thu@font@family@stix{STIXTwoText}%
-      \gdef\thu@font@name@stix@math{STIXTwoMath-Regular}%
-    }{%
-      \gdef\thu@font@family@stix{STIX2Text}%
-      \gdef\thu@font@name@stix@math{STIX2Math}%
-    }%
-  \fi
-}
-%    \end{macrocode}
-%
 % 《撰写手册》要求西文字体使用 Times New Roman 和 Arial，
 % 但是在 Linux 下没有这两个字体，所以使用它们的克隆版 TeX Gyre Termes 和
 % TeX Gyre Heros。
@@ -1723,33 +1623,6 @@
     \thusetup{font=times}
   \fi
 \fi
-\newcommand\thu@load@font@external{%
-  \setmainfont[
-    Path=fonts/,
-    Extension = .ttf,
-    UprightFont = * ,
-    BoldFont = *bd ,
-    ItalicFont = *i ,
-    BoldItalicFont = *bi
-  ]{times}%英文默认为Times New Roman
-  \setsansfont[
-    Path=fonts/,
-    Extension = .ttf,
-    UprightFont = * ,
-    BoldFont = *bd ,
-    ItalicFont = *i ,
-    BoldItalicFont = *bi
-  ]{arial}%
-  \setmonofont[
-    Path=fonts/,
-    Extension = .ttf,
-    UprightFont = * ,
-    BoldFont = *bd ,
-    ItalicFont = *i ,
-    BoldItalicFont = *bi,
-    Scale = MatchLowercase
-  ]{cour}%
-}
 \newcommand\thu@load@font@times{%
   \setmainfont{Times New Roman}%
   \setsansfont{Arial}%
@@ -1879,24 +1752,12 @@
     range        = {cal,bfcal},
   ]%
 }
-\newcommand\thu@load@math@font@times{%
-  \setmathfont{texgyretermes-math}[
-    Extension    = .otf,
-    StylisticSet = \thu@xits@integral@stylistic@set,
-  ]%
-  \setmathfont{texgyretermes-math}[
-    Extension    = .otf,
-    StylisticSet = 1,
-    range        = {cal,bfcal},
-  ]%
-}
 \newcommand\thu@load@math@font@stix{%
-  \thu@set@stix@names
-  \setmathfont{\thu@font@name@stix@math}[
+  \setmathfont{STIX2Math}[
     Extension    = .otf,
     StylisticSet = \thu@xits@integral@stylistic@set,
   ]%
-  \setmathfont{\thu@font@name@stix@math}[
+  \setmathfont{STIX2Math}[
     Extension    = .otf,
     StylisticSet = 1,
     range        = {cal,bfcal},
@@ -2884,8 +2745,6 @@
 % 这会导致含有多行文字的单元格中行距有误。
 % todo: sustech(修订注释)
 %    \begin{macrocode}
-% 表格旋转
-\RequirePackage{rotating}
 \newcommand\thu@set@table@font{
   \ifthu@language@chinese
     \def\thu@table@font{%
@@ -2958,43 +2817,6 @@
   \fi
   \renewcommand*{\thesubtable}{(\alph{subtable})}
 \fi
-%    \end{macrocode}
-%
-% 图片设置草稿模式
-%    \begin{macrocode}
-% 定义draft模式的条件
-\newif\ifdraftmode
-\draftmodefalse % 默认关闭draft模式
-% 定义一个命令来开启draft模式
-\newcommand{\enabledraftmode}{%
-  \draftmodetrue
-  \PassOptionsToPackage{draft}{graphicx}
-  \PassOptionsToPackage{draft}{hyperref}
-  \ifdefined\oldincludegraphics\else
-    \let\oldincludegraphics\includegraphics
-  \fi
-  \renewcommand{\includegraphics}[2][]{%
-    \begingroup
-    \def\draftimagearg{##2}%
-    \def\draftimageopts{##1}%
-    \sbox0{\oldincludegraphics[##1]{##2}}%
-    \fbox{\parbox[c][\ht0]{\wd0}{\centering Draft Image:\\\texttt{\draftimagearg}}}%
-    \endgroup
-  }
-  % 显示溢出的箱子
-  \overfullrule=5pt
-}
-% 定义一个命令来关闭draft模式
-\newcommand{\disabledraftmode}{%
-  \draftmodefalse
-  \PassOptionsToPackage{final}{graphicx}
-  \PassOptionsToPackage{final}{hyperref}
-  \ifdefined\oldincludegraphics
-    \let\includegraphics\oldincludegraphics
-  \fi
-  % 显示溢出的箱子
-  \overfullrule=0pt
-}
 %    \end{macrocode}
 %
 % 各级标题格式设置。
@@ -3455,6 +3277,14 @@
     default = {Engineering},
     name    = degree@domain@en,
   },
+  gongshuo = {
+    default = false,
+    choices = {
+      false,
+      true,
+    },
+    name    = gongshuo,
+  },
 %    \end{macrocode}
 %
 % 院系中英文名称。
@@ -3760,14 +3590,14 @@
 \def\thu@schoolid{14325}
 \def\flagtrue{true}
 \def\zhuanye{%
-  \ifthu@degree@type@professional%
+  \ifx\flagtrue\thu@gongshuo%
     专业类别%
   \else%
     学科名称%
   \fi%
 }
 \def\zhuanye@en{%
-  \ifthu@degree@type@professional Category%
+  \ifx\flagtrue\thu@gongshuo Category%
   \else%
   Discipline%
   \fi%
@@ -3794,17 +3624,17 @@
   \fi%
 }
 \def\thu@subject{
-\ifthu@degree@type@professional%
+\ifx\flagtrue\thu@gongshuo%
 \thu@degree@domain \degree@level 专业学位论文%
 \else%
 \thu@degree@domain \degree@level 学位论文%
 \fi%
 }
 \def\thu@subject@en{%
-\ifthu@degree@type@professional%
-Thesis for the Professional Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
+\ifx\flagtrue\thu@gongshuo%
+Thesis for the professional degree of \degree@level@en@noun \ of \thu@degree@domain@en%
 \else%
-Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
+Thesis for the degree of \degree@level@en@noun \ of \thu@degree@domain@en%
 \fi%
 }
 \newcommand\thu@option@supervisor@item{
@@ -3894,9 +3724,24 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
     hmargin = 3cm,
   }%
   \thispagestyle{empty}%
+  {\noindent \xiaosi
+    \renewcommand\arraystretch{1.25}
+    \begin{tabular}{@{}l@{}}
+      Classified Index: \thu@natclassifiedindex\\
+      U.D.C: \thu@intclassifiedindex
+    \end{tabular}}
 
   \begin{center}
 
+    \vspace{2.5cm}
+
+    \parbox[t]{30em}{
+      \centering
+      \fontsize{18bp}{25.875bp}\selectfont
+      \thu@subject@en}
+    \par
+
+    \vspace{1.5cm}
     \parbox[t]{30em}{
       \centering
       % 22 bp*1.15默认行距比例*1.25行距 = 31.625
@@ -3911,38 +3756,21 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
     \par
 
     \vfill
-    {
-      \sanhao[1.725]%
-      A dissertation submitted to\par
-      Southern University of Science and Technology\par
-      in partial fulfillment of the requirement\par
-      for the
-      \ifthu@degree@type@professional
-        professional
-      \fi
-      degree of\par
-      \degree@level@en@noun \ of \thu@degree@domain@en\par
-      \ifthu@degree@type@academic
-        in\par
-        \thu@discipline@en\par
-      \fi
-    }
+      {\sihao%
+      \renewcommand\arraystretch{1.3}
+      % 手动调整使得视觉接近
+      \hspace*{2em}
+      \begin{tabular}{@{}m{\sustech@titlepage@left@column@width}m{0.5\textwidth}@{}}
+        \thu@info@item@sustech{Candidate:}{\thu@author@en}\\
+        \thu@info@item@sustech{Supervisor:}{\thu@supervisor@en}\\
+        \thu@option@supervisor@item@en
+        \thu@info@item@sustech{\zhuanye@en:}{\thu@discipline@en}\\
+        \thu@info@item@sustech{Date of Defence:}{\thu@format@date{\thu@date@en@short}{\thu@defense@date}}\\
+        \thu@info@item@sustech{Affiliation:}{\thu@department@en}\\
+        \thu@info@item@sustech{Degree-Conferring-\\Institution:}{Southern University of Science and\\Technology}
+      \end{tabular}}
     \vspace{3cm}
-    {
-      \sanhao[1.725]%
-      by\par
-      \thu@author@en\par
-    }
-    \vspace{1cm}
-    \parbox[t][3.37cm][t]{\textwidth}{%
-      \centering\xiaosan[1.82]%
-      \thu@titlepage@en@supervisor@sustech
-    }\par
-    {
-      \sanhao%
-      \thu@format@date{\thu@date@en@short}{\thu@defense@date}
-    }
-    \vspace{1.65cm}
+
   \end{center}
 
   \clearpage
@@ -4028,7 +3856,7 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
       \centering
       \vspace*{10mm}
       {
-        \zihao{-1} \kaishu \bfseries %
+        \zihao{-2} \kaishu \bfseries %
         \renewcommand{\CJKglue}{\hskip 6pt plus 0.08\baselineskip}%
         南方科技大学 \par
       }
@@ -4385,14 +4213,6 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
     \fi
   \end{tabular}%
 }
-\newcommand\thu@titlepage@en@supervisor@sustech{%
-  \begin{tabular}{r@{\makebox[0.71cm][l]{:}}l}%
-     Supervisor & \thu@supervisor@en     \\
-    \ifx\thu@associate@supervisor@en\@empty\else
-      Associate Supervisor            & \thu@associate@supervisor@en \\
-    \fi
-  \end{tabular}%
-}
 \newcommand\thu@titlepage@en@date{%
   \begingroup
     \sffamily\bfseries\sanhao
@@ -4605,8 +4425,6 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
   }%
 }{%
 }
-\newcommand\undefcolumntype[1]{\expandafter\let\csname NC@find@#1\endcsname\relax}
-\newcommand\forcenewcolumntype[1]{\undefcolumntype{#1}\newcolumntype{#1}}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -4711,7 +4529,7 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
         \item 在以教学与科研服务为目的前提下，学校可以将学位论文的全部或部分内容存储在有关数据库提供检索，并可采用数字化、云存储或其他存储手段保存本学位论文。
           \begin{enumerate}[wide,label={（\arabic*）},labelsep=0em]
             \item 在本论文提交当年，同意在校园网内提供查询及前十六页浏览服务。
-            \item 在本论文提交 \sustech@checkbox@item{} 当年/ \sustech@checkbox@item{} \_\_年以后，同意向全社会公开论文全文的在线浏览和下载。
+            \item 在本论文提交 \sustech@checkbox@item{} 当年/ \sustech@checkbox@item{} 一年以后，同意向全社会公开论文全文的在线浏览和下载。
           \end{enumerate}
         \item 保密的学位论文在解密后适用本授权书。
       \end{enumerate}
@@ -4755,7 +4573,6 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
       \thu@statementcopyright@sustech@english
     \fi
   \else
-    \cleardoublepage
     \thu@pdfbookmark{0}{\thu@statement@toc@name}%
     \includepdf[%
 %      pagecommand={%
@@ -4930,11 +4747,9 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
   \fi
   \thusetup{language = english}%
   \ifthu@degree@graduate
-    \ifthu@main@language@chinese
-      \thu@chapter*[\textbf{\thu@abstract@name@en}]{\thu@abstract@name@en}[\thu@abstract@name@en]%
-    \else
+  
       \thu@chapter*{\thu@abstract@name@en}%
-    \fi
+   
   \else
     \thu@chapter*[]{\thu@abstract@name@en}%
   \fi
@@ -5212,23 +5027,7 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
 % \subsection{参考文献}
 % \label{sec:ref}
 %
-% 参考文献的格式根据用户选择的 \BibTeX{}/BibLaTeX 分别进行配置，
-% 所以使用 \pkg{filehook} 的方式。
-%
-% 设置 \option{cite-style} 的接口，只对 \BibTeX{} 的编译方式有效。
-%    \begin{macrocode}
-\thu@define@key{
-  cite-style = {
-    name = cite@style,
-    choices = {
-      super,
-      author-year,
-    }
-  }
-}
-%    \end{macrocode}
-%
-% \subsubsection{BibTeX + \pkg{natbib} 宏包}
+% \subsubsection{BibTeX\pkg{natbib} 宏包}
 %
 % \BibTeX{} 和 \pkg{natbib} 宏包的配置。
 %    \begin{macrocode}
@@ -5243,282 +5042,6 @@ Thesis for the Degree of \degree@level@en@noun \ of \thu@degree@domain@en%
   \let\onlinecite\inlinecite
 %    \end{macrocode}
 % \end{macro}
-%
-% 几种种引用样式，与 \file{bst} 文件名保持一致，
-% 这样在使用 \cs{bibliographystyle} 选择参考文献表的样式时也会设置对应的引用样式。
-%    \begin{macrocode}
-  \newcommand\bibstyle@super{%
-    \bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
-  \newcommand\bibstyle@inline{%
-    \bibpunct{[}{]}{,}{n}{,}{,}}
-  \@namedef{bibstyle@author-year}{%
-    \bibpunct{(}{)}{;}{a}{,}{,}}
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-  \thu@option@hook{cite-style}{\@nameuse{bibstyle@\thu@cite@style}}
-%    \end{macrocode}
-%
-% 几种种引用样式，与 \file{bst} 文件名保持一致，
-% 这样在使用 \cs{bibliographystyle} 选择参考文献表的样式时也会设置对应的引用样式。
-%    \begin{macrocode}
-\@namedef{bibstyle@sustechthesis-numeric}{\citestyle{super}}
-\@namedef{bibstyle@sustechthesis-author-year}{\citestyle{author-year}}
-%    \end{macrocode}
-%
-% 修改引用的样式。
-% 这里在 filehook 中无法使用 \cs{patchcmd}，所以只能手动重定义。
-%
-% 将 \cs{citep} super 式引用的页码改为上标。
-%    \begin{macrocode}
-  \renewcommand\NAT@citesuper[3]{%
-    \ifNAT@swa
-      \if*#2*\else
-        #2\NAT@spacechar
-      \fi
-      % \unskip\kern\p@\textsuperscript{\NAT@@open#1\NAT@@close}%
-      %  \if*#3*\else\NAT@spacechar#3\fi\else #1\fi\endgroup}
-      \unskip\kern\p@
-      \textsuperscript{%
-        \NAT@@open#1\NAT@@close
-        \if*#3*\else#3\fi
-      }%
-      \kern\p@
-    \else
-      #1%
-    \fi
-    \endgroup
-  }
-%    \end{macrocode}
-%
-% 将 \cs{citep} numbers 式引用的页码改为上标并置于括号外。
-%    \begin{macrocode}
-  \renewcommand\NAT@citenum[3]{%
-    \ifNAT@swa
-      \NAT@@open
-      \if*#2*\else
-        #2\NAT@spacechar
-      \fi
-      % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close
-      #1\NAT@@close
-      \if*#3*\else
-        \textsuperscript{#3}%
-      \fi
-    \else
-      #1%
-    \fi
-    \endgroup
-  }
-%    \end{macrocode}
-%
-% 修改 \cs{citet} 引用的样式。
-%    \begin{macrocode}
-  \def\NAT@citexnum[#1][#2]#3{%
-    \NAT@reset@parser
-    \NAT@sort@cites{#3}%
-    \NAT@reset@citea
-    \@cite{\def\NAT@num{-1}\let\NAT@last@yr\relax\let\NAT@nm\@empty
-      \@for\@citeb:=\NAT@cite@list\do
-      {\@safe@activestrue
-      \edef\@citeb{\expandafter\@firstofone\@citeb\@empty}%
-      \@safe@activesfalse
-      \@ifundefined{b@\@citeb\@extra@b@citeb}{%
-        {\reset@font\bfseries?}
-          \NAT@citeundefined\PackageWarning{natbib}%
-        {Citation `\@citeb' on page \thepage \space undefined}}%
-      {\let\NAT@last@num\NAT@num\let\NAT@last@nm\NAT@nm
-        \NAT@parse{\@citeb}%
-        \ifNAT@longnames\@ifundefined{bv@\@citeb\@extra@b@citeb}{%
-          \let\NAT@name=\NAT@all@names
-          \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
-        \fi
-        \ifNAT@full\let\NAT@nm\NAT@all@names\else
-          \let\NAT@nm\NAT@name\fi
-        \ifNAT@swa
-        \@ifnum{\NAT@ctype>\@ne}{%
-          \@citea
-          \NAT@hyper@{\@ifnum{\NAT@ctype=\tw@}{\NAT@test{\NAT@ctype}}{\NAT@alias}}%
-        }{%
-          \@ifnum{\NAT@cmprs>\z@}{%
-          \NAT@ifcat@num\NAT@num
-            {\let\NAT@nm=\NAT@num}%
-            {\def\NAT@nm{-2}}%
-          \NAT@ifcat@num\NAT@last@num
-            {\@tempcnta=\NAT@last@num\relax}%
-            {\@tempcnta\m@ne}%
-          \@ifnum{\NAT@nm=\@tempcnta}{%
-            \@ifnum{\NAT@merge>\@ne}{}{\NAT@last@yr@mbox}%
-          }{%
-            \advance\@tempcnta by\@ne
-            \@ifnum{\NAT@nm=\@tempcnta}{%
-%    \end{macrocode}
-%
-% 在顺序编码制下，\pkg{natbib} 只有在三个以上连续文献引用才会使用连接号，
-% 这里修改为允许两个引用使用连接号。
-%    \begin{macrocode}
-              % \ifx\NAT@last@yr\relax
-              %   \def@NAT@last@yr{\@citea}%
-              % \else
-              %   \def@NAT@last@yr{--\NAT@penalty}%
-              % \fi
-              \def@NAT@last@yr{-\NAT@penalty}%
-            }{%
-              \NAT@last@yr@mbox
-            }%
-          }%
-          }{%
-          \@tempswatrue
-          \@ifnum{\NAT@merge>\@ne}{\@ifnum{\NAT@last@num=\NAT@num\relax}{\@tempswafalse}{}}{}%
-          \if@tempswa\NAT@citea@mbox\fi
-          }%
-        }%
-        \NAT@def@citea
-        \else
-          \ifcase\NAT@ctype
-            \ifx\NAT@last@nm\NAT@nm \NAT@yrsep\NAT@penalty\NAT@space\else
-              \@citea \NAT@test{\@ne}\NAT@spacechar\NAT@mbox{\NAT@super@kern\NAT@@open}%
-            \fi
-            \if*#1*\else#1\NAT@spacechar\fi
-            \NAT@mbox{\NAT@hyper@{{\citenumfont{\NAT@num}}}}%
-            \NAT@def@citea@box
-          \or
-            \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
-          \or
-            \NAT@hyper@citea@space{\NAT@test{\NAT@ctype}}%
-          \or
-            \NAT@hyper@citea@space\NAT@alias
-          \fi
-        \fi
-      }%
-      }%
-        \@ifnum{\NAT@cmprs>\z@}{\NAT@last@yr}{}%
-        \ifNAT@swa\else
-%    \end{macrocode}
-%
-% 将页码放在括号外边，并且置于上标。
-%    \begin{macrocode}
-          % \@ifnum{\NAT@ctype=\z@}{%
-          %   \if*#2*\else\NAT@cmt#2\fi
-          % }{}%
-          \NAT@mbox{\NAT@@close}%
-          \@ifnum{\NAT@ctype=\z@}{%
-            \if*#2*\else
-              \textsuperscript{#2}%
-            \fi
-          }{}%
-          \NAT@super@kern
-        \fi
-    }{#1}{#2}%
-  }%
-%    \end{macrocode}
-%
-% 修改 \cs{citep} author-year 式的页码：
-%    \begin{macrocode}
-  \renewcommand\NAT@cite%
-      [3]{\ifNAT@swa\NAT@@open\if*#2*\else#2\NAT@spacechar\fi
-          % #1\if*#3*\else\NAT@cmt#3\fi\NAT@@close\else#1\fi\endgroup}
-          #1\NAT@@close\if*#3*\else\textsuperscript{#3}\fi\else#1\fi\endgroup}
-%    \end{macrocode}
-%
-% 修改 \cs{citet} author-year 式的页码：
-%    \begin{macrocode}
-  \def\NAT@citex%
-    [#1][#2]#3{%
-    \NAT@reset@parser
-    \NAT@sort@cites{#3}%
-    \NAT@reset@citea
-    \@cite{\let\NAT@nm\@empty\let\NAT@year\@empty
-      \@for\@citeb:=\NAT@cite@list\do
-      {\@safe@activestrue
-      \edef\@citeb{\expandafter\@firstofone\@citeb\@empty}%
-      \@safe@activesfalse
-      \@ifundefined{b@\@citeb\@extra@b@citeb}{\@citea%
-        {\reset@font\bfseries ?}\NAT@citeundefined
-                  \PackageWarning{natbib}%
-        {Citation `\@citeb' on page \thepage \space undefined}\def\NAT@date{}}%
-      {\let\NAT@last@nm=\NAT@nm\let\NAT@last@yr=\NAT@year
-        \NAT@parse{\@citeb}%
-        \ifNAT@longnames\@ifundefined{bv@\@citeb\@extra@b@citeb}{%
-          \let\NAT@name=\NAT@all@names
-          \global\@namedef{bv@\@citeb\@extra@b@citeb}{}}{}%
-        \fi
-      \ifNAT@full\let\NAT@nm\NAT@all@names\else
-        \let\NAT@nm\NAT@name\fi
-      \ifNAT@swa\ifcase\NAT@ctype
-        \if\relax\NAT@date\relax
-          \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}\NAT@date}%
-        \else
-          \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
-              \ifx\NAT@last@yr\NAT@year
-                \def\NAT@temp{{?}}%
-                \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}%
-                {Multiple citation on page \thepage: same authors and
-                year\MessageBreak without distinguishing extra
-                letter,\MessageBreak appears as question mark}\fi
-                \NAT@hyper@{\NAT@exlab}%
-              \else\unskip\NAT@spacechar
-                \NAT@hyper@{\NAT@date}%
-              \fi
-          \else
-            \@citea\NAT@hyper@{%
-              \NAT@nmfmt{\NAT@nm}%
-              \hyper@natlinkbreak{%
-                \NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb
-              }%
-              \NAT@date
-            }%
-          \fi
-        \fi
-      \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-      \or\@citea\NAT@hyper@{\NAT@date}%
-      \or\@citea\NAT@hyper@{\NAT@alias}%
-      \fi \NAT@def@citea
-      \else
-        \ifcase\NAT@ctype
-          \if\relax\NAT@date\relax
-            \@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-          \else
-          \ifx\NAT@last@nm\NAT@nm\NAT@yrsep
-              \ifx\NAT@last@yr\NAT@year
-                \def\NAT@temp{{?}}%
-                \ifx\NAT@temp\NAT@exlab\PackageWarningNoLine{natbib}%
-                {Multiple citation on page \thepage: same authors and
-                year\MessageBreak without distinguishing extra
-                letter,\MessageBreak appears as question mark}\fi
-                \NAT@hyper@{\NAT@exlab}%
-              \else
-                \unskip\NAT@spacechar
-                \NAT@hyper@{\NAT@date}%
-              \fi
-          \else
-            \@citea\NAT@hyper@{%
-              \NAT@nmfmt{\NAT@nm}%
-              \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
-                {\@citeb\@extra@b@citeb}%
-              \NAT@date
-            }%
-          \fi
-          \fi
-        \or\@citea\NAT@hyper@{\NAT@nmfmt{\NAT@nm}}%
-        \or\@citea\NAT@hyper@{\NAT@date}%
-        \or\@citea\NAT@hyper@{\NAT@alias}%
-        \fi
-        \if\relax\NAT@date\relax
-          \NAT@def@citea
-        \else
-          \NAT@def@citea@close
-        \fi
-      \fi
-      }}\ifNAT@swa\else
-%    \end{macrocode}
-%
-% 将页码放在括号外边，并且置于上标。
-%    \begin{macrocode}
-        % \if*#2*\else\NAT@cmt#2\fi
-        \if\relax\NAT@date\relax\else\NAT@@close\fi
-        \if*#2*\else\textsuperscript{#2}\fi
-      \fi}{#1}{#2}}
-%    \end{macrocode}
 %
 % 参考文献表的正文部分用五号字。
 % 行距采用固定值 16 磅，段前空 3 磅，段后空 0 磅。
