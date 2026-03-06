@@ -18,45 +18,45 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: ref/tg.bib
 Warning--I didn't find a database entry for "amsaleg2015estimating"
 Warning--I didn't find a database entry for "houle2013dimensionality"
-You've used 37 entries,
+You've used 35 entries,
             5366 wiz_defined-function locations,
-            1225 strings with 14377 characters,
-and the built_in function-call counts, 345281 in all, are:
-= -- 6359
-> -- 40685
-< -- 51005
-+ -- 14118
-- -- 2510
-* -- 1840
-:= -- 47448
-add.period$ -- 111
-call.type$ -- 37
-change.case$ -- 283
-chr.to.int$ -- 12534
-cite$ -- 37
-duplicate$ -- 994
-empty$ -- 2660
-format.name$ -- 1286
-if$ -- 89952
+            1220 strings with 14250 characters,
+and the built_in function-call counts, 328574 in all, are:
+= -- 6069
+> -- 38723
+< -- 48515
++ -- 13432
+- -- 2405
+* -- 1760
+:= -- 45168
+add.period$ -- 105
+call.type$ -- 35
+change.case$ -- 272
+chr.to.int$ -- 11925
+cite$ -- 35
+duplicate$ -- 946
+empty$ -- 2520
+format.name$ -- 1233
+if$ -- 85578
 int.to.chr$ -- 1
-int.to.str$ -- 38
+int.to.str$ -- 36
 missing$ -- 0
-newline$ -- 217
-num.names$ -- 111
-pop$ -- 18729
+newline$ -- 206
+num.names$ -- 105
+pop$ -- 17788
 preamble$ -- 1
-purify$ -- 37
+purify$ -- 35
 quote$ -- 0
-skip$ -- 35720
+skip$ -- 34002
 stack$ -- 0
-substring$ -- 15747
-swap$ -- 49
-text.length$ -- 917
+substring$ -- 14991
+swap$ -- 47
+text.length$ -- 877
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 407
+type$ -- 385
 warning$ -- 0
-while$ -- 953
+while$ -- 910
 width$ -- 0
-write$ -- 495
+write$ -- 469
 (There were 2 warnings)

@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -10,27 +10,6 @@
   \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
   \let\eprint\href
 \fi
-
-\bibitem[McMahan et~al.(2017)McMahan, Moore, Ramage, Hampson, and y~Arcas]{b1}
-MCMAHAN B, MOORE E, RAMAGE D, et~al.
-\newblock Communication-efficient learning of deep networks from decentralized
-  data\allowbreak[C]//\allowbreak
-Artificial intelligence and statistics.
-\newblock PMLR, 2017: 1273-1282.
-
-\bibitem[Thapa et~al.(2022)Thapa, Arachchige, Camtepe, and
-  Sun]{thapa2022splitfed}
-THAPA C, ARACHCHIGE P~C~M, CAMTEPE S, et~al.
-\newblock Splitfed: When federated learning meets split
-  learning\allowbreak[C]//\allowbreak
-Proceedings of the AAAI Conference on Artificial Intelligence: volume~36.
-\newblock 2022: 8485-8493.
-
-\bibitem[Poirot(2020)]{b2}
-POIROT M~G.
-\newblock Split learning in health care: multi-center deep learning without
-  sharing patient data\allowbreak[D].
-\newblock University of Twente, 2020.
 
 \bibitem[Wang et~al.(2019)Wang, Tuor, Salonidis, Leung, Makaya, He, and
   Chan]{wang2019adaptive}
@@ -82,6 +61,14 @@ LI Y, LYU X.
   Heterogeneous Data\allowbreak[C]//\allowbreak
 Advances in Neural Information Processing Systems: volume~36.
 \newblock 2023: 56700-56755.
+
+\bibitem[Thapa et~al.(2022)Thapa, Arachchige, Camtepe, and
+  Sun]{thapa2022splitfed}
+THAPA C, ARACHCHIGE P~C~M, CAMTEPE S, et~al.
+\newblock Splitfed: When federated learning meets split
+  learning\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~36.
+\newblock 2022: 8485-8493.
 
 \bibitem[Ke et~al.(2023)Ke, Huang, and Liu]{ke2023impact}
 KE S, HUANG C, LIU X.
