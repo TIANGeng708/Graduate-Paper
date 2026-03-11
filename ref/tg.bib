@@ -231,7 +231,7 @@ booktitle	= {Proc. of ICLR},
   organization={PMLR}
 }
 
-@inproceedings{b1,
+@inproceedings{mcmahan2017communication,
   title={Communication-efficient learning of deep networks from decentralized data},
   author={McMahan, Brendan and Moore, Eider and Ramage, Daniel and Hampson, Seth and y Arcas, Blaise Aguera},
   booktitle={Artificial intelligence and statistics},
@@ -240,11 +240,11 @@ booktitle	= {Proc. of ICLR},
   organization={PMLR}
 }
 
-@mastersthesis{b2,
+@article{poirot2020split,
   title={Split learning in health care: multi-center deep learning without sharing patient data},
   author={Poirot, Maarten G},
-  year={2020},
-  school={University of Twente}
+  journal={Master's thesis, University of Twente},
+  year={2020}
 }
 
 
@@ -266,12 +266,13 @@ booktitle	= {Proc. of ICLR},
   organization={IEEE}
 }
 
-@inproceedings{b9,
+@inproceedings{xu2022fedcorr,
   title={Fedcorr: Multi-stage federated learning for label noise correction},
   author={Xu, Jingyi and Chen, Zihan and Quek, Tony QS and Chong, Kai Fong Ernest},
   booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
   pages={10184--10193},
-  year={2022}
+  year={2022},
+  organization = {CVPR},
 }
 
 @inproceedings{lycklama2023rofl,
@@ -283,7 +284,7 @@ booktitle	= {Proc. of ICLR},
   organization={IEEE}
 }
 
-@article{b23,
+@article{yang2022robust,
   title={Robust federated learning with noisy labels},
   author={Yang, Seunghan and Park, Hyoungseob and Byun, Junyoung and Kim, Changick},
   journal={IEEE Intelligent Systems},
@@ -310,21 +311,23 @@ booktitle	= {Proc. of ICLR},
   organization={PMLR}
 }
 
-@inproceedings{b11,
+@article{li2019convergence,
   title={On the convergence of fedavg on non-iid data},
   author={Li, Xiang and Huang, Kaixuan and Yang, Wenhao and Wang, Shusen and Zhang, Zhihua},
-year	= {2020},
-booktitle	= {Proc. of ICLR},
+  journal={arXiv preprint arXiv:1907.02189},
+  year={2019}
 }
 
-@article{b8,
-  title={Convergence Analysis of Split Federated Learning on Heterogeneous Data},
+@article{han2024convergence,
+  title={Convergence analysis of split federated learning on heterogeneous data},
   author={Han, Pengchao and Huang, Chao and Tian, Geng and Tang, Ming and Liu, Xin},
-  journal={arXiv preprint arXiv:2402.15166},
+  journal={Advances in Neural Information Processing Systems},
+  volume={37},
+  pages={103476--103544},
   year={2024}
 }
 
-@inproceedings{b4,
+@inproceedings{karimireddy2020scaffold,
   title={Scaffold: Stochastic controlled averaging for federated learning},
   author={Karimireddy, Sai Praneeth and Kale, Satyen and Mohri, Mehryar and Reddi, Sashank and Stich, Sebastian and Suresh, Ananda Theertha},
   booktitle={International conference on machine learning},
@@ -406,4 +409,53 @@ booktitle	= {Proc. of ICLR},
   author={Salimans, Tim and Ho, Jonathan and Chen, Xi and Sidor, Szymon and Sutskever, Ilya},
   journal={arXiv preprint arXiv:1703.03864},
   year={2017}
+}
+
+@article{yang2021achieving,
+  title={Achieving linear speedup with partial worker participation in non-iid federated learning},
+  author={Yang, Haibo and Fang, Minghong and Liu, Jia},
+  journal={Proc. of ICLR},
+  year={2021}
+}
+
+@article{wang2022unified,
+  title={A unified analysis of federated learning with arbitrary client participation},
+  author={Wang, Shiqiang and Ji, Mingyue},
+  journal={Advances in Neural Information Processing Systems},
+  volume={35},
+  pages={19124--19137},
+  year={2022}
+}
+
+@inproceedings{tang2023tackling,
+  title={Tackling system induced bias in federated learning: Stratification and convergence analysis},
+  author={Tang, Ming and Wong, Vincent WS},
+  booktitle={Proc. of IEEE INFOCOM},
+  pages={1--10},
+  year={2023},
+}
+
+@article{stich2019unified,
+  title={Unified optimal analysis of the (stochastic) gradient method},
+  author={Stich, Sebastian U},
+  journal={arXiv preprint arXiv:1907.04232},
+  year={2019}
+}
+
+@inproceedings{woodworth2020local,
+  title={Is local SGD better than minibatch SGD?},
+  author={Woodworth, Blake and Patel, Kumar Kshitij and Stich, Sebastian and Dai, Zhen and Bullins, Brian and Mcmahan, Brendan and Shamir, Ohad and Srebro, Nathan},
+  booktitle={International Conference on Machine Learning},
+  pages={10334--10343},
+  year={2020},
+  organization={PMLR}
+}
+
+@article{woodworth2020minibatch,
+  title={Minibatch vs local sgd for heterogeneous distributed learning},
+  author={Woodworth, Blake E and Patel, Kumar Kshitij and Srebro, Nati},
+  journal={Advances in Neural Information Processing Systems},
+  volume={33},
+  pages={6281--6292},
+  year={2020}
 }

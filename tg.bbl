@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -50,10 +50,46 @@ KOLOSKOVA A, LOIZOU N, BOREIRI S, et~al.
 International Conference on Machine Learning.
 \newblock PMLR, 2020: 5381-5393.
 
-\bibitem[Li et~al.(2019)Li, Huang, Yang, Wang, and Zhang]{li2019convergence}
-LI X, HUANG K, YANG W, et~al.
-\newblock On the convergence of fedavg on non-iid data\allowbreak[A].
+\bibitem[Yang et~al.(2021)Yang, Fang, and Liu]{yang2021achieving}
+YANG H, FANG M, LIU J.
+\newblock Achieving linear speedup with partial worker participation in non-iid
+  federated learning\allowbreak[J].
+\newblock Proc. of ICLR, 2021.
+
+\bibitem[Wang et~al.(2022)Wang and Ji]{wang2022unified}
+WANG S, JI M.
+\newblock A unified analysis of federated learning with arbitrary client
+  participation\allowbreak[J].
+\newblock Advances in Neural Information Processing Systems, 2022, 35:
+  19124-19137.
+
+\bibitem[Tang et~al.(2023)Tang and Wong]{tang2023tackling}
+TANG M, WONG V~W.
+\newblock Tackling system induced bias in federated learning: Stratification
+  and convergence analysis\allowbreak[C]//\allowbreak
+Proc. of IEEE INFOCOM.
+\newblock 2023: 1-10.
+
+\bibitem[Stich(2019)]{stich2019unified}
+STICH S~U.
+\newblock Unified optimal analysis of the (stochastic) gradient
+  method\allowbreak[A].
 \newblock 2019.
+
+\bibitem[Woodworth et~al.(2020)Woodworth, Patel, and
+  Srebro]{woodworth2020minibatch}
+WOODWORTH B~E, PATEL K~K, SREBRO N.
+\newblock Minibatch vs local sgd for heterogeneous distributed
+  learning\allowbreak[J].
+\newblock Advances in Neural Information Processing Systems, 2020, 33:
+  6281-6292.
+
+\bibitem[Woodworth et~al.(2020)Woodworth, Patel, Stich, Dai, Bullins, Mcmahan,
+  Shamir, and Srebro]{woodworth2020local}
+WOODWORTH B, PATEL K~K, STICH S, et~al.
+\newblock Is local SGD better than minibatch SGD?\allowbreak[C]//\allowbreak
+International Conference on Machine Learning.
+\newblock PMLR, 2020: 10334-10343.
 
 \bibitem[Li et~al.(2023)Li and Lyu]{li2023convergence}
 LI Y, LYU X.
@@ -61,6 +97,11 @@ LI Y, LYU X.
   Heterogeneous Data\allowbreak[C]//\allowbreak
 Advances in Neural Information Processing Systems: volume~36.
 \newblock 2023: 56700-56755.
+
+\bibitem[Li et~al.(2019)Li, Huang, Yang, Wang, and Zhang]{li2019convergence}
+LI X, HUANG K, YANG W, et~al.
+\newblock On the convergence of fedavg on non-iid data\allowbreak[A].
+\newblock 2019.
 
 \bibitem[Thapa et~al.(2022)Thapa, Arachchige, Camtepe, and
   Sun]{thapa2022splitfed}
@@ -84,14 +125,6 @@ WU N, YU L, JIANG X, et~al.
   imbalance and label noise heterogeneity\allowbreak[A].
 \newblock 2023.
 
-\bibitem[Xu et~al.(2022)Xu, Chen, Quek, and Chong]{b9}
-XU J, CHEN Z, QUEK T~Q, et~al.
-\newblock Fedcorr: Multi-stage federated learning for label noise
-  correction\allowbreak[C]//\allowbreak
-Proceedings of the IEEE/CVF conference on computer vision and pattern
-  recognition.
-\newblock 2022: 10184-10193.
-
 \bibitem[Lycklama et~al.(2023)Lycklama, Burkhalter, Viand, K{\"u}chler, and
   Hithnawi]{lycklama2023rofl}
 LYCKLAMA H, BURKHALTER L, VIAND A, et~al.
@@ -99,11 +132,6 @@ LYCKLAMA H, BURKHALTER L, VIAND A, et~al.
   learning\allowbreak[C]//\allowbreak
 2023 IEEE Symposium on Security and Privacy (SP).
 \newblock IEEE, 2023: 453-476.
-
-\bibitem[Yang et~al.(2022)Yang, Park, Byun, and Kim]{b23}
-YANG S, PARK H, BYUN J, et~al.
-\newblock Robust federated learning with noisy labels\allowbreak[J].
-\newblock IEEE Intelligent Systems, 2022, 37\allowbreak (2): 35-43.
 
 \bibitem[Ji et~al.(2024)Ji, Zhu, Xi, Gadyatskaya, Song, Cai, and
   Liu]{ji2024fedfixer}
@@ -199,19 +227,6 @@ LUKASIK M, BHOJANAPALLI S, MENON A, et~al.
 Proc. of ICML.
 \newblock PMLR, 2020: 6448-6458.
 
-\bibitem[Li et~al.(2020)Li, Huang, Yang, Wang, and Zhang]{b11}
-LI X, HUANG K, YANG W, et~al.
-\newblock On the convergence of fedavg on non-iid
-  data\allowbreak[C]//\allowbreak
-Proc. of ICLR.
-\newblock 2020.
-
-\bibitem[Han et~al.(2024)Han, Huang, Tian, Tang, and Liu]{b8}
-HAN P, HUANG C, TIAN G, et~al.
-\newblock Convergence Analysis of Split Federated Learning on Heterogeneous
-  Data\allowbreak[A].
-\newblock 2024.
-
 \bibitem[Fr{\'e}nay et~al.(2013)Fr{\'e}nay and
   Verleysen]{frenay2013classification}
 FR{\'E}NAY B, VERLEYSEN M.
@@ -219,14 +234,6 @@ FR{\'E}NAY B, VERLEYSEN M.
   survey\allowbreak[J].
 \newblock IEEE transactions on neural networks and learning systems, 2013,
   25\allowbreak (5): 845-869.
-
-\bibitem[Karimireddy et~al.(2020)Karimireddy, Kale, Mohri, Reddi, Stich, and
-  Suresh]{b4}
-KARIMIREDDY S~P, KALE S, MOHRI M, et~al.
-\newblock Scaffold: Stochastic controlled averaging for federated
-  learning\allowbreak[C]//\allowbreak
-International conference on machine learning.
-\newblock PMLR, 2020: 5132-5143.
 
 \bibitem[Huang et~al.(2023)Huang, Tian, and Tang]{huang2023minibatch}
 HUANG C, TIAN G, TANG M.

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.18)  9 MAR 2026 22:45
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.18)  11 MAR 2026 17:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1440,45 +1440,34 @@ Overfull \hbox (3.11972pt too wide) in paragraph at lines 35--35
 
 ]
 
-Package natbib Warning: Citation `yang2021achieving' on page 2 undefined on input line 27.
+[2]
 
+[3]) (./data/sec_paper.tex
 
-Package natbib Warning: Citation `wang2022unified' on page 2 undefined on input line 27.
-
-
-Package natbib Warning: Citation `tang2023tackling' on page 2 undefined on input line 27.
-
-
-Package natbib Warning: Citation `stich2019unified' on page 2 undefined on input line 27.
-
-
-Package natbib Warning: Citation `woodworth2020minibatch' on page 2 undefined on input line 27.
-
-
-Package natbib Warning: Citation `woodworth2020local' on page 2 undefined on input line 27.
-
-
-Package natbib Warning: Citation `woodworth2020minibatch' on page 2 undefined on input line 27.
-
-
-
-[2]) (./data/sec_paper.tex
-
-[3]
+[4]
 第2章
 
+Package natbib Warning: Citation `b9' on page 5 undefined on input line 43.
 
-[4
+
+Package natbib Warning: Citation `b23' on page 5 undefined on input line 43.
+
+
+Package natbib Warning: Citation `b9' on page 5 undefined on input line 43.
+
+
+
+[5
 
 ]) (./data/sec_sfl.tex
 
-[5]
+[6]
 第3章
 File: figures/sfl.pdf Graphic file (type pdf)
 <use figures/sfl.pdf>
 
 
-[6
+[7
 
 ]
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(2)/m/n' will be
@@ -1495,17 +1484,58 @@ LaTeX Font Info:    Font shape `TU/CambriaMath.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 30.
 
 
-[7]
+Package natbib Warning: Citation `b11' on page 8 undefined on input line 30.
+
+
 
 [8]
 
+Package natbib Warning: Citation `b8' on page 9 undefined on input line 69.
+
+
+
 [9]
+
+Package natbib Warning: Citation `b4' on page 10 undefined on input line 99.
+
+
+Package natbib Warning: Citation `b11' on page 10 undefined on input line 99.
+
+
+Package natbib Warning: Citation `b8' on page 10 undefined on input line 99.
+
+
+Package natbib Warning: Citation `b4' on page 10 undefined on input line 126.
+
+
+Package natbib Warning: Citation `b11' on page 10 undefined on input line 126.
+
+
+Package natbib Warning: Citation `b8' on page 10 undefined on input line 126.
+
+
 
 [10]
 
+Package natbib Warning: Citation `b8' on page 11 undefined on input line 175.
+
+
+
 [11]
 
+Package natbib Warning: Citation `b8' on page 12 undefined on input line 177.
+
+
+Package natbib Warning: Citation `b8' on page 12 undefined on input line 184.
+
+
+
 [12]
+
+[13]
+
+Package natbib Warning: Citation `b9' on page 14 undefined on input line 263.
+
 LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 270.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(2)/m/n' will be
 (Font)              scaled to size 11.04242pt on input line 270.
@@ -1530,30 +1560,37 @@ File: figures/gamma.pdf Graphic file (type pdf)
 <use figures/gamma.pdf>
 
 
-[13]
-
 [14]
 
-Package natbib Warning: Citation `amsaleg2015estimating' on page 15 undefined on input line 337.
-
-
-Package natbib Warning: Citation `houle2013dimensionality' on page 15 undefined on input line 337.
+Package natbib Warning: Citation `b9' on page 15 undefined on input line 333.
 
 
 
 [15]
+
+Package natbib Warning: Citation `b9' on page 16 undefined on input line 337.
+
+
+Package natbib Warning: Citation `amsaleg2015estimating' on page 16 undefined on input line 337.
+
+
+Package natbib Warning: Citation `houle2013dimensionality' on page 16 undefined on input line 337.
+
+
+
+[16]
 File: figures/testbed.png Graphic file (type bmp)
 <figures/testbed.png>
 
 
-[16]
+[17]
 File: figures/E1.pdf Graphic file (type pdf)
 <use figures/E1.pdf>
 File: figures/E2.pdf Graphic file (type pdf)
 <use figures/E2.pdf>
 
 
-[17]
+[18]
 File: figures/N1.pdf Graphic file (type pdf)
 <use figures/N1.pdf>
 File: figures/N2.pdf Graphic file (type pdf)
@@ -1564,63 +1601,73 @@ File: figures/q2.pdf Graphic file (type pdf)
 <use figures/q2.pdf>
 
 
-[18]
-
 [19]
+
+Package natbib Warning: Citation `b9' on page 20 undefined on input line 443.
+
+
+Package natbib Warning: Citation `b9' on page 20 undefined on input line 462.
+
+
+Package natbib Warning: Citation `b9' on page 20 undefined on input line 462.
+
+
+
+[20]
 File: figures/power_iid.pdf Graphic file (type pdf)
 <use figures/power_iid.pdf>
 File: figures/power_noniid.pdf Graphic file (type pdf)
 <use figures/power_noniid.pdf>
 
 
-[20]) (./data/sec_bpfree.tex
+[21]) (./data/sec_bpfree.tex
 
-[21]
+[22]
 第4章
 
 
-[22
+[23
 
 ]
 
-[23]
+[24]
 
-[24]) (./data/sec_con.tex
+[25]) (./data/sec_con.tex
 
-[25]
+[26]
 第5章
 )
 
-[26
+[27
 
 ]
 \openout4 = `bu.aux'.
 
  (./tg.bbl
 
-[27
+[28
 
 
 
 ]
 
-[28]) (./data/fulu.tex
+[29]) (./data/fulu.tex
 
-[29]
+[30]
 附录 A
 
 
-[30
+[31
 
 ]
 
-[31])
+[32])
 
 Package natbib Warning: There were undefined citations.
 
 
 
-[32] (./tg.aux (./bu.aux))
+[33] (./tg.aux (./bu.aux))
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1629,22 +1676,16 @@ L3 programming layer <2022/08/05>
 
 LaTeX Warning: There were multiply-defined labels.
 
-
-Package rerunfilecheck Warning: File `tg.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `tg.out':
-(rerunfilecheck)             Before: F4CD5F0BAA42664CDC44472B35F1A4EA;7711
-(rerunfilecheck)             After:  E2BD8305ED3A9F35F7FB099B72860472;7663.
+Package rerunfilecheck Info: File `tg.out' has not changed.
+(rerunfilecheck)             Checksum: E2BD8305ED3A9F35F7FB099B72860472;7663.
  ) 
 Here is how much of TeX's memory you used:
- 45166 strings out of 474234
- 969262 string characters out of 5738231
- 1529897 words of memory out of 5000000
- 67031 multiletter control sequences out of 15000+600000
- 568568 words of font info for 201 fonts, out of 8000000 for 9000
+ 45171 strings out of 474234
+ 969654 string characters out of 5738231
+ 1529866 words of memory out of 5000000
+ 67035 multiletter control sequences out of 15000+600000
+ 568576 words of font info for 202 fonts, out of 8000000 for 9000
  1350 hyphenation exceptions out of 8191
- 106i,14n,137p,1432b,2687s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 106i,14n,137p,1432b,2689s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on tg.pdf (37 pages).
+Output written on tg.pdf (38 pages).
