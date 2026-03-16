@@ -1,0 +1,165 @@
+\chapter{}
+\section{引理\ref{lemma:decomp}的证明}\label{app:lemma1}
+\noindent \textbf{引理~3.1（收敛性分析中的模型拆分）}：
+通过分割-联邦学习训练得到的模型与最优模型之间的性能差距上界如下：
+\begin{equation}
+\mathbb{E}\left[f(\omegab^{R})\right]- f(\omegab^*)\le\frac{S}{2}\left(\mathbb{E}||\omegabs^{R}-\omegabs^*||^2+\mathbb{E}||\omegabc^{R}-\omegabc^*||^2\right).
+\tag{xxx}
+\end{equation}
+
+\begin{proof}
+由于 $F_n$ 是 $S$-光滑的，容易证明全局损失函数 $f(\cdot)$ 也是 $S$-光滑的。因此，我们有
+\begin{equation}\label{eq:decomposition1}
+\begin{aligned}
+&\mathbb{E}\left[f(\boldsymbol{\omega}^
+{R})\right]\!-\!f(\boldsymbol{\omega}^*)\!\le\!\mathbb{E}\!\left[\!\langle\boldsymbol{\omega}^
+{R}\!-\!\boldsymbol{\omega}^*,\nabla f(\boldsymbol{\omega}^*)\rangle\right]
+\!+\!\frac{S}{2}\mathbb{E}\left[||\boldsymbol{\omega}^{R}\!-\!\boldsymbol{\omega}^*||^2\right]\!=\!\frac{S}{2}\mathbb{E}\left[||\boldsymbol{\omega}^{R}\!-\!\boldsymbol{\omega}^*||^2\right].
+\end{aligned}
+\end{equation}
+由于 $\boldsymbol{\omega}^{R}\triangleq [\boldsymbol{\omega}_c^{R};\boldsymbol{\omega}_s^{R}]$，且 $\boldsymbol{\omega}^*\triangleq [\boldsymbol{\omega}_c^*; \boldsymbol{\omega}_s^*]$，我们可得
+   \begin{equation}\label{eq:decomposition2}
+   \begin{aligned}
+   &\mathbb{E}\left[||\boldsymbol{\omega}^{R}-\boldsymbol{\omega}^*||^2\right]
+   =\mathbb{E}\left[||[\boldsymbol{\omega}_c^{R};\boldsymbol{\omega}_s^{R}]-[\boldsymbol{\omega}_c^*; \boldsymbol{\omega}_s^*]||^2\right]\\
+   =&\mathbb{E}\left[||[\boldsymbol{\omega}_c^{R}-\boldsymbol{\omega}_c^*; \boldsymbol{\omega}_s^{R}-\boldsymbol{\omega}_s^*]||^2\right]
+   =\mathbb{E}\left[||\boldsymbol{\omega}_c^{R}-\boldsymbol{\omega}_c^*||^2\right]+\mathbb{E}\left[||\boldsymbol{\omega}_s^{R}-\boldsymbol{\omega}_s^*||^2\right].
+   \end{aligned}
+   \end{equation}
+   将 \ref{eq:decomposition2} 代入 \ref{eq:decomposition1}，即完成证明。
+\end{proof}
+\section{引理\ref{lem:mse}的证明}\label{app:lemma2}
+\noindent \textbf{引理~3.2（带标签噪声的MSE）}：
+\begin{multline}
+F_n\left(\omegab;\zetanoi_n\right)=F_n\left(\omegab;\zetacle_n\right)
+    +\frac{1}{|\zetanoi_n|}\sum_{\left(x_i,\tilde{y}_i\right)\in \zetanoi_n}\left( \epsilon_i^2 - 2\left(h\left(x_i;\omegab\right)-y_i\right)\epsilon_i \right).
+\tag{xxx}
+\end{multline}
+\begin{proof}
+\begin{equation}\label{Derivation of noise loss function}
+\begin{aligned}
+    F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)&=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\left(h\left(x_j;\boldsymbol{\omega}\right)-\left(y_j+\epsilon_j\right)\right)^2\\
+    % &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j-\epsilon_j\right)^2\\
+    &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\left(\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)-\epsilon_j\right)^2\\
+    &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\left(\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)^2-2\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)\epsilon_j+\epsilon_j^2\right)\\
+\end{aligned}
+\end{equation}
+\end{proof}
+\section{引理\ref{lem:msegra}的证明}\label{app:lemma3}
+\noindent \textbf{引理~3.3（标签噪声下MSE的随机梯度）}：
+    \begin{multline}\label{eq:lemma3}
+\gb_n\left(\omegab,\zetanoi_n\right) %= \nabla F_n\left(\boldsymbol{\omega};\zetanoi_n\right)\\
+=\gb_n\left(\omegab,\zetacle_n\right)
+-\frac{1}{|\zetanoi_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i \nabla h\left(x_i;\boldsymbol{\omega}\right).
+\tag{xxx}
+\end{multline}
+
+\begin{proof}
+\begin{equation}\label{Gradient of noise loss}
+\begin{aligned}
+\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{noi}\right)&=\nabla_\omega F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)\\
+&=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}} \nabla_\omega \left(h\left(x_j;\boldsymbol{\omega}\right)-\left(y_j+\epsilon_j\right)\right)^2\\
+% &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}} \nabla_\omega \left(\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)-\epsilon_j\right)^2\\
+&=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\nabla_\omega \left(\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)^2-2\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)\epsilon_j+\epsilon_j^2\right)\\
+&=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\nabla_\omega \left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)^2\\
+&-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\nabla_\omega \left(2\epsilon_j\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)-\epsilon_j^2\right)\\
+&=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\nabla_\omega \left(2\epsilon_j\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)-\epsilon_j^2\right)\\
+% &=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}\nabla_\omega 2\epsilon_j\left(h\left(x_j;\boldsymbol{\omega}\right)-y_j\right)\\
+&=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zeta_n^{noi}}2\epsilon_j\nabla_\omega  h\left(x_j;\boldsymbol{\omega}\right)\\
+\end{aligned}
+\end{equation}
+\end{proof}
+
+\section{均方差损失下含标签噪声的随机梯度的方差}\label{app:pro1}
+\noindent \textbf{命题~1.1（均方差损失下含标签噪声的随机梯度的方差）}
+：在假设 \ref{ass:gradient-variance} 下，任意客户端 $n\in\N$ 在噪声小批量上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 的期望方差是有界的：
+\begin{equation}\label{bounded-variance with noise}
+     \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\boldsymbol{\omega},\zetanoi_n\right) - \nabla \fnoi_n\left(\boldsymbol{\omega}\right) \right\Vert^2 \right] \leq \phi_n^2+H_1^2,
+\end{equation}
+其中 $H_1^2$ 定义为：
+\begin{align}\label{eq:H}
+    H_1^2 &= \frac{8\sigma^2}{|\mathcal{D}_n^{noi}|^2}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(
+\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2 \notag\\
+    &+\frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(
+\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2
+\tag{xxx}
+\end{align}
+\begin{proof}
+为了推导和表述的简洁性，我们将
+$$
+\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ]
+$$
+转换为
+$$
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ],
+$$
+其中 $\epsilon\sim \mathcal{N}(\mu, \sigma^2)$ 表示随机噪声。这种转换是等价的，因为任意数据样本中的随机噪声 $\epsilon$ 与干净数据 $(x,y)$ 是相互独立的。同时我们记 $|\zetanoi_n|=|\zetacle_n|=|\zeta_n|$ 且 $|\Dnoi_n|=|\Dcle_n|=|\D_n|$。
+
+根据公式 (\ref{eq:lemma3})，我们有
+\begin{multline}\label{eq:proof-v1}
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n\left(\omegab\right) \right\Vert^2 \right]
+\\=\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\Biggl[\Big\Vert \gb_n\left(\omegab,\zetacle_n\right) -\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)
+\\ -\left(\nabla \fcle_n\left(\omegab\right)-\frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right)\Big\Vert^2\Biggl].
+\end{multline}
+
+令 $L_n^{noi}\triangleq\frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right) 
+-\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)$。则公式 (\ref{eq:proof-v1}) 可表示为
+\begin{multline}\label{eq:proof-v2}
+    \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[\Vert \gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)-L_n^{noi}\Vert^2\biggl]\\=\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)\Vert^2\right]
+    +\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \\
+    +\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[2\langle\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right),L_n^{noi}\rangle\right].
+\end{multline}
+
+在公式 (\ref{eq:proof-v2}) 中，第一项根据假设 \ref{ass:gradient-variance} 小于 $\phi^2_n$；第三项由于干净数据与噪声相互独立而等于零；第二项可表示为
+\begin{align}\label{eq:proof-v3}
+   &\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \notag \\
+    =~&\mathbb{E}_\epsilon\left[\left\Vert \frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right\Vert^2\right]\notag \\
+    &+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert\frac{1}{|\zeta_n|}\sum_{\left(x_{j},y_j+\epsilon_j\right)\in \zetanoi_n}2\epsilon_j\nabla h\left(x_j;\omegab\right)\right\Vert^2\right]\notag \\
+    &+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[ \frac{1}{|\D_n|}\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zetanoi_n}\notag \\
+    &4\epsilon_i\epsilon_j\nabla h\left(x_i;\omegab\right)\nabla h\left(x_j;\omegab\right)\biggl].
+\end{align}
+
+在公式 (\ref{eq:proof-v3}) 中，基于小批量随机采样，第一项与最后一项之和等于
+$$
+\frac{8\sigma^2}{|\mathcal{D}_n^{noi}|^2}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2,
+$$
+中间项等于
+$$
+\frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2.
+$$
+将公式 (\ref{eq:proof-v3}) 代入 (\ref{eq:proof-v2})，即完成证明。若对任意 $\left(x_j,y_j+\epsilon_j\right)\in\D_n$ 都有 $\epsilon_j=0$，该分析依然成立。
+\end{proof}
+\section{均方差损失下含标签噪声的随机梯度的平方的期望}\label{app:pro2}
+\noindent \textbf{命题~1.2（均方差损失下含标签噪声的随机梯度的平方的期望）}
+：在假设 \ref{ass:gradient} 下，任意客户端 $n\in\N$ 在噪声数据集 $\Dnoi_n$ 上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 是有界的，即：
+\begin{equation}
+    \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] \leq G_n^2 + H_2^2,
+\end{equation}
+其中 $H_2^2$ 定义为：
+\begin{align}\label{eq:H}
+    H_2^2 &= \sum_{\zeta_n^{noi}\subset\mathcal{D}_n^{noi}} \frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(
+\nabla_\omega  h\left(x_{j};\boldsymbol{\omega}\right)\right)^2
+\tag{}
+\end{align}
+
+\begin{proof}
+为简化推导，我们将
+$$
+\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]
+$$
+表示为 $\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]$，其中 $\epsilon\sim \mathcal{N}(\mu, \sigma^2)$ 表示任意噪声，$\zetacle_n\sim\Dcle_n$，此为等价变换。
+
+根据公式 (\ref{Gradient of clean loss})，我们有
+\begin{multline}\label{eq:proof-s1}
+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] 
+= \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)\Vert^2\right] \\
+-\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\langle\gb_n\left(\omegab,\zetacle_n\right),\frac{4}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\epsilon_i\nabla h\left(x_{i};\omegab\right)\right\rangle\right]\\
++\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \frac{2}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\epsilon_i\nabla h\left(x_{i};\omegab\right)\right\Vert^2\right].
+\end{multline}
+
+第一项基于假设 \ref{ass:gradient} 被 $G_n^2$ 所限制；第二项由于噪声 $\epsilon_i$ 与数据 $(x_i,y_i)$ 相互独立而等于零；由于小批量随机采样，第三项等于
+$$
+\sum_{\zeta_n^{noi}\subset\mathcal{D}_n^{noi}} \frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(\nabla_\omega  h\left(x_{j};\boldsymbol{\omega}\right)\right)^2.
+$$
+由此完成证明。若对任意 $\left(x_j,y_j+\epsilon_j\right)\in\D_n$ 都有 $\epsilon_j=0$，该分析依然成立。
+\end{proof}

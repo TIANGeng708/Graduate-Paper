@@ -1,6 +1,6 @@
 \contentsline {chapter}{摘\hskip 1em\relax 要}{I}{section*.9}%
 \contentsline {chapter}{Abstract}{II}{section*.11}%
-\contentsline {chapter}{符号和缩略语说明}{V}{section*.15}%
+\contentsline {chapter}{符号和缩略语说明}{IV}{section*.15}%
 \contentsline {chapter}{\numberline {第1章}论文主要部分的写法}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}论文的语言及表述}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}论文题目的写法}{2}{section.1.2}%
@@ -14,29 +14,23 @@
 \contentsline {section}{\numberline {2.3}源代码}{7}{section.2.3}%
 \contentsline {section}{\numberline {2.4}伪代码}{8}{section.2.4}%
 \contentsline {section}{\numberline {2.5}测试}{9}{section.2.5}%
-\contentsline {chapter}{\numberline {第3章}数学符号和公式}{10}{chapter.3}%
-\contentsline {section}{\numberline {3.1}数学符号}{10}{section.3.1}%
-\contentsline {section}{\numberline {3.2}数学公式}{11}{section.3.2}%
-\contentsline {section}{\numberline {3.3}数学定理}{12}{section.3.3}%
-\contentsline {section}{\numberline {3.4}数学字体}{12}{section.3.4}%
-\contentsline {chapter}{\numberline {第4章}引用文献的标注}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}顺序编码制}{13}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}支持三级目录显示}{13}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}条目要求}{13}{subsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.2.1}条目测试}{14}{subsubsection.4.1.2.1}%
-\contentsline {chapter}{\numberline {第5章}English and $\text {lower-case}$ Example}{16}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Reference guide}{16}{section.5.1}%
+\contentsline {chapter}{\numberline {第3章}引用文献的标注}{10}{chapter.3}%
+\contentsline {section}{\numberline {3.1}顺序编码制}{10}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}支持三级目录显示}{10}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}条目要求}{10}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}条目测试}{11}{subsubsection.3.1.2.1}%
+\contentsline {chapter}{\numberline {第4章}English and $\text {lower-case}$ Example}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Reference guide}{13}{section.4.1}%
 \setcounter {tocdepth}{0}
-\contentsline {chapter}{结\hskip 1em\relax 论}{17}{section*.28}%
-\contentsline {chapter}{参考文献}{18}{section*.30}%
+\contentsline {chapter}{结\hskip 1em\relax 论}{14}{section*.28}%
 \setcounter {tocdepth}{0}
-\contentsline {chapter}{\numberline {附录 A}补充内容}{20}{appendix.A}%
-\contentsline {section}{\numberline {A.1}图表示例}{20}{section.A.1}%
-\contentsline {subsection}{\numberline {A.1.1}图}{20}{subsection.A.1.1}%
-\contentsline {subsection}{\numberline {A.1.2}表格}{20}{subsection.A.1.2}%
-\contentsline {section}{\numberline {A.2}数学公式}{20}{section.A.2}%
-\contentsline {section}{\numberline {A.3}源代码}{21}{section.A.3}%
-\contentsline {section}{\numberline {A.4}伪代码}{21}{section.A.4}%
-\contentsline {chapter}{致\hskip 1em\relax 谢}{23}{section*.35}%
-\contentsline {chapter}{个人简历、在学期间完成的相关学术成果}{24}{section*.37}%
+\contentsline {chapter}{\numberline {附录 A}补充内容}{15}{appendix.A}%
+\contentsline {section}{\numberline {A.1}图表示例}{15}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}图}{15}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}表格}{15}{subsection.A.1.2}%
+\contentsline {section}{\numberline {A.2}数学公式}{15}{section.A.2}%
+\contentsline {section}{\numberline {A.3}源代码}{16}{section.A.3}%
+\contentsline {section}{\numberline {A.4}伪代码}{16}{section.A.4}%
+\contentsline {chapter}{致\hskip 1em\relax 谢}{18}{section*.33}%
+\contentsline {chapter}{个人简历、在学期间完成的相关学术成果}{19}{section*.35}%
 \contentsfinish 

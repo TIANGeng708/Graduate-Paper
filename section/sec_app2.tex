@@ -1,0 +1,218 @@
+\chapter{}
+\section{引理\ref{lem:cross}的证明}\label{app:lemma4}
+\noindent \textbf{引理~3.4（带标签噪声的Cross Entropy）}：
+\begin{multline}
+F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)=F_n\left(\boldsymbol{\omega};\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)
+\end{multline}
+
+\begin{proof}
+\begin{equation}\label{Derivation of noise loss function}
+\begin{aligned}
+    F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)&=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}-log\left(M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)\right)\\
+    % &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}-log\left(M\left(x_j, y_j; \boldsymbol{\omega}\right)*\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\\
+    &=\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}\left(-log\left(M\left(x_j, y_j; \boldsymbol{\omega}\right)\right)-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)\\
+% &=F_n\left(\boldsymbol{\omega};\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}\left(-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)\\
+&=F_n\left(\boldsymbol{\omega};\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)\\
+\end{aligned}
+\end{equation}
+\end{proof}
+
+
+
+\section{引理\ref{lem:cross}的证明}\label{app:lemma5}
+\noindent \textbf{引理~3.5（标签噪声下Cross Entropy的随机梯度）}：
+\begin{multline}\label{eq:lamma5}
+F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)
+\end{multline}
+
+\begin{proof}
+\begin{equation}
+    \begin{aligned}
+&g_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)\\
+&=\nabla_\omega F_n\left(\boldsymbol{\omega};\zeta_n^{noi}\right)\\
+&=\nabla_\omega\left(F_n\left(\boldsymbol{\omega};\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)\right)\\
+&=\nabla_\omega\left(F_n\left(\boldsymbol{\omega};\zeta_n^{cle}\right)\right)+\nabla_\omega\left(\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(-log\left(\frac{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\right)\right)\right)\\
+&=\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)
+    \end{aligned}
+\end{equation}
+\end{proof}
+
+
+\section{}\label{app:pro3}
+\noindent \textbf{命题~1.3（Cross-Entorpy损失下含标签噪声的随机梯度的方差）}
+：在假设 \ref{ass:gradient-variance} 下，任意客户端 $n\in\N$ 在噪声小批量上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 的期望方差是有界的：
+\begin{equation}\label{bounded-variance with noise}
+     \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\boldsymbol{\omega},\zetanoi_n\right) - \nabla \fnoi_n\left(\boldsymbol{\omega}\right) \right\Vert^2 \right] \leq \phi_n^2+H_3^2,
+     \tag{xxx}
+    \end{equation}
+其中 $H_3^2$ 定义为：
+\begin{align}\label{eq:H}
+    H_3^2 =4\delta\left(\frac{\Delta}{Z}+\frac{3\Delta}{D}\right)+4\delta^2\left(4-\frac{\Delta}{Z}-\frac{3\Delta}{D}\right) 
+    \tag{xxx}
+\end{align}
+\begin{proof}
+为了推导和表述的简洁性，我们将
+$$
+\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ]
+$$
+转换为
+$$
+\mathbb{E}_r\mathbb{E}_{\zetacle_n}[\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n(\omegab) \Vert^2 ],
+$$
+其中 $r \sim \text{Bernoulli}(\delta)$ 表示随机噪声。这种转换是等价的，
+因为任意数据样本中的随机噪声 $r$ 与干净数据 $(x,y)$ 是相互独立的。沿用前述记号，我们设 $|\zetanoi_n|=|\zetacle_n|=|\zeta_n|$ 且 $|\Dnoi_n|=|\Dcle_n|=|\D_n|$。
+
+根据公式 (\ref{eq:lamma5})，我们有
+% \begin{multline}\label{eq:proof-b-v1}
+% \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab,\zetanoi_n\right) - \nabla \fnoi_n\left(\omegab\right) \right\Vert^2 \right]
+% \\=\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\Biggl[\Big\Vert \gb_n\left(\omegab,\zetacle_n\right) -\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)
+% \\ -\left(\nabla \fcle_n\left(\omegab\right)-\frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right)\Big\Vert^2\Biggl].
+% \end{multline}
+
+% 令 $L_n^{noi}\triangleq\frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right) 
+% -\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)$。则公式 (\ref{eq:proof-v1}) 可表示为
+% \begin{multline}\label{eq:proof-b-v2}
+%     \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[\Vert \gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)-L_n^{noi}\Vert^2\biggl]\\=\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right)\Vert^2\right]
+%     +\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \\
+%     +\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[2\langle\gb_n\left(\omegab,\zetacle_n\right)-\nabla \fcle_n\left(\omegab\right),L_n^{noi}\rangle\right].
+% \end{multline}
+\begin{multline}\label{eq:proof-b-v2}
+% \begin{aligned}
+    \mathbb{E}_{\zeta_n^{noi}\sim \mathcal{D}_n^{noi}}\left[\left\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{noi}\right) - \nabla_\omega  F_n^{noi}\left(\boldsymbol{\omega}\right) \right\Vert^2 \right]\\
+=\mathbb{E}_{r}\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}\left[\left\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{noi}\right) - \nabla_\omega  F_n^{noi}\left(\boldsymbol{\omega}\right) \right\Vert^2 \right]\\    
+=\mathbb{E}_{r}\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}\Biggl[\Vert\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla_\omega  F_n^{cle}\left(\boldsymbol{\omega}\right)\Vert^2\Biggl]\\
+    +\mathbb{E}_{r}\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}\Biggl[\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)\\
+    -\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)\Vert^2\Biggl]\\
++\mathbb{E}_{r}\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n^{cle}}2<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla_\omega  F_n^{cle}\left(\boldsymbol{\omega}\right),\\
+    \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)\\
+    -\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)>\\
+%  \end{aligned}
+\end{multline}
+在公式 (\ref{eq:proof-b-v2}) 中，第一项根据假设 \ref{ass:gradient-variance} 小于 $\phi^2_n$；第二项可表示为：
+% \begin{align}\label{eq:proof-b-v3}
+%    &\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert L_n^{noi}\Vert^2\right] \notag \\
+%     =~&\mathbb{E}_\epsilon\left[\left\Vert \frac{1}{|\D_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}2\epsilon_i\nabla h\left(x_i;\omegab\right)\right\Vert^2\right]\notag \\
+%     &+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert\frac{1}{|\zeta_n|}\sum_{\left(x_{j},y_j+\epsilon_j\right)\in \zetanoi_n}2\epsilon_j\nabla h\left(x_j;\omegab\right)\right\Vert^2\right]\notag \\
+%     &+\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\biggl[ \frac{1}{|\D_n|}\frac{1}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \Dnoi_n}\sum_{\left(x_j,y_j+\epsilon_j\right)\in \zetanoi_n}\notag \\
+%     &4\epsilon_i\epsilon_j\nabla h\left(x_i;\omegab\right)\nabla h\left(x_j;\omegab\right)\biggl].
+% \end{align}
+
+\begin{multline}\label{eq:proof-b-v3}
+% \begin{aligned}
+    \mathbb{E}_{r}\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)\\
+    -\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)\Vert^2\Biggl]\\
+    =\mathbb{E}_{r}\mathbb{E}_{\zeta_n^{cle}\sim \mathcal{D}_n}\Biggl[\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)\Vert^2\\
+    +\Vert\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)\Vert^2\\
+    -2<\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right),\\
+    \frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)>\Biggl]\\
+    \leq \frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+    +\frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\mathcal{D}_n^{noi}|^2-|\mathcal{D}_n^{noi}|\right)}{|\mathcal{D}_n^{noi}|^2}\\
+    +\frac{4e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{4\left(|\mathcal{D}_n^{noi}|-1\right)e^2\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}\\
+% \end{aligned}
+\end{multline}
+\noindent 第三项可表示为：
+\begin{multline}\label{eq:proof-b-v4}
+% \begin{aligned}
+    \mathbb{E}_{r}\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[-2<\boldsymbol{g}_n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)-\nabla_\omega  F_n^{cle}\left(\boldsymbol{\omega}\right),\\
+    \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)\\
+    -\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)>\Biggl]\\
+    =\mathbb{E}_{r}\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[-2<\frac{1}{|\zeta_n^{cle}|}\sum_{\left(x_j,y_j\right)\in \zeta_n^{cle}}-\frac{ \nabla_\omega \left(M\left(x_j, y_j; \boldsymbol{\omega}\right)\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}\\
+    -\frac{1}{|\mathcal{D}_n^{cle}|}\sum_{\left(x_j,y_j\right)\in \mathcal{D}_n^{cle}} -\frac{ \nabla_\omega \left(M\left(x_j, y_j; \boldsymbol{\omega}\right)\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)},\\
+    \frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)\\
+    -\frac{1}{|\mathcal{D}_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \mathcal{D}_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}\right)>\Biggl]\\
+    \leq \frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+    +\frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\mathcal{D}_n^{noi}|^2-|\mathcal{D}_n^{noi}|\right)}{|\mathcal{D}_n^{noi}|^2}\\
+    +\frac{4e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{4\left(|\mathcal{D}_n^{noi}|-1\right)e^2\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}\\
+% \end{aligned}
+\end{multline}
+% 在公式 (\ref{eq:proof-b-v3}) 中，基于小批量随机采样，第一项与最后一项之和等于
+% $$
+% \frac{4\sigma^2}{|\mathcal{D}_n^{noi}|^2}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2,
+% $$
+% 中间项等于
+% $$
+% \frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{i},y_{i}+\epsilon_{i}\right)\in \mathcal{D}_n^{noi}}\left(\nabla_\omega  h\left(x_{i};\boldsymbol{\omega}\right)\right)^2.
+% $$
+将公式~(\ref{eq:proof-b-v3})和~(\ref{eq:proof-b-v4}) 代入 (\ref{eq:proof-b-v2})，可以得到：
+\begin{equation}\label{eq:proof-b-v5}
+\begin{aligned}
+    &\mathbb{E}_{r}\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\Biggl[\Vert\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}_j\right)\in \zeta_n^{noi}}r_j\left(\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,y_j;\boldsymbol{\omega}\right)}{M\left(x_j,y_j;\boldsymbol{\omega}\right)} -\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}{M\left(x_j,\hat{y}_j;\boldsymbol{\omega}\right)}\right)\\
+    &\leq \frac{4e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{4e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+    &+\frac{4e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{4e^2\left(\phi_{max}-\phi_{min}\right)\left(|\mathcal{D}_n^{noi}|^2-|\mathcal{D}_n^{noi}|\right)}{|\mathcal{D}_n^{noi}|^2}\\
+    &+\frac{8e\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}+\frac{8\left(|\mathcal{D}_n^{noi}|-1\right)e^2\left(\phi_{max}-\phi_{min}\right)}{|\mathcal{D}_n^{noi}|}\\
+&=4\delta\left(\frac{\Delta}{Z}+\frac{3\Delta}{D}\right)+4\delta^2\left(4-\frac{\Delta}{Z}-\frac{3\Delta}{D}\right)   
+\end{aligned}
+\end{equation}
+
+
+\noindent 若对任意 $\left(x_j,\hat{y_j}\right)\in\D_n$ 都有 $\hat{y_j}=y_j$，该分析依然成立。
+\end{proof}
+\section{}\label{app:pro4}
+\noindent \textbf{命题~1.4（Cross-Entorpy损失下含标签噪声的随机梯度的平方的期望）}
+：在假设 \ref{ass:gradient} 下，任意客户端 $n\in\N$ 在噪声数据集 $\Dnoi_n$ 上的 $\gb_n\left(\omegab,\zetanoi_n\right)$ 是有界的，即：
+\begin{equation}
+    \mathbb{E}_{\zetanoi_n\sim \Dnoi_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] \leq G_n^2 + H_4^2,
+    \tag{xxx}
+\end{equation}
+其中 $H_4^2$ 定义为：
+\begin{align}\label{eq:H4}
+    H_4^2 = 4\delta\frac{\Delta}{Z}+4\delta^2\left(1-\frac{\Delta}{Z}\right)
+    \tag{xxx}
+\end{align}
+
+\begin{proof}
+为简化推导，我们将
+$$
+\mathbb{E}_{\zetanoi_n\sim \Dnoi_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]
+$$
+表示为 $\mathbb{E}_r\mathbb{E}_{\zetacle_n}[\Vert \gb_n(\omegab, \zetanoi_n) \Vert^2]$，其中 $r \sim \text{Bernoulli}(\delta)$ 表示随机噪声。
+
+\noindent 根据公式 (\ref{eq:lamma5})，我们有
+% \begin{multline}\label{eq:proof-b-s1}
+% \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \gb_n\left(\omegab, \zetanoi_n\right) \right\Vert^2\right] 
+% = \mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\Vert\gb_n\left(\omegab,\zetacle_n\right)\Vert^2\right] \\
+% -\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\langle\gb_n\left(\omegab,\zetacle_n\right),\frac{4}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\epsilon_i\nabla h\left(x_{i};\omegab\right)\right\rangle\right]\\
+% +\mathbb{E}_\epsilon\mathbb{E}_{\zetacle_n}\left[\left\Vert \frac{2}{|\zeta_n|}\sum_{\left(x_i,y_i+\epsilon_i\right)\in \zetanoi_n}\epsilon_i\nabla h\left(x_{i};\omegab\right)\right\Vert^2\right].
+% \end{multline}
+
+\begin{multline}\label{eq:proof-b-s1}
+% \begin{aligned}
+\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\left[\left\Vert \boldsymbol{g}n\left(\boldsymbol{\omega}, \zeta_n^{noi}\right) \right\Vert^2\right]\\
+=\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\left[\left\Vert\boldsymbol{g}n\left(\boldsymbol{\omega},\zeta_n^{cle}\right)\right\Vert^2\right]\\
++\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\left[\left\Vert\frac{1}{|\zeta_n^{noi}|}\sum{\left(x_j,\hat{y}j\right)\in \zeta_n^{noi}}r_j\left( \frac{\nabla{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}-\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}j; \boldsymbol{\omega}\right)} \right)\right\Vert^2\right]\\
++\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\Biggl[\ 2<\frac{1}{|\zeta_n^{cle}|}\sum{\left(x_j,y_j\right)\in \zeta_n^{cle}}\frac{ \nabla_\omega \left(M\left(x_j, y_j; \boldsymbol{\omega}\right)\right)}{(M\left(x_j, y_j; \boldsymbol{\omega}\right)},\\
+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}j\right)\in \zeta_n^{noi}}r_j\left( \frac{\nabla{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}-\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)} \right)\Biggl]\\
+% \end{aligned}
+\end{multline}
+
+\noindent 第一项基于假设 \ref{ass:gradient} 被 $G_n^2$ 所限制；第二项可表示为：%由于噪声 $\epsilon_i$ 与数据 $(x_i,y_i)$ 相互独立而等于零；由于小批量随机采样，第三项等于
+
+\begin{multline}\label{eq:proof-b-s2}
+% \begin{aligned}
+\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\left[\left\Vert\frac{1}{|\zeta_n^{noi}|}\sum{\left(x_j,\hat{y}j\right)\in \zeta_n^{noi}}r_j\left( \frac{\nabla{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}-\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}j; \boldsymbol{\omega}\right)} \right)\right\Vert^2\right]\\
+\leq \frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+% \end{aligned}
+\end{multline}
+
+\noindent 第三项可表示为：
+\begin{multline}\label{eq:proof-b-s3}
+% \begin{aligned}
+\mathbb{E}{r}\mathbb{E}{\zeta_n\sim \mathcal{D}n}\Biggl[\ 2<\frac{1}{|\zeta_n^{cle}|}\sum{\left(x_j,y_j\right)\in \zeta_n^{cle}}\frac{ \nabla_\omega \left(M\left(x_j, y_j; \boldsymbol{\omega}\right)\right)}{(M\left(x_j, y_j; \boldsymbol{\omega}\right)},\\
+\frac{1}{|\zeta_n^{noi}|}\sum_{\left(x_j,\hat{y}j\right)\in \zeta_n^{noi}}r_j\left( \frac{\nabla{\boldsymbol{\omega}} M\left(x_j, y_j; \boldsymbol{\omega}\right)}{M\left(x_j, y_j; \boldsymbol{\omega}\right)}-\frac{\nabla_{\boldsymbol{\omega}} M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)}{M\left(x_j, \hat{y}_j; \boldsymbol{\omega}\right)} \right)\Biggl]\\
+\leq \frac{2e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{2e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+% \end{aligned}
+\end{multline}
+将公式~(\ref{eq:proof-b-s2})和~(\ref{eq:proof-b-s3}) 代入 (\ref{eq:proof-b-s1})，可以得到：
+
+\begin{multline}\label{eq:proof-b-s4}
+% \begin{aligned}
+\mathbb{E}_{r}\mathbb{E}_{\zeta_n\sim \mathcal{D}_n}\left[\left\Vert \boldsymbol{g}_n\left(\boldsymbol{\omega}, \zeta_n^{noi}\right) \right\Vert^2\right]\\
+\leq \frac{4e\left(\phi_{max}-\phi_{min}\right)}{|\zeta_n^{noi}|}+\frac{4e^2\left(\phi_{max}-\phi_{min}\right)\left(|\zeta_n^{noi}|^2-|\zeta_n^{noi}|\right)}{|\zeta_n^{noi}|^2}\\
+% \end{aligned}
+\end{multline}
+
+% $$
+% \sum_{\zeta_n^{noi}\subset\mathcal{D}_n^{noi}} \frac{4\sigma^2}{|\mathcal{D}_n^{noi}||\zeta_n^{noi}|}\sum_{\left(x_{j},y_{j}+\epsilon_{j}\right)\in \zeta_n^{noi}}\left(\nabla_\omega  h\left(x_{j};\boldsymbol{\omega}\right)\right)^2.
+% $$
+\noindent 由此完成证明。若对任意 $\left(x_j,y_j+\epsilon_j\right)\in\D_n$ 都有 $\epsilon_j=0$，该分析依然成立。
+\end{proof}

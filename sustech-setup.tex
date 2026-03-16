@@ -26,8 +26,8 @@
   %   特别字符允许小写，例如行内公式，其他所有字词全部大写。
   %
   % title  = {分割-联邦学习(SplitFed)在标签噪声和非独立同分布数据下的性能评估与改进},
-  title  = {面向异构数据与资源受限场景的分割-联邦学习协同优化研究},
-  title* = {Research on Collaborative Optimization of Split Federated Learning for Heterogeneous Data and Resource-Constrained Scenarios},
+  title  = {面向低质量数据与资源受限场景的分割-联邦学习协同优化研究},
+  title* = {Research on Collaborative Optimization of Split Federated Learning for Low-Quality Data and Resource-Constrained Scenarios},
   % subtitle = {可选的副标题可选的副标题可选的副标题可选的副标题可选的副标题可选的副标题},
   % subtitle* = {optional subtitle optional subtitle optional subtitle optional subtitle optional subtitle optional subtitle},
   %
@@ -116,9 +116,9 @@
 \usepackage{algorithmic}
 \usepackage{adjustbox} % 在导言区加入
 % 定理类环境宏包
-\usepackage{amsthm}
+% \usepackage{amsthm}
 % 也可以使用 ntheorem
-% \usepackage[amsmath,thmmarks,hyperref]{ntheorem}
+\usepackage[amsmath,thmmarks,hyperref]{ntheorem}
 
 %%%%%% 顺序编码制的文献引用形式
 %%%%%% 参考文献编译方式二选一，不要同时开启。
@@ -184,9 +184,10 @@
 % \usepackage{subfigure}
 % \usepackage{breqn}
 % \usepackage{textcomp}
-\usepackage{amsmath} % 用于数学公式
-\usepackage{amsthm}
+% \usepackage{amsmath} % 用于数学公式
+% \usepackage{amsthm}
 \usepackage{subcaption}
+\newcounter{savedcount} 
 \def\N{\mathcal{N}}
 \def\D{\mathcal{D}}
 \def\Dnoi{\mathcal{D}^{noi}}
