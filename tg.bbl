@@ -1,0 +1,317 @@
+\begin{thebibliography}{44}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[Wang et~al.(2019)Wang, Tuor, Salonidis, Leung, Makaya, He, and
+  Chan]{wang2019adaptive}
+WANG S, TUOR T, SALONIDIS T, et~al.
+\newblock Adaptive federated learning in resource constrained edge computing
+  systems\allowbreak[J].
+\newblock IEEE journal on selected areas in communications, 2019, 37\allowbreak
+  (6): 1205-1221.
+
+\bibitem[Li et~al.(2020)Li, Huang, Yang, Wang, and Zhang]{li2020convergence}
+LI X, HUANG K, YANG W, et~al.
+\newblock On the convergence of fedavg on non-iid
+  data\allowbreak[C]//\allowbreak
+Proc. of ICLR.
+\newblock 2020.
+
+\bibitem[Khaled et~al.(2020)Khaled, Mishchenko, and
+  Richt{\'a}rik]{khaled2020tighter}
+KHALED A, MISHCHENKO K, RICHT{\'A}RIK P.
+\newblock Tighter theory for local SGD on identical and heterogeneous
+  data\allowbreak[C]//\allowbreak
+International Conference on Artificial Intelligence and Statistics.
+\newblock PMLR, 2020: 4519-4529.
+
+\bibitem[Karimireddy et~al.(2020)Karimireddy, Kale, Mohri, Reddi, Stich, and
+  Suresh]{karimireddy2020scaffold}
+KARIMIREDDY S~P, KALE S, MOHRI M, et~al.
+\newblock Scaffold: Stochastic controlled averaging for federated
+  learning\allowbreak[C]//\allowbreak
+International conference on machine learning.
+\newblock PMLR, 2020: 5132-5143.
+
+\bibitem[Koloskova et~al.(2020)Koloskova, Loizou, Boreiri, Jaggi, and
+  Stich]{koloskova2020unified}
+KOLOSKOVA A, LOIZOU N, BOREIRI S, et~al.
+\newblock A unified theory of decentralized sgd with changing topology and
+  local updates\allowbreak[C]//\allowbreak
+International Conference on Machine Learning.
+\newblock PMLR, 2020: 5381-5393.
+
+\bibitem[Yang et~al.(2021)Yang, Fang, and Liu]{yang2021achieving}
+YANG H, FANG M, LIU J.
+\newblock Achieving linear speedup with partial worker participation in non-iid
+  federated learning\allowbreak[J].
+\newblock Proc. of ICLR, 2021.
+
+\bibitem[Amiri et~al.(2022)Amiri, Belloum, Nalisnick, Klous, and
+  Gommans]{amiri2022impact}
+AMIRI S, BELLOUM A, NALISNICK E, et~al.
+\newblock On the impact of non-IID data on the performance and fairness of
+  differentially private federated learning\allowbreak[C]//\allowbreak
+2022 52nd Annual IEEE/IFIP International Conference on Dependable Systems and
+  Networks Workshops (DSN-W).
+\newblock IEEE, 2022: 52-58.
+
+\bibitem[Wang et~al.(2022)Wang and Ji]{wang2022unified}
+WANG S, JI M.
+\newblock A unified analysis of federated learning with arbitrary client
+  participation\allowbreak[J].
+\newblock Advances in Neural Information Processing Systems, 2022, 35:
+  19124-19137.
+
+\bibitem[Woodworth et~al.(2020)Woodworth, Patel, and
+  Srebro]{woodworth2020minibatch}
+WOODWORTH B~E, PATEL K~K, SREBRO N.
+\newblock Minibatch vs local sgd for heterogeneous distributed
+  learning\allowbreak[J].
+\newblock Advances in Neural Information Processing Systems, 2020, 33:
+  6281-6292.
+
+\bibitem[Tang et~al.(2023)Tang and Wong]{tang2023tackling}
+TANG M, WONG V~W.
+\newblock Tackling system induced bias in federated learning: Stratification
+  and convergence analysis\allowbreak[C]//\allowbreak
+Proc. of IEEE INFOCOM.
+\newblock 2023: 1-10.
+
+\bibitem[Li et~al.(2023)Li and Lyu]{li2023convergence}
+LI Y, LYU X.
+\newblock Convergence Analysis of Sequential Federated Learning on
+  Heterogeneous Data\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems: volume~36.
+\newblock 2023: 56700-56755.
+
+\bibitem[Li et~al.(2020)Li, Sahu, Zaheer, Sanjabi, Talwalkar, and
+  Smith]{li2020federated}
+LI T, SAHU A~K, ZAHEER M, et~al.
+\newblock Federated optimization in heterogeneous networks\allowbreak[J].
+\newblock Proceedings of Machine learning and systems, 2020, 2: 429-450.
+
+\bibitem[Wang et~al.(2020)Wang, Liu, Liang, Joshi, and Poor]{wang2020tackling}
+WANG J, LIU Q, LIANG H, et~al.
+\newblock Tackling the objective inconsistency problem in heterogeneous
+  federated optimization\allowbreak[J].
+\newblock Advances in neural information processing systems, 2020, 33:
+  7611-7623.
+
+\bibitem[Li et~al.(2021)Li, He, and Song]{li2021model}
+LI Q, HE B, SONG D.
+\newblock Model-contrastive federated learning\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition.
+\newblock 2021: 10713-10722.
+
+\bibitem[Chen et~al.(2025)Chen, Li, Fan, and Chakrabarti]{chen2025heterosfl}
+CHEN X, LI J, FAN D, et~al.
+\newblock HeteroSFL: Split Federated Learning With Heterogeneous Clients and
+  Non-IID data\allowbreak[J].
+\newblock IEEE Internet of Things Journal, 2025.
+
+\bibitem[Ke et~al.(2023)Ke, Huang, and Liu]{ke2023impact}
+KE S, HUANG C, LIU X.
+\newblock On the impact of label noise in federated
+  learning\allowbreak[C]//\allowbreak
+2023 21st International Symposium on Modeling and Optimization in Mobile, Ad
+  Hoc, and Wireless Networks (WiOpt).
+\newblock IEEE, 2023: 183-190.
+
+\bibitem[Xu et~al.(2022)Xu, Chen, Quek, and Chong]{xu2022fedcorr}
+XU J, CHEN Z, QUEK T~Q, et~al.
+\newblock Fedcorr: Multi-stage federated learning for label noise
+  correction\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition.
+\newblock 2022: 10184-10193.
+
+\bibitem[Wu et~al.(2023)Wu, Yu, Jiang, Cheng, and Yan]{wu2023fednoro}
+WU N, YU L, JIANG X, et~al.
+\newblock FedNoRo: Towards noise-robust federated learning by addressing class
+  imbalance and label noise heterogeneity\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Yang et~al.(2022)Yang, Park, Byun, and Kim]{yang2022robust}
+YANG S, PARK H, BYUN J, et~al.
+\newblock Robust federated learning with noisy labels\allowbreak[J].
+\newblock IEEE Intelligent Systems, 2022, 37\allowbreak (2): 35-43.
+
+\bibitem[Ji et~al.(2024)Ji, Zhu, Xi, Gadyatskaya, Song, Cai, and
+  Liu]{ji2024fedfixer}
+JI X, ZHU Z, XI W, et~al.
+\newblock FedFixer: Mitigating Heterogeneous Label Noise in Federated
+  Learning\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 12830-12838.
+
+\bibitem[Zhou et~al.(2024)Zhou and Wang]{zhou2024federated}
+ZHOU X, WANG X.
+\newblock Federated label-noise learning with local diversity product
+  regularization\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 17141-17149.
+
+\bibitem[Li et~al.(2024)Li, Li, Cheng, Liao, and Yu]{li2024feddiv}
+LI J, LI G, CHENG H, et~al.
+\newblock FedDiv: Collaborative Noise Filtering for Federated Learning with
+  Noisy Labels\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~38.
+\newblock 2024: 3118-3126.
+
+\bibitem[Du et~al.(2025)Du, Ye, Yuchi, Zhao, Qu, Wang, and Chen]{du2025feddqc}
+DU Y, YE R, YUCHI F, et~al.
+\newblock FedDQC: Data quality control in federated instruction-tuning of large
+  language models\allowbreak[C]//\allowbreak
+Findings of the Association for Computational Linguistics: ACL 2025.
+\newblock 2025: 15267-15291.
+
+\bibitem[Sun et~al.(2025)Sun, Yao, Li, Liu, and Gu]{sun2025label}
+SUN H, YAO J, LI X, et~al.
+\newblock Label-noise-robust Two-Stage Federated Learning in Sensor-Based Human
+  Activity Recognition\allowbreak[C]//\allowbreak
+Proceedings of the 2025 International Conference on Digital Management and
+  Information Technology.
+\newblock 2025: 545-552.
+
+\bibitem[Gao et~al.(2024)Gao, Hu, Mashhadi, Wang, and Bennis]{gao2024pipesfl}
+GAO Y, HU B, MASHHADI M~B, et~al.
+\newblock PipeSFL: A fine-grained parallelization framework for split federated
+  learning on heterogeneous clients\allowbreak[J].
+\newblock IEEE transactions on mobile computing, 2024.
+
+\bibitem[Zhu et~al.(2024)Zhu, Deng, Chen, Zhang, Fang, and Wong]{zhu2024esfl}
+ZHU G, DENG Y, CHEN X, et~al.
+\newblock ESFL: Efficient split federated learning over resource-constrained
+  heterogeneous wireless devices\allowbreak[J].
+\newblock IEEE Internet of Things Journal, 2024, 11\allowbreak (16):
+  27153-27166.
+
+\bibitem[Lin et~al.(2025)Lin, Qu, Wei, Chen, and Leung]{lin2025adaptsfl}
+LIN Z, QU G, WEI W, et~al.
+\newblock Adaptsfl: Adaptive split federated learning in resource-constrained
+  edge networks\allowbreak[J].
+\newblock IEEE Transactions on Networking, 2025.
+
+\bibitem[Qiang et~al.(2025)Qiang, Chang, Ye, Hamalainen, and
+  Min]{qiang2025split}
+QIANG X, CHANG Z, YE C, et~al.
+\newblock v\allowbreak[J].
+\newblock IEEE Wireless Communications, 2025.
+
+\bibitem[Shiranthika et~al.(2024)Shiranthika, Hadizadeh, Saeedi, and
+  Baji{\'c}]{shiranthika2024splitfedzip}
+SHIRANTHIKA C, HADIZADEH H, SAEEDI P, et~al.
+\newblock SplitFedZip: Learned Compression for Data Transfer Reduction in
+  Split-Federated Learning\allowbreak[A].
+\newblock 2024.
+
+\bibitem[Xu et~al.(2023)Xu, Li, Liu, Ling, and Wen]{xu2023accelerating}
+XU C, LI J, LIU Y, et~al.
+\newblock Accelerating split federated learning over wireless communication
+  networks\allowbreak[J].
+\newblock IEEE Transactions on Wireless Communications, 2023, 23\allowbreak
+  (6): 5587-5599.
+
+\bibitem[Hinton(2022)]{hinton2022forward}
+HINTON G.
+\newblock The forward-forward algorithm: Some preliminary investigations:
+  volume~2\allowbreak[A].
+\newblock 2022: 5.
+
+\bibitem[Salimans et~al.(2017)Salimans, Ho, Chen, Sidor, and
+  Sutskever]{salimans2017evolution}
+SALIMANS T, HO J, CHEN X, et~al.
+\newblock Evolution strategies as a scalable alternative to reinforcement
+  learning\allowbreak[A].
+\newblock 2017.
+
+\bibitem[Peng et~al.(2022)Peng, Xiao, Heidergott, Hong, and Lam]{peng2022new}
+PENG Y, XIAO L, HEIDERGOTT B, et~al.
+\newblock A new likelihood ratio method for training artificial neural
+  networks\allowbreak[J].
+\newblock INFORMS Journal on Computing, 2022, 34\allowbreak (1): 638-655.
+
+\bibitem[Jiang et~al.(2023)Jiang, Zhang, Xu, Yu, and Peng]{jiang2023one}
+JIANG J, ZHANG Z, XU C, et~al.
+\newblock One forward is enough for neural network training via likelihood
+  ratio method\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Feng et~al.(2024)Feng, Pang, Du, Chen, Yan, and Lin]{feng2024baffle}
+FENG H, PANG T, DU C, et~al.
+\newblock Baffle: A baseline of backpropagation-free federated
+  learning\allowbreak[C]//\allowbreak
+European Conference on Computer Vision.
+\newblock Springer, 2024: 89-109.
+
+\bibitem[Baek et~al.(2025)Baek, Kim, Kim, and Chung]{baek2025federated}
+BAEK I, KIM H, KIM M, et~al.
+\newblock Federated Learning with Feedback Alignment\allowbreak[A].
+\newblock 2025.
+
+\bibitem[Colombo et~al.(2023)Colombo, Falcetta, and Roveri]{colombo2023tifed}
+COLOMBO L, FALCETTA A, ROVERI M.
+\newblock TIFeD: a Tiny Integer-based Federated learning algorithm with Direct
+  feedback alignment\allowbreak[C]//\allowbreak
+Proceedings of the Third International Conference on AI-ML Systems.
+\newblock 2023: 1-8.
+
+\bibitem[Zihad et~al.(2026)Zihad, Owino, Yang, Tang, and
+  Huang]{zihad2026decoupled}
+ZIHAD A, OWINO F, YANG H, et~al.
+\newblock Decoupled Split Learning via Auxiliary Loss\allowbreak[A].
+\newblock 2026.
+
+\bibitem[Reddi et~al.(2020)Reddi, Charles, Zaheer, Garrett, Rush,
+  Kone{\v{c}}n{\`y}, Kumar, and McMahan]{reddi2020adaptive}
+REDDI S, CHARLES Z, ZAHEER M, et~al.
+\newblock Adaptive federated optimization\allowbreak[A].
+\newblock 2020.
+
+\bibitem[Lukasik et~al.(2020)Lukasik, Bhojanapalli, Menon, and
+  Kumar]{lukasik2020does}
+LUKASIK M, BHOJANAPALLI S, MENON A, et~al.
+\newblock Does label smoothing mitigate label noise?\allowbreak[C]//\allowbreak
+Proc. of ICML.
+\newblock PMLR, 2020: 6448-6458.
+
+\bibitem[Thapa et~al.(2022)Thapa, Arachchige, Camtepe, and
+  Sun]{thapa2022splitfed}
+THAPA C, ARACHCHIGE P~C~M, CAMTEPE S, et~al.
+\newblock Splitfed: When federated learning meets split
+  learning\allowbreak[C]//\allowbreak
+Proceedings of the AAAI Conference on Artificial Intelligence: volume~36.
+\newblock 2022: 8485-8493.
+
+\bibitem[Fr{\'e}nay et~al.(2013)Fr{\'e}nay and
+  Verleysen]{frenay2013classification}
+FR{\'E}NAY B, VERLEYSEN M.
+\newblock Classification in the presence of label noise: a
+  survey\allowbreak[J].
+\newblock IEEE transactions on neural networks and learning systems, 2013,
+  25\allowbreak (5): 845-869.
+
+\bibitem[Hsu et~al.(2019)Hsu, Qi, and Brown]{hsu2019measuring}
+HSU T~M~H, QI H, BROWN M.
+\newblock Measuring the effects of non-identical data distribution for
+  federated visual classification\allowbreak[A].
+\newblock 2019.
+
+\bibitem[Huang et~al.(2023)Huang, Tian, and Tang]{huang2023minibatch}
+HUANG C, TIAN G, TANG M.
+\newblock When minibatch sgd meets splitfed learning: Convergence analysis and
+  performance evaluation\allowbreak[A].
+\newblock 2023.
+
+\end{thebibliography}

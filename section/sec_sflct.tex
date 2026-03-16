@@ -83,16 +83,7 @@ SF-LCT 算法的伪代码如 算法~\ref{alg1} 所示，图~\ref{fig:SF-LCT} 展
 在式 \eqref{eq:lid} 中，$d_j\left(h\left(x_i,\omegab\right)\right)$ 表示数据样本 $(x_i,\tilde{y}_i)$ 与其邻近样本 $(x_j,\tilde{y}_j)$ 在特征空间中的欧氏距离。考虑 $(x_i,\tilde{y}_i)$ 的 $k$ 个最近邻样本，即 $k$ 个具有最小 $d_j\left(h\left(x_i,\omegab\right)\right)$ 的样本。令 $d_{max}\left(h\left(x_i,\omegab\right)\right)$ 表示在这 $k$ 个最近邻中与 $(x_j,\tilde{y}_j)$ 的最大距离。
 
 直观上讲，定义在 \eqref{eq:lid} 中的数据样本 LID 反映了该样本与其他样本的接近程度，从而间接揭示了其标签可能为噪声标签的可能性。每个客户端 $n$ 的 LID 分数为其数据集 $\mathcal{D}_n$ 中所有样本 LID 值的平均值：
-\begin{figure}[t]
-% \vspace{-15pt}
-\centering
-\includegraphics[height=4.3cm]{demo.pdf} \includegraphics[height=4.3cm]{time.pdf}\\
-(a)\qquad\qquad\qquad\qquad\qquad\qquad(b)
-% \vspace{-5pt}
-\caption{系统设计（a）与时间流程图（b）演示。}
-\label{fig:demo}
-% \vspace{-10pt}
-\end{figure}
+
 \begin{equation}\label{definition of lid}
 \textstyle \text{LID}_n = \sum_{(x_i,\tilde{y}_i)\in\D_{n}} \text{LID}(x_i,\tilde{y}_i)/|\D_n|.
 \end{equation}
@@ -109,19 +100,50 @@ SF-LCT 算法的伪代码如 算法~\ref{alg1} 所示，图~\ref{fig:SF-LCT} 展
 在第三阶段，所有客户端 $n \in \mathcal{N}$ 在已修正第二阶段中检测出的噪声标签的数据集 $\mathcal{D}_n'$ 上继续进行训练，共进行 $R_3$ 轮。最终，获得优化后的全局模型。
 
 \subsection{树莓派测试平台的实现}\label{sec:testbed}
-\begin{figure}[t]
+\begin{figure}[htbp]
 \centering
 \includegraphics[height=4.5cm]{figures/testbed.png}
 % \vspace{-5pt}
-\caption{真实测试平台。}
+\caption{真实测试平台}
 \label{fig:testbed}
 % \vspace{-15pt}
 \end{figure}
-在我们搭建的测试平台上，联邦服务器（fed server）和训练服务器（training server）部署在同一台个人电脑上（处理器为 13th Gen Intel(R) Core(TM) i7-13700K）。10个 Raspberry Pi 4B 设备作为客户端运行。由于 HTTP 协议具有较强的抗无线错误和丢包能力，我们在数据传输（如模型和梯度传输）中采用了 HTTP 协议。
+为了测试SF-LCT在真实世界中的能耗情况,本文使用树莓派和个人电脑搭建了测试平台，用来测试SF-LCT与其他各种基准算法的能耗比较。如图~\ref{fig:demo}所示，我们的测试平台主要分为两个模块：客户端和服务器，其中服务器包括训练服务器和联邦服务器。每一个客户端都拥有一个HTTP服务器和HTTP下载器，
+用于向服务器提供中间激活值和从下载中间梯度；类似的，服务器上也有$N$个HTTP服务器和一个HTTP下载器，用于向客户端提供中间梯度和下载中间激活值，其中每一个HTTP服务器都与一个客户端严格对应。我们设计的测试平台支持并行数据交换，使用HTTP协议传输
+数据可以消除因网络信号导致的信息损失。并且服务器HTTP服务器与客户端一一对应的设计可以避免网络情况较差的情况下出现传输中断。
 
-每个客户端包含三个模块：客户端侧训练模块、HTTP 下载模块和客户端 HTTP 代理模块。服务器端则包括联邦服务器模块、训练服务器模块、HTTP 下载器模块以及 $N$ 个服务器端 HTTP 代理模块。HTTP 下载器与代理模块负责协调客户端与服务器之间的数据传输，同时支持并行数据交换（即双工通信，并允许多个客户端同时发送或接收数据）。
+如图~\ref{fig:testbed}所示，我们真实的测试平台中使用树莓派（Raspberry Pi 4B）作为客户端设备，使用一台个人电脑（处理器为 13th Gen Intel(R) Core(TM) i7-13700K）同时作为联邦服务器和聚合服务器。
+在模型训练过程中，所有设备只使用CPU进行计算，不适用GPU。
 
-为了通过 HTTP 实现数据传输，每次数据传输都由一个 HTTP 请求触发。这种设计确保了数据交换的高效性与准确性，从而降低了分割-联邦学习的训练延迟，因为 HTTP 协议能够保证可靠的数据传输。
+图~\ref{fig:time}展示了我们的测试平台在SFL上的时序图。对于每一个用户的每一个小批量数据，客户端首先在本地执行客户端训练阶段。在完成本地模型部分的前向传播后，客户端将发送中间激活值至训练服务器。训练服务器接收激活值后，继续进行服务器端训练，完成服务器模型的前向与反向传播计算，并更新服务器模型。
+随后，服务器将计算得到的梯度信息返回，这一过程对应图中客户端请求中间梯度并收到HTTP 回复的交互。客户端接收到发送中间梯度后，完成本地反向传播并更新客户端模型。当所有用户完成一个epoch的训练，就会进入聚合阶段：客户端会在自己本地的HTTP服务器中提供本地的客户端模型参数供联邦服务器下载，
+待联邦服务器聚合得到新的全局模型后，每个客户端再从服务器下载最新的全局模型。整个通信过程基于HTTP 请求与HTTP 回复机制进行交互，确保数据传输的可靠性。上述过程会不断重复，直至模型收敛或达到预设的训练轮次。
+% 的测试平台上，联邦服务器（fed server）和训练服务器（training server）部署在同一台个人电脑上（处理器为 13th Gen Intel(R) Core(TM) i7-13700K）。10个 Raspberry Pi 4B 设备作为客户端运行。由于 HTTP 协议具有较强的抗无线错误和丢包能力，我们在数据传输（如模型和梯度传输）中采用了 HTTP 协议。
+
+% 每个客户端包含三个模块：客户端侧训练模块、HTTP 下载模块和客户端 HTTP 代理模块。服务器端则包括联邦服务器模块、训练服务器模块、HTTP 下载器模块以及 $N$ 个服务器端 HTTP 代理模块。HTTP 下载器与代理模块负责协调客户端与服务器之间的数据传输，同时支持并行数据交换（即双工通信，并允许多个客户端同时发送或接收数据）。
+
+% 为了通过 HTTP 实现数据传输，每次数据传输都由一个 HTTP 请求触发。这种设计确保了数据交换的高效性与准确性，从而降低了分割-联邦学习的训练延迟，因为 HTTP 协议能够保证可靠的数据传输。
+\begin{figure}[htbp]
+% \vspace{-15pt}
+\centering
+\includegraphics[height=7cm]{testbed_chinese.pdf}\\
+(a)\qquad\qquad\qquad\qquad\qquad\qquad(b)
+% \vspace{-5pt}
+\caption{树莓派测试平台系统设计}
+\label{fig:demo}
+% \vspace{-10pt}
+\end{figure}
+\begin{figure}[htbp]
+% \vspace{-15pt}
+\centering
+\includegraphics[height=8cm]{time_chinese.pdf}\\
+(a)\qquad\qquad\qquad\qquad\qquad\qquad(b)
+% \vspace{-5pt}
+\caption{用于SFL的树莓派测试平台时序图}
+\label{fig:time}
+% \vspace{-10pt}
+\end{figure}
+
 
 \section{实验部分}
 \begin{table*}[t]

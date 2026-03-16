@@ -2,95 +2,109 @@
 
 \chapter{资源受限场景下轻量化 SFL 框架的构建}
 \section{引言}
-本章旨在从训练框架构建地角度系统地解决SFL在资源受限场景下的训练部署。据现有
-文献调研，目前还没有研究在SFL训练中使用BP-Free算法，针对这一空白，本章提出了用于SFL的新型训练框架：SOUL-SFL。
-在本章节的内容之中，我们将全面且系统地展示并深入阐述我们所提出的 SOUL-SFL 框架的整体架构设计细节。我们首先概述系统的整体结构以及模型分割的具体策略，随后深入剖析服务器卸载（Server-Offloaded）的设计理念，这一理念是区分我们方法与常规分割联邦学习（SFL）范式的关键所在，也是本框架的核心优势之一。
+本章旨在从训练框架构建的角度，系统性地解决SFL在资源受限场景下的部署难题。基于对现有文献的深入调研，目前尚无研究将BP-Free算法引入 SFL 训练以降低客户端的资源消耗。针对这一研究空白，本章提出了一种面向 SFL 的新型训练框架：SOUL-SFL。
+本章将全面阐述 SOUL-SFL 的整体架构与设计细节。首先，概述系统的总体结构及模型分割策略；随后，重点剖析服务器卸载（Server-Offloaded）的设计理念。该理念不仅是本框架区别于传统 SFL 范式的关键特征，更是其核心优势所在。
+
 
 \section{SOUL-SFL 框架架构设计}
 \label{sec:architecture}
 
 \subsection{系统概述与模型分割策略}
 \label{subsec:overview}
-SOUL-SFL 被构建为一个典型的分布式机器学习系统架构，其核心组成部分主要包括一个负责全局协调的联邦服务器、一个专门用于高强度计算任务的训练服务器，以及一组数量为 $N$ 的客户端设备，该客户端集合记为 $\mathcal{N} = \{1, 2, \dots, N\}$。每一个客户端 $n \in \mathcal{N}$ 都拥有一个私有的本地数据集 $\mathcal{D}_n$，为了确保用户数据的隐私安全性得到保障，这些原始数据始终保留在本地，不会上传至服务器端。全局模型 $\boldsymbol{\omega}$ 被逻辑上分割为两个主要部分：位于客户端的模型部分 $\boldsymbol{\omega}_c$ 和位于服务器端的模型部分 $\boldsymbol{\omega}_s$，从而满足关系式 $\boldsymbol{\omega} = (\boldsymbol{\omega}_c, \boldsymbol{\omega}_s)$。
 
-模型分割的具体位置，通常在学术界被称为“切割层”（cut layer），其选择是经过战略性的考量与选择的，旨在在资源受限的客户端设备与拥有强大计算能力的训练服务器之间，平衡计算负载、内存占用以及通信开销。在 SOUL-SFL 框架的具体设计中，客户端侧模型 $\boldsymbol{\omega}_c$ 由神经网络初始的若干层组成，其设计目标是保持轻量化；而服务器侧模型 $\boldsymbol{\omega}_s$ 则包含了后续更深层的网络结构，这些层通常参数量更大，计算更为复杂。
+SOUL-SFL 的核心组件包括负责全局聚合的联邦服务器、专司高强度计算任务的训练服务器，以及由 $N$ 个客户端设备组成的集合 $\mathcal{N} = \{1, 2, \dots, N\}$。
+与传统SFL的设定相同，每个客户端 $n \in \mathcal{N}$ 持有私有本地数据集 $\mathcal{D}_n$；为严格保障用户隐私，所有原始数据均保留在本地，严禁上传至服务端。
+需要被训练的模型 $\boldsymbol{\omega}$ 被划分为两部分：客户端 $\boldsymbol{\omega}_c$ 与服务器模型 $\boldsymbol{\omega}_s$，即满足 $\boldsymbol{\omega} = (\boldsymbol{\omega}_c, \boldsymbol{\omega}_s)$。
 
-与传统的 SFL 方法显著不同，传统方法通常依赖反向传播（Backpropagation, 简称 BP）这一传统方法来进行模型参数更新，而 SOUL-SFL 旨在通过放弃反向传播并采用一种名为 ULR 的无反向传播梯度估计方法，来最大限度地减少客户端设备端的资源消耗与负担。此外，SOUL-SFL 将涉及客户端模型梯度估计的大部分操作卸载到了训练服务器上。为了促进并实现这种服务器卸载机制的顺利运行，训练服务器不仅包含服务器侧模型，还存储了所有客户端侧模型的副本，以便在服务器端完成复杂的计算任务。
+模型切割点（Cut Layer）的选择至关重要。该策略旨在权衡资源受限的客户端与算力充沛的训练服务器之间的负载分配，以优化计算开销、内存占用及通信成本。在 SOUL-SFL 的具体设计中，$\boldsymbol{\omega}_c$ 由神经网络的前若干层构成，遵循轻量化设计原则；而 $\boldsymbol{\omega}_s$ 则包含后续参数量更大、计算更复杂的深层网络结构。
 
+与传统SFL依赖反向传播进行参数更新不同，SOUL-SFL 摒弃了传统的反向传播机制，转而采用一种名为 ULR 的无反向传播梯度估计方法，使得服务器卸载策略得以实施。
+本框架的服务器策略是指将涉及客户端模型计算梯度的复杂运算全部迁移至训练服务器。为支撑这一机制，训练服务器不仅维护 $\boldsymbol{\omega}_s$，还完整存储了所有客户端模型 $\boldsymbol{\omega}_c$ 的副本，从而在训练服务器中实现客户端模型梯度的计算。
 \subsection{服务器卸载的设计理念}
 \label{subsec:design}
-SOUL-SFL 的核心创新点与关键贡献在于将客户端模型的大部分梯度估计操作卸载至训练服务器执行。在标准的 SFL 流程中，客户端需要通过反向传播在本地计算梯度，这会带来巨大的计算成本和内存占用负担。相比之下，SOUL-SFL 利用 ULR 方法，通过向模型中注入受控噪声并观察输出的变化来估计梯度，从而消除了客户端进行显式链式法则计算的需求。
 
-然而， naive 地集成 ULR 方法需要重复进行噪声注入（通常为 $S$ 步，且 $S \gg 1$）以维持估计的准确性。如果这一迭代过程仍然保留在客户端执行，这将自相矛盾地加剧我们旨在减少的计算和内存负担。为了解决这一矛盾，SOUL-SFL 战略性地将与客户端模型相关的 ULR 操作迁移至训练服务器。指导这一服务器卸载架构设计的基本原则具体如下：
+SOUL-SFL 的核心创新在于提出了一种计算卸载机制，将客户端模型中的梯度估计操作迁移至算力充裕的训练服务器执行。在标准的SFL流程中，
+客户端必须通过反向传播在本地计算梯度，这导致了巨大的计算开销与内存占用。相比之下，SOUL-SFL 利用ULR方法，通过向模型注入受控噪声并观测输出变化来估计梯度，从而从根本上消除了客户端进行显式链式法则计算的需求。
+
+然而，直接集成 ULR 方法面临一个关键挑战：为维持梯度估计的准确性，通常需要进行多次噪声注入迭代（记为 $\Tau$ 步，且 $\Tau \gg 1$）。若将这些迭代过程保留在客户端执行，将与其资源受限的特性产生剧烈冲突，反而加剧了我们旨在消除的计算与内存负担。
+为解决这一矛盾，SOUL-SFL 在架构设计上将所有与客户端模型相关的 ULR 操作完全迁移至训练服务器。指导这一服务器卸载架构设计的两大核心原则如下：
 
 \begin{enumerate}
-    \item \textbf{客户端简洁性设计原则：} 在 SOUL-SFL 框架中，在训练每一个小批量（mini-batch）数据的过程中，客户端仅需使用本地数据在其本地的客户端侧模型上执行单次前向传播操作，随后将通过前向传播获得的激活值（activation）传输至训练服务器。在此之后，客户端只需等待训练服务器返回的新模型参数，而无需参与任何梯度计算过程。
-    \item \textbf{服务器复杂性设计原则：} 训练服务器维护着客户端侧模型的副本。在接收到客户端的激活值后，训练服务器将对模型的所有层（包括客户端侧模型和服务器侧模型）执行 $S$ 步的噪声注入和梯度估计。在估计出梯度之后，训练服务器负责更新客户端侧模型和服务器侧模型的参数，并将更新后的客户端侧模型参数传输回对应的客户端设备。
+    \item \textbf{客户端计算解耦:} 
+    在 SOUL-SFL 框架中，客户端的训练角色被重构为极致的轻量化。在每个mini-batch的处理过程中，客户端仅需执行单次前向传播：利用本地数据通过本地客户端模型计算激活值，
+    并将其传输至训练服务器。此后，客户端进入等待状态，直至接收服务器返回的更新后模型参数。在此过程中，客户端无需参与任何梯度计算、反向传播或中间激活值的存储，实现了计算与内存负载的理论最小化。
+    
+    \item \textbf{服务器代理计算:} 
+    训练服务器维护着客户端模型片段的完整副本。在接收到客户端上传的激活值后，服务器接管全部计算负载，对完整模型（包含客户端模型与服务器模型）执行 $\Tau$ 步的噪声注入与梯度估计。
+    完成估计后，服务器负责统一更新全局模型参数，并将优化后的客户端侧参数下发至对应设备。该原则充分利用了服务器的算力冗余，以集中式的计算换取客户端的高效运行。
 \end{enumerate}
 
-每次模型参数更新时，客户端仅需进行一次前向传播，无需进行反向传播或其他复杂计算，也无需存储激活值或计算图。因此，客户端设备上的计算和内存负担得到了显著地降低与优化。此外，在传统的 SFL 中，训练服务器必须将客户端侧模型的梯度传输给客户端。相比之下，在本方法中，仅需传输更新后的模型参数。由于模型参数的大小通常小于对应梯度的大小，这种服务器卸载设计进一步降低了 SOUL-SFL 中的通信开销与负担。
-
-\section{训练协议与流程}
+基于上述设计，SOUL-SFL 显著降低了客户端的资源门槛。客户端彻底摆脱了对计算图和激活值缓存的依赖，无需执行高耗能的反向传播操作。此外，与传统 SFL 需在反向传播阶段于服务器与客户端间传输中间梯度不同，SOUL-SFL 仅在服务器端完成更新后向客户端下发模型参数。
+这一机制显著降低了通信开销，进一步优化了通信效率。
+\subsection{SOUL-SFL 的训练流程}
 \label{sec:protocol}
-在本章节中，我们将详细阐述梯度估计机制的数学公式化表达以及 SOUL-SFL 的具体训练步骤与流程细节。我们首先描述如何在没有反向传播的情况下估计梯度，随后逐步 outline 训练过程的具体流程。
 
-\subsection{SOUL-SFL 训练流程与无反向传播梯度估计机制}
-\label{subsec:training_and_gradient}
+SOUL-SFL 的整体训练过程包含 $R$ 个通信轮次（rounds），每个轮次由 $E$ 个本地 epoch 组成。为了在保障数据隐私的同时优化系统性能，
+本框架采用基于噪声注入的BP-Free方法 \cite{jiang2023one} 来分别估计客户端与服务器模型的梯度。其核心思想是通过向模型参数或激活值中注入结构化噪声，观测输出变化以计算零阶梯度估计值，并将繁重的梯度计算任务完全卸载至服务器端。
+针对每个小批量数据 $\zeta_n \subset \mathcal{D}_n$ 的具体处理步骤详见算法 \ref{alg:soul-sfl}。以下结合梯度估计公式，分阶段详述该协议的工作机理。
 
-SOUL-SFL 的整体训练过程在 $R$ 个通信轮次（rounds）之中进行开展，每个轮次包含 $E$ 个本地 epoch。为了在保护隐私的同时优化系统的整体性能表现，本框架采用无反向传播（BP-free）的 ULR 方法 \cite{jiang2023one} 来估计客户端侧和服务器侧模型的梯度。其核心思想与基本理念是向模型的参数或其激活值中注入精心构建与结构的噪声，然后观察 resulting 的输出以计算零阶梯度估计值，从而将所有梯度估计的计算负担转移到了服务器上得以实现。每个小批量 $\zeta_n \subset \mathcal{D}_n$ 的详细处理过程与步骤在算法 \ref{alg:soul-sfl} 中予以列出，以下将结合具体的梯度估计公式，分步骤详细描述该协议的工作流程。
+\textbf{步骤 1：客户端前向传播。}
+在此阶段，客户端 $n$ 利用其本地模型 $\boldsymbol{\omega}_{c,n}^r$ 对小批量数据 $\zeta_n$ 执行单次前向传播，计算中间激活值：
+\begin{equation}
+    \mathbf{h}_n = \boldsymbol{\omega}_{c,n}^r(\zeta_n).
+\end{equation}
+随后，中间激活值 $\mathbf{h}_n$ 被传输至服务器。值得注意的是，此步骤中客户端不涉及任何梯度计算或噪声注入操作，显著降低了客户端的能耗与计算负担。
 
-\textbf{步骤 1：客户端前向传播。} 
-在此阶段，客户端 $n$ 使用其本地模型 $\boldsymbol{\omega}_{c,n}^r$ 和小批量数据 $\zeta_n$ 计算中间层的激活值数据。具体而言，客户端执行单次前向传播 $\mathbf{h}_n = \boldsymbol{\omega}_{c,n}^r(\zeta_n)$。激活值 $\mathbf{h}_n$ 被传输至训练服务器。值得注意的是，在此步骤中，客户端设备上不发生任何梯度计算过程或噪声注入，这极大地降低了客户端的能耗。
-
-\textbf{步骤 2：客户端模型更新。} 
-服务器接收到激活值 $\mathbf{h}_n$ 后，将其视为其存储的客户端侧模型副本 $(\boldsymbol{\omega}_{c,n}^{r-1})'$ 的输出结果。为了在不进行反向传播的情况下更新客户端模型，服务器应用激活值噪声注入方法来估计梯度。对于每一步 $s = 1, \dots, S$（其中 $S$ 表示为了获得稳定的梯度估计结果所需的噪声注入总步数），设 $\boldsymbol{\epsilon}_h^{(s)}$ 为从 $\mathcal{N}(0, \mathbf{I})$ 中抽取的噪声张量，对应于该层的激活值。给定一个可学习的噪声尺度参数 $\boldsymbol{\sigma}$，扰动后的激活值 $\tilde{\mathbf{h}}^{(s)}$ 计算如下：
+\textbf{步骤 2：训练服务器端更新客户端模型。}
+训练服务器接收到激活值 $\mathbf{h}_n$ 后，将其视为本地存储的客户端模型副本 $(\boldsymbol{\omega}_{c,n}^{r-1})'$ 的输出。为避免反向传播，服务器采用激活值噪声注入策略来估计梯度。
+具体而言，对于每一步 $\tau \in \{1, 2, \dots, T\}$（其中 $T$ 为获得稳定梯度估计所需的噪声采样次数）：
+设 $\xi_h^{(\tau)} \sim \mathcal{N}(0, \mathbf{I})$ 为对应于该层激活值的噪声张量，$\boldsymbol{\rho}$ 为可学习的噪声尺度参数。扰动后的激活值 $\tilde{\mathbf{h}}^{(\tau)}$ 定义为：
 \begin{equation}
 \label{eq:act_noise}
-\tilde{\mathbf{h}}^{(s)} = \mathbf{h} + \boldsymbol{\epsilon}_h^{(s)} \odot \exp(\boldsymbol{\sigma}),
+\tilde{\mathbf{h}}^{(\tau)} = \mathbf{h} + \xi_h^{(\tau)} \odot \exp(\boldsymbol{\rho}),
 \end{equation}
-其中 $\mathbf{h} = f(\mathbf{x}; \mathbf{W}, \mathbf{b})$ 表示由客户端侧模型计算得出的原始激活值，$\odot$ 表示逐元素乘法运算。随后，关于激活值的零阶梯度估计如下：
+其中 $\mathbf{h} = f(\mathbf{x}; \mathbf{W}, \mathbf{b})$ 表示原始激活值，$\odot$ 表示逐元素乘法（Hadamard product）。基于此，关于激活值的零阶梯度估计量为：
 \begin{equation}
 \label{eq:grad_h}
-\hat{\nabla}_{\mathbf{h}} \mathcal{L} = \frac{1}{S} \sum_{s=1}^{S} \frac{\boldsymbol{\epsilon}_h^{(s)}}{\exp(\boldsymbol{\sigma})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(s)}).
+\hat{\nabla}_{\mathbf{h}} \mathcal{L} = \frac{1}{T} \sum_{\tau=1}^{T} \frac{\xi_h^{(\tau)}}{\exp(\boldsymbol{\rho})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(\tau)}),
 \end{equation}
-在此处，$\mathcal{L}(\cdot)$ 表示损失函数被评估于扰动激活值上。随后，关于客户端侧模型参数（设 $\mathbf{W}$ 和 $\mathbf{b}$ 分别表示模型某一层的权重和偏置）和噪声尺度的梯度通过服务器端的链式法则获得：
+其中 $\mathcal{L}(\cdot)$ 为在扰动激活值上评估的损失函数。进而，利用链式法则在服务器端推导客户端模型参数（权重 $\mathbf{W}$ 和偏置 $\mathbf{b}$）及噪声尺度的梯度：
 \begin{align}
 \label{eq:grad_w_chain}
 \hat{\nabla}_{\mathbf{W}} \mathcal{L} &= \hat{\nabla}_{\mathbf{h}} \mathcal{L} \cdot \frac{\partial \mathbf{h}}{\partial \mathbf{W}}, \\
 \label{eq:grad_b_chain}
 \hat{\nabla}_{\mathbf{b}} \mathcal{L} &= \hat{\nabla}_{\mathbf{h}} \mathcal{L} \cdot \frac{\partial \mathbf{h}}{\partial \mathbf{b}},\\
 \label{eq:grad_sigma_act}
-\hat{\nabla}_{\boldsymbol{\sigma}} \mathcal{L} &= \frac{1}{S} \sum_{s=1}^{S} \big((\boldsymbol{\epsilon}_h^{(s)})^2 - 1\big) \, \mathcal{L}(\tilde{\mathbf{h}}^{(s)}).
+\hat{\nabla}_{\boldsymbol{\rho}} \mathcal{L} &= \frac{1}{T} \sum_{\tau=1}^{T} \left((\xi_h^{(\tau)})^2 - 1\right) \, \mathcal{L}(\tilde{\mathbf{h}}^{(\tau)}).
 \end{align}
-利用这些被估计出来的梯度信息，服务器更新 $(\boldsymbol{\omega}_{c,n}^{r-1})'$ 的参数。需要特别说明的是，在估计客户端侧模型的梯度时，噪声被添加到激活值上，这使得整个梯度估计过程可以在训练服务器上完成。如果为了估计客户端侧模型的梯度而将噪声添加到模型参数上，则每次添加噪声时都需要进行一次新的前向传播以生成新的激活值并观察这些激活值的变化。这将极大地增加与加重客户端设备上的计算、内存和通信负担，因此本步骤采用激活值噪声策略。更新后的参数随后被发送回客户端 $n$。
+服务器利用上述估计梯度更新模型副本 $(\boldsymbol{\omega}_{c,n}^{r-1})'$。需特别说明的是，选择对激活值而非模型参数添加噪声，是为了避免每次噪声注入时都需在客户端重新执行前向传播。
+若对参数加噪，将导致客户端计算、内存及通信开销剧增。因此，激活值噪声策略是实现梯度计算过程完全卸载的关键。更新后的参数将被发送回客户端 $n$。
 
-\textbf{步骤 3：客户端参数同步。} 
-客户端 $n$ 将其本地模型参数 $\boldsymbol{\omega}_{c,n}^r$ 替换为接收到的更新参数 $(\boldsymbol{\omega}_{c,n}^{r-1})'$。这在客户端没有任何反向传播的情况下完成了当前小批量的本地更新的步骤。客户端只需覆盖其权重，仅需极少量的计算资源，从而实现了计算负载的完全卸载。
+\textbf{步骤 3：客户端参数同步。}
+客户端 $n$ 直接使用接收到的更新参数 $(\boldsymbol{\omega}_{c,n}^{r-1})'$ 覆盖其本地模型 $\boldsymbol{\omega}_{c,n}^r$。该过程无需客户端执行任何反向传播，仅需极少的计算资源即可完成本地更新。
 
-\textbf{步骤 4：服务器侧模型更新。} 
-与此同时，服务器使用 ULR 方法更新其自身的服务器侧模型 $\boldsymbol{\omega}_s^r$。对于这些层，由于服务器端的计算资源是充足且丰富的，服务器可以选择参数噪声或激活值噪声。为了展示框架的灵活性，此处以参数噪声注入为例进行说明。对于每一步 $s = 1, \dots, S$，设 $\boldsymbol{\epsilon}_W^{(s)}$ 和 $\boldsymbol{\epsilon}_b^{(s)}$ 为分别从 $\mathcal{N}(0, \mathbf{I})$ 中抽取的独立的噪声张量，分别对应于某一层的权重和偏置。给定一个可学习的噪声尺度参数 $\boldsymbol{\sigma}$，扰动后的激活值 $\tilde{\mathbf{h}}^{(s)}$ 计算如下：
+\textbf{步骤 4：训练服务器端更新服务器模型。}
+与此同时，训练服务器利用 ULR 方法更新其自身的服务器模型 $\boldsymbol{\omega}_s^r$。对于这部分模型，训练服务器既可采用前述的激活值噪声策略（公式~\ref{eq:act_noise}--公式~\ref{eq:grad_sigma_act}），也可选择参数噪声注入策略。若采用后者，具体步骤如下：
+对于每一步 $\tau \in \{1, 2, \dots, T\}$，设 $\xi_W^{(\tau)}$ 和 $\xi_b^{(\tau)}$ 分别为独立采样自 $\mathcal{N}(0, \mathbf{I})$ 的噪声张量，对应权重 $\mathbf{W}$ 和偏置 $\mathbf{b}$。给定噪声尺度参数 $\boldsymbol{\rho}$，扰动后的输出 $\tilde{\mathbf{h}}^{(\tau)}$ 计算为：
 \begin{equation}
 \label{eq:param_noise}
-\tilde{\mathbf{h}}^{(s)} = (\mathbf{W} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon}_W^{(s)}) \mathbf{x} + (\mathbf{b} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon}_b^{(s)}),
+\tilde{\mathbf{h}}^{(\tau)} = (\mathbf{W} + \boldsymbol{\rho} \odot \xi_W^{(\tau)}) \mathbf{x} + (\mathbf{b} + \boldsymbol{\rho} \odot \xi_b^{(\tau)}),
 \end{equation}
-其中 $\mathbf{x}$ 是该层的输入。随后，关于权重、偏置和噪声尺度的梯度估计计算如下：
+其中 $\mathbf{x}$ 为该层输入。随后，权重、偏置及噪声尺度的梯度估计量为：
 \begin{align}
 \label{eq:grad_w}
-\hat{\nabla}_{\mathbf{W}} \mathcal{L} &= \frac{1}{S} \sum_{s=1}^{S} \frac{\boldsymbol{\epsilon}_W^{(s)}}{\exp(\boldsymbol{\sigma})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(s)}), \\
+\hat{\nabla}_{\mathbf{W}} \mathcal{L} &= \frac{1}{T} \sum_{\tau=1}^{T} \frac{\xi_W^{(\tau)}}{\exp(\boldsymbol{\rho})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(\tau)}), \\
 \label{eq:grad_b}
-\hat{\nabla}_{\mathbf{b}} \mathcal{L} &= \frac{1}{S} \sum_{s=1}^{S} \frac{\boldsymbol{\epsilon}_b^{(s)}}{\exp(\boldsymbol{\sigma})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(s)}), \\
+\hat{\nabla}_{\mathbf{b}} \mathcal{L} &= \frac{1}{T} \sum_{\tau=1}^{T} \frac{\xi_b^{(\tau)}}{\exp(\boldsymbol{\rho})} \, \mathcal{L}(\tilde{\mathbf{h}}^{(\tau)}), \\
 \label{eq:grad_sigma_param}
-\hat{\nabla}_{\boldsymbol{\sigma}} \mathcal{L} &= \frac{1}{S} \sum_{s=1}^{S} \Big((\boldsymbol{\epsilon}_W^{(s)})^2 + (\boldsymbol{\epsilon}_b^{(s)})^2 - 2 \Big) \, \mathcal{L}(\tilde{\mathbf{h}}^{(s)}).
+\hat{\nabla}_{\boldsymbol{\rho}} \mathcal{L} &= \frac{1}{T} \sum_{\tau=1}^{T} \left((\xi_W^{(\tau)})^2 + (\xi_b^{(\tau)})^2 - 2 \right) \, \mathcal{L}(\tilde{\mathbf{h}}^{(\tau)}).
 \end{align}
-损失基于最终预测计算，服务器侧权重相应地进行更新。服务器侧模型 $\boldsymbol{\omega}_s^r$ 被集中地维护，不需要进行聚合操作。
+训练服务器根据最终预测损失直接更新服务器模型权重，该过程无需聚合操作。
 
-\textbf{步骤 5：全局聚合。} 
-在所有客户端完成其本地 epoch 之后，联邦服务器聚合客户端侧模型以形成全局客户端侧模型 $\boldsymbol{\omega}_c^r$：
-\begin{equation}
-\label{eq:aggregation}
-\boldsymbol{\omega}_c^r = \sum_{n=1}^{N} \frac{|\mathcal{D}_n|}{\sum_{n'=1}^{N} |\mathcal{D}_{n'}|} \boldsymbol{\omega}_{c,n}^r.
-\end{equation}
-经过 $R$ 个轮次后，最终的全局模型被获得为 $\boldsymbol{\omega}^R = (\boldsymbol{\omega}_c^R, \boldsymbol{\omega}_s^R)$。通过上述步骤，SOUL-SFL 成功地将复杂的梯度估计过程整合进训练流程中，既保证了模型性能，又实现了客户端的轻量化。
+\textbf{步骤 5：全局聚合。}
+当所有客户端完成本地 epoch 后，联邦服务器执行公式~\ref{eq:c-agg} 所示的聚合操作，整合各客户端模型以构建全局客户端模型 $\boldsymbol{\omega}_c^r$。
+
+经过 $R$ 个轮次的迭代，最终获得全局模型 $\boldsymbol{\omega}^R = (\boldsymbol{\omega}_c^R, \boldsymbol{\omega}_s^R)$。综上所述，SOUL-SFL 通过将复杂的梯度估计过程整合至服务器端，在确保模型收敛性能的同时，成功实现了客户端的极致轻量化。
 \begin{algorithm}[t]
 \caption{SOUL-SFL 算法流程}
 \label{alg:soul-sfl}
@@ -116,50 +130,109 @@ SOUL-SFL 的整体训练过程在 $R$ 个通信轮次（rounds）之中进行开
 \end{algorithmic}
 \end{algorithm}
 
+\subsection{树莓派测试平台的实现}
+为了方便测试SOUL-SFL在现实场景中的表现，我们对~\ref{sec:testbed}中的树莓派测试平台进行了修改，但测试平台的硬件和设计模块仍沿用上一个测试平台的指标：联邦服务器和训练服务器都部署在一台个人电脑上（13th Gen Intel(R) Core(TM) i7-13700K）。测试床包括十个 Raspberry Pi 4B 单元作为客户端。在训练过程中，训练服务器和客户端都利用 CPU 进行训练，不使用 GPU。我们使用 HTTP 进行数据传输。
+\begin{figure}[t]
+\centering
+\includegraphics[height=8cm]{figures/time2.pdf}
+
+\caption{用于SOUL-SFL的树莓派测试平台时序图}
+\label{fig:time2}
+\end{figure}
+唯一的修改点在于树莓派测试平台的工作时序。在用于SFL-V1和SFL-V2的树莓派测试平台上，训练服务器会在服务器模型完成反向传播以后再向客户端发送数据。而在这里，如图~\ref{fig:time2}所示，训练服务器需要在位于训练服务器的客户端模型参数副本更新后，立即将更新后的客户端模型参数发送给
+客户端。
+% \section{客户端资源消耗分析}
+% 在本小节中，我们深入分析 SOUL-SFL 中客户端设备的计算成本的开销、内存占用和通信开销。我们将 SOUL-SFL 与两个基线方法进行对比分析：1) 基于反向传播（BP）的原始 SFL 框架，记为``SFL''；2) SFL 的一种变体方法，称为``ULR-SFL''，它使用 ULR 方法估计梯度，但与 SOUL-SFL 不同，它不将相关的计算或内存负担卸载到服务器。以下部分将详细说明客户端的计算成本（第~\ref{sec:computation} 节）、内存占用（第~\ref{sec:memory} 节）和通信开销（第~\ref{sec:communication} 节）。所有后续分析均从单个客户端的视角出发，重点关注由处理一个小批量数据所产生的资源消耗。由于 SFL 中客户端模型聚合的频率是极低的，且模型聚合通常仅在被触发之后每个用户处理超过 100 个小批量数据后，因此我们在此不考虑模型聚合阶段的开销。
+
+% \subsection{SOUL-SFL 的计算成本}\label{sec:computation}
+
+% \paragraph{SOUL-SFL}
+% 客户端设备上的主要计算成本局限于单次的前向传播过程。将一次前向传播的计算成本表示为 $F$（例如，以 FLOPs 为单位），SOUL-SFL 中的客户端计算量恰好为 $F$，或在渐近符号表示中为 $O(F)$。这种效率源于通过 ULR 将梯度估计和反向传播卸载到服务器。在将激活值转发到服务器后，客户端只需等待并应用更新后的模型参数，产生可忽略不计的额外计算量。
+
+% \paragraph{SFL}
+% 在标准 SFL 中，客户端在本地执行前向和反向传播两者。就浮点运算操作而言，反向传播通常需要大约两倍的计算努力相比于前向传播~\cite{rumelhart1986learning,goodfellow2016deep}。因此，每个小批量的总客户端计算成本为 $F + 2F = 3F$，这在渐近意义上是 $O(F)$，但常数因子显著大于 SOUL-SFL。
+
+% \paragraph{对比分析}
+% 三种方法的实际计算成本存在显著差异：
+% \begin{itemize}
+%     \item SOUL-SFL: $F$;
+%     \item SFL: $3F$ ;
+% \end{itemize}
+% 因此，SOUL-SFL 通过消除本地反向传播和重复的前向注入，实现了最低的客户端计算开销，使其对于资源有限的客户端特别有利。
+
+% \subsection{SOUL-SFL 的内存占用}\label{sec:memory}
+
+% \paragraph{SOUL-SFL}
+% 在 SOUL-SFL 中，客户端仅执行前向传播。在计算并将激活值发送到服务器后，它会丢弃所有的中间张量数据，因为不需要本地反向传播。因此，客户端只需要存储单次前向传播所必需的激活值。将此激活值内存表示为 $M$，SOUL-SFL 的客户端内存占用为 $O(M)$。
+
+% \paragraph{SFL}
+% 在标准 SFL 中，客户端必须在本地执行前向和反向传播两者。为了支持反向传播，框架保留了计算图结构和梯度计算所需的所有中间激活值。众所周知的是，与仅前向执行相比，这会使峰值内存消耗加倍~\cite{chen2016training,goodfellow2016deep,rhu2016vdnn}。因此，SFL 中的客户端内存占用约为 $2M$，即在渐近符号中为 $O(M)$，但具有更大的常数因子。
+
+% \paragraph{对比分析}
+% 三种方法的实际内存占用存在显著差异：
+% \begin{itemize}
+%     \item SOUL-SFL 仅需 $M$ ;
+%     \item SFL 需约 $2M$;
+% \end{itemize}
+% 因此，SOUL-SFL 在这三种方法中实现了最低的客户端内存占用，使其特别适合用于内存受限的设备。
+
+% \subsection{SOUL-SFL 的通信开销}\label{sec:communication}
+
+% \paragraph{SOUL-SFL}
+% 在 SOUL-SFL 中，通信开销来源于两个来源：客户端将激活值发送到训练服务器，服务器将更新后的模型参数发送回客户端。设 $A$ 表示每个小批量传输的激活值大小，$G$ 表示更新后的模型参数大小（对应于客户端侧模型）。因此，每轮的总通信成本为 $A + G$，产生的通信复杂度为 $O(A + G)$。
+
+% \paragraph{SFL}
+% 在标准 SFL 中，每个训练迭代涉及双向通信过程：客户端将前向传播激活值（大小 $A$）发送到服务器，服务器返回关于这些激活值的梯度。由于梯度张量具有与激活值张量相同的形状，其大小也约为 $A$。因此，SFL 中每个小批量的总通信成本为 $A + A = 2A$，即 $O(A)$。
+
+% \paragraph{对比分析}
+% 对于典型的神经网络层，激活值的大小 $A$ 远超过相应模型参数的大小 $G$（即 $A > G$）。在此条件之下：
+% \begin{itemize}
+%     \item SFL 产生的通信成本 $\approx 2A$;
+%     \item SOUL-SFL 产生的通信成本 $A + G < 2A $;
+% \end{itemize}
+% 因此，与 SFL 相比，SOUL-SFL 减少了通信开销。ULR-SFL 通过完全消除了后向通信实现了最低的通信开销。
+
 \section{客户端资源消耗分析}
-在本小节中，我们深入分析 SOUL-SFL 中客户端设备的计算成本的开销、内存占用和通信开销。我们将 SOUL-SFL 与两个基线方法进行对比分析：1) 基于反向传播（BP）的原始 SFL 框架，记为``SFL''；2) SFL 的一种变体方法，称为``ULR-SFL''，它使用 ULR 方法估计梯度，但与 SOUL-SFL 不同，它不将相关的计算或内存负担卸载到服务器。以下部分将详细说明客户端的计算成本（第~\ref{sec:computation} 节）、内存占用（第~\ref{sec:memory} 节）和通信开销（第~\ref{sec:communication} 节）。所有后续分析均从单个客户端的视角出发，重点关注由处理一个小批量数据所产生的资源消耗。由于 SFL 中客户端模型聚合的频率是极低的，且模型聚合通常仅在被触发之后每个用户处理超过 100 个小批量数据后，因此我们在此不考虑模型聚合阶段的开销。
+
+本小节旨在深入剖析 SOUL-SFL 框架下客户端设备的资源消耗特征，涵盖计算成本、内存占用及通信开销三个关键维度。为了突显本方案的优势，我们将 SOUL-SFL 与基于传统反向传播的标准分裂联邦学习框架（以下简称``SFL''）进行详尽的对比评估。
+随后的第~\ref{sec:computation} 节、第~\ref{sec:memory} 节和第~\ref{sec:communication} 节将分别针对上述三个维度展开定量与定性分析。需要强调的是，所有分析均立足于单个客户端视角，聚焦于处理单个小批量（mini-batch）数据所产生的即时资源负载。
+鉴于 SFL 架构中客户端模型聚合的频率极低，本节分析暂不纳入模型聚合阶段的额外开销，以确保对训练迭代过程核心成本的精准刻画。
 
 \subsection{SOUL-SFL 的计算成本}\label{sec:computation}
 
-\paragraph{SOUL-SFL}
-客户端设备上的主要计算成本局限于单次的前向传播过程。将一次前向传播的计算成本表示为 $F$（例如，以 FLOPs 为单位），SOUL-SFL 中的客户端计算量恰好为 $F$，或在渐近符号表示中为 $O(F)$。这种效率源于通过 ULR 将梯度估计和反向传播卸载到服务器。在将激活值转发到服务器后，客户端只需等待并应用更新后的模型参数，产生可忽略不计的额外计算量。
+客户端计算效率的核心差异源于梯度更新机制的根本不同。在 SOUL-SFL 架构中，客户端的计算负担被严格限制在单次前向传播之内。若定义一次完整前向传播所需的浮点运算量（FLOPs）为 $\Phi$，则 SOUL-SFL 中客户端的单步计算量精确等于 $\Phi$，其渐近复杂度表示为 $O(\Phi)$。
+这一高效性归因于本文提出的服务器卸载策略，该策略成功将梯度估计过程完全卸载至服务器端。。
 
-\paragraph{SFL}
-在标准 SFL 中，客户端在本地执行前向和反向传播两者。就浮点运算操作而言，反向传播通常需要大约两倍的计算努力相比于前向传播~\cite{rumelhart1986learning,goodfellow2016deep}。因此，每个小批量的总客户端计算成本为 $F + 2F = 3F$，这在渐近意义上是 $O(F)$，但常数因子显著大于 SOUL-SFL。
+相比之下，标准 SFL 要求客户端在本地同时承担前向传播与反向传播的双重任务。根据深度学习理论及实证研究~\cite{rumelhart1986learning,goodfellow2016deep}，反向传播过程的计算强度通常为前向传播的两倍左右，
+这是因为反向传播不仅需要遍历相同的网络层，还需执行链式法则下的梯度矩阵乘法与累加操作。因此，在标准 SFL 中，处理每个小批量数据的总计算成本由前向部分的 $\Phi$ 与反向部分的 $2\Phi$ 构成，总计约为 $3\Phi$。
+尽管从渐近符号的角度来看，两者同为 $O(\Phi)$ 级别，但标准 SFL 引入了显著的常数因子倍增，导致其实际计算负载远高于 SOUL-SFL。
 
-\paragraph{对比分析}
-三种方法的实际计算成本存在显著差异：
-\begin{itemize}
-    \item SOUL-SFL: $F$;
-    \item SFL: $3F$ ;
-\end{itemize}
-因此，SOUL-SFL 通过消除本地反向传播和重复的前向注入，实现了最低的客户端计算开销，使其对于资源有限的客户端特别有利。
+综上所述，两种范式在实际算力需求上存在数量级般的差距：SOUL-SFL 仅需 $\Phi$ 的算力支撑，而标准 SFL 则高达 $3\Phi$。
+通过彻底消除本地反向传播环节以及避免重复的前向注入计算，SOUL-SFL 实现了客户端计算开销的最小化。这一特性使其在处理能力受限的边缘设备（如移动终端或 IoT 节点）上展现出极大的部署优势，能够有效延长设备续航并减少计算延迟。
 
 \subsection{SOUL-SFL 的内存占用}\label{sec:memory}
 
-\paragraph{SOUL-SFL}
-在 SOUL-SFL 中，客户端仅执行前向传播。在计算并将激活值发送到服务器后，它会丢弃所有的中间张量数据，因为不需要本地反向传播。因此，客户端只需要存储单次前向传播所必需的激活值。将此激活值内存表示为 $M$，SOUL-SFL 的客户端内存占用为 $O(M)$。
+内存占用的差异主要取决于是否需要在本地区域内维护完整的计算图和中间激活值以支持反向传播。在 SOUL-SFL 中，由于客户端仅执行前向传播，其内存管理策略极为精简。一旦激活值计算完成并被发送至服务器，所有用于中间计算的张量数据即可立即释放，因为后续步骤无需在本地回溯梯度。
+这意味着客户端仅需分配足以容纳单次前向传播所需激活值的内存空间。若将该部分峰值内存需求记为 $\psi$，则 SOUL-SFL 的客户端内存占用稳定在 $O(\psi)$ 水平，且实际占用量接近理论下限 $\psi$。
 
-\paragraph{SFL}
-在标准 SFL 中，客户端必须在本地执行前向和反向传播两者。为了支持反向传播，框架保留了计算图结构和梯度计算所需的所有中间激活值。众所周知的是，与仅前向执行相比，这会使峰值内存消耗加倍~\cite{chen2016training,goodfellow2016deep,rhu2016vdnn}。因此，SFL 中的客户端内存占用约为 $2M$，即在渐近符号中为 $O(M)$，但具有更大的常数因子。
+反观 标准 SFL，为了支持本地的反向传播算法，框架必须在整个前向传播过程中保留计算图结构及所有中间激活值，以便在反向阶段重新利用这些数据进行梯度计算。现有文献广泛指出~\cite{chen2016training,goodfellow2016deep,rhu2016vdnn}，
+这种对历史激活值的持久化存储会导致峰值内存消耗相较于纯前向执行模式翻倍。具体而言，标准 SFL 不仅需要存储当前的激活值，还需维护用于梯度回传的中间状态，导致其客户端内存占用攀升至约 $2\psi$。虽然在渐近表示上仍为 $O(\psi)$，但其常数因子的大幅增加对于内存受限的设备构成了严峻挑战。
 
-\paragraph{对比分析}
-三种方法的实际内存占用存在显著差异：
-\begin{itemize}
-    \item SOUL-SFL 仅需 $M$ ;
-    \item SFL 需约 $2M$;
-\end{itemize}
-因此，SOUL-SFL 在这三种方法中实现了最低的客户端内存占用，使其特别适合用于内存受限的设备。
+对比两者的实际内存表现，SOUL-SFL 仅需 $\psi$ 的基础内存，而标准 SFL 则需耗费约 $2\psi$ 的空间。SOUL-SFL 通过解除本地对计算图的依赖，显著降低了内存峰值压力，使其成为内存敏感型应用场景的理想选择，有效避免了因内存溢出导致的训练中断风险。
 
 \subsection{SOUL-SFL 的通信开销}\label{sec:communication}
 
-\paragraph{SOUL-SFL}
-在 SOUL-SFL 中，通信开销来源于两个来源：客户端将激活值发送到训练服务器，服务器将更新后的模型参数发送回客户端。设 $A$ 表示每个小批量传输的激活值大小，$G$ 表示更新后的模型参数大小（对应于客户端侧模型）。因此，每轮的总通信成本为 $A + G$，产生的通信复杂度为 $O(A + G)$。
+通信开销在两种框架中呈现出不同的特征，主要涉及下行数据传输的内容差异。在 SOUL-SFL 中，每一轮训练的通信流程包含两个阶段：首先，客户端将前向传播生成的激活值上传至训练服务器；其次，服务器完成全局更新后，将更新后的客户端侧模型参数下发回客户端。
+设每个小批量对应的激活值传输大小为 $A_{act}$，客户端侧模型参数量对应的数据大小为 $A_{mod}$。因此，SOUL-SFL 每轮的总通信成本为 $A_{act} + A_{mod}$，其通信复杂度为 $O(A_{act} + A_{mod})$。
 
-\paragraph{SFL}
-在标准 SFL 中，每个训练迭代涉及双向通信过程：客户端将前向传播激活值（大小 $A$）发送到服务器，服务器返回关于这些激活值的梯度。由于梯度张量具有与激活值张量相同的形状，其大小也约为 $A$。因此，SFL 中每个小批量的总通信成本为 $A + A = 2A$，即 $O(A)$。
+而在 标准 SFL 中，通信过程同样涉及双向交互，但数据性质有所不同。客户端首先上传前向激活值（大小为 $A_{act}$）；随后，服务器继续在服务器模型上执行前向传播和反向传播，并将计算得到的中间梯度返回给客户端以供其本地反向传播使用。
+由于梯度张量的维度与激活值张量完全一致，其数据体量也近似为 $A_{act}$。因此，标准 SFL 中每个小批量的通信总量为上行 $A_{act}$ 加上下行 $A_{act}$，即 $2A_{act}$，复杂度表示为 $O(A_{act})$。
 
-\begin{table*}[t]
+在典型的深度神经网络中，中间层的激活值体积 $A_{act}$ 往往远大于对应的模型参数量 $A_{mod}$（即 $A_{act} \gg A_{mod}$）。
+因此SOUL-SFL 的总通信量 $A_{act} + A_{mod}$ 严格小于标准 SFL 的 $2A_{act}$。%更重要的是，SOUL-SFL 通过将下行通信从“梯度传输”转变为“参数更新传输”，不仅减少了数据量，还改变了通信模式，使其更适应带宽波动的网络环境。虽然某些变体（如 ULR-SFL 的极端情况）可能通过进一步压缩完全消除后向通信，但在本基础对比中，SOUL-SFL 已凭借 $A+G < 2A$ 的优势，实现了比传统 SFL 更低的通信开销，显著提升了分布式训练在弱网环境下的可行性。
+
+
+\begin{table}[t]
 \centering
 \caption{各种算法在 CIFAR-10、CIFAR-100 和 Fashion-MNIST 上的测试准确率 (\%) 比较}
 \label{table:compare_accuracy}
@@ -194,18 +267,12 @@ SOUL-SFL 的整体训练过程在 $R$ 个通信轮次（rounds）之中进行开
 \multicolumn{11}{l}{\textbf{$\Delta$BP-SFL} 和 \textbf{$\Delta$ULR-SFL} 分别表示相对于 BP-SFL 和 ULR-SFL 的准确率差异（百分点）。}
 \end{tabular}
 }
-\end{table*}
+\end{table}
 
-\paragraph{对比分析}
-对于典型的神经网络层，激活值的大小 $A$ 远超过相应模型参数的大小 $G$（即 $A > G$）。在此条件之下：
-\begin{itemize}
-    \item SFL 产生的通信成本 $\approx 2A$;
-    \item SOUL-SFL 产生的通信成本 $A + G < 2A $;
-\end{itemize}
-因此，与 SFL 相比，SOUL-SFL 减少了通信开销。ULR-SFL 通过完全消除了后向通信实现了最低的通信开销。
 
-\section{实验评估}
-\begin{table*}[t]
+
+% \section{实验评估}
+\begin{table}[t]
 \centering
 \caption{各种算法在 Fashion-MNIST 上的客户端计算成本、内存占用和通信开销比较}
 \label{table:compare_memory}
@@ -238,44 +305,38 @@ SOUL-SFL 的整体训练过程在 $R$ 个通信轮次（rounds）之中进行开
 \multicolumn{11}{l}{\textbf{$\Delta$BP-SFL} 和 \textbf{$\Delta$ULR-SFL} 分别表示相对于 BP-SFL 和 ULR-SFL 的差异。}
 \end{tabular}
 }
-\end{table*}
+\end{table}
+
+
 
 \subsection{实验设置}
+本研究在仿真环境与物理测试床两种场景下评估了所提方法的有效性。我们选取了 ResNet-5 和 VGG-8 两种卷积神经网络架构，并在IID数据假设下进行验证。所有实验小批量数据的大小均为 128 ，并使用 Adam 优化器进行参数更新。
 
-我们的实验在两种设置之中进行开展：仿真模拟和真实世界测试床评估。在这两种设置中，我们评估性能表现两种网络架构，ResNet-5 和 VGG8，在独立同分布（IID）数据的假设之下。对于所有实验，模型使用小批量大小为 128 进行训练，使用 Adam 优化器。
+仿真实验基于三个基准数据集：CIFAR-10、CIFAR-100 和 Fashion-MNIST。我们将提出的 SOUL-SFL 框架与两种基线方法进行了对比：(1) 传统SFL框架 (BP-SFL)，其依赖客户端反向传播；(2) 无反向传播但未引入服务器卸载的SFL变体 (ULR-SFL)，用于隔离移除客户端反向传播带来的影响。
+所有仿真任务均在配备 80GB 显存的单张 NVIDIA A100 GPU 上完成。此外，为了验证实际部署可行性，我们在树莓派测试床上利用 Fashion-MNIST 数据集进行了进一步的资源消耗评估。
 
-我们开展仿真实验使用三个基准数据集：CIFAR-10、CIFAR-100 和 FEMNIST。我们比较分类准确率三种方法：(1) 传统的 SFL 框架（BP-SFL）；(2) 无反向传播的 SFL 变体，估计梯度 without 服务器卸载（ULR-SFL）；(3) 我们提出的 SOUL-SFL 框架。所有仿真在单个 NVIDIA A100 GPU 上运行，具有 80 GB 的内存。
+\subsection{模型准确性评估}
+首先，我们评估了集成梯度估计与服务器卸载机制的 SOUL-SFL 是否会在提升效率的同时牺牲模型精度。如表~\ref{table:compare_accuracy} 所示，在 CIFAR-10、CIFAR-100 及 Fashion-MNIST 三个数据集上，SOUL-SFL 均展现出了与基准方法高度可比甚至更优的分类性能。三种方法的准确率波动被严格控制在 $\pm 0.8$ 个百分点 (pp) 以内，这表明我们的轻量化设计成功保留了模型的表征学习能力。
 
-对于测试床实验，我们利用 FEMNIST 数据集。我们的物理测试床由 Raspberry Pi 设备和一台个人电脑组成。测试床架构和系统配置的详细描述在以下小节中提供。
+具体而言，在 ResNet-5 架构上，SOUL-SFL 表现稳健，其在 CIFAR-10 和 CIFAR-100 上的准确率分别较 BP-SFL 提升了 0.8 pp 和 0.2 pp。对于 VGG-8 架构，尽管在 CIFAR-10 上观察到微小的性能回落（-0.5 pp），但该差异在统计学上可忽略不计；而在更具挑战性的 CIFAR-100 任务中，SOUL-SFL 不仅超越了 BP-SFL (+0.3 pp)，且与 ULR-SFL 的性能差距仅为 0.1 pp。
 
-\subsection{测试床的实现}
-在我们的测试床中，系统组织如下：联邦服务器和训练服务器都部署在一台个人电脑上（13th Gen Intel(R) Core(TM) i7-13700K）。测试床包括十个 Raspberry Pi 4B 单元作为客户端。在训练过程中，训练服务器和客户端都利用 CPU 进行训练，不使用 GPU。我们使用 HTTP 进行数据传输（例如，模型和梯度更新），因为它对无线错误具有鲁棒性和数据包丢失。
+值得注意的是，作为中间基线的 ULR-SFL 在某些场景下（如 VGG-8/CIFAR-100）表现略优于 BP-SFL，这暗示了去除反向传播本身并不必然导致性能下降。综合来看，SOUL-SFL 在消除客户端反向传播并引入服务器卸载后，最大精度损失仅为 0.5 pp，而最大增益可达 0.8 pp。这一结果有力证明了 SOUL-SFL 是一种高效率且无损精度的替代方案。
 
-每个客户端由三个模块组成：客户端侧训练、HTTP 下载器和客户端 HTTP 代理。服务器包含四个模块：联邦服务器、训练服务器、HTTP 下载器和 $N$ 个服务器侧 HTTP 代理。HTTP 下载器和代理负责管理客户端和服务器之间的数据传输，确保并行数据交换（即双工通信），允许多个客户端同时发送或接收数据。
+\subsection{客户端资源消耗分析}
+虽然仿真结果证实了 SOUL-SFL 在精度上的竞争力，但其核心价值在于显著降低了边缘设备的资源门槛。表~\ref{table:compare_memory} 详细展示了在物理测试床（Fashion-MNIST 数据集）上，三种算法在计算延迟、内存占用及通信开销方面的对比。
 
-为了启用通过 HTTP 的数据传输，每个数据交换由 HTTP 请求触发。此设计确保高效、准确的数据交换，从而减少 SFL 中的训练延迟，因为 HTTP 协议保证可靠的数据传输。
+实验揭示了一个关键的权衡困境：移除反向传播（ ULR-SFL）后，若缺乏服务器卸载机制的支持，将导致灾难性的资源开销。数据显示，ULR-SFL 由于需要在本地执行复杂的梯度估计操作，其计算时间和内存占用相较于 BP-SFL 激增了两个数量级（例如在 VGG-8 上，计算时间从 704ms 飙升至 36,891ms），这使得朴素的无反向传播方案在实际资源受限设备上完全不可行。
 
-\subsection{SOUL-SFL 的性能}
-我们首先评估所提出的 \textbf{SOUL-SFL} 框架，集成 ULR 基于梯度估计和服务器卸载，是否产生准确率下降相比于传统 \textbf{BP-SFL}。在此，\textbf{ULR-SFL} 作为中间基线以隔离移除客户端反向传播的效果。如表~\ref{table:compare_accuracy} 所示，所有三种方法实现高度可比的性能跨越 CIFAR-10、CIFAR-100 和 Fashion-MNIST，波动严格限制在 $\pm 0.8$ 百分点（pp）之内。这确认了我们的面向效率的设计保留模型效能。
-
-具体而言，在 ResNet-5 上，SOUL-SFL 通常优于 BP-SFL，获得增益 \textbf{+0.8 pp} 在 CIFAR-10 和 +0.2 pp 在 CIFAR-100。对于 VGG-8，虽然边际下降 \textbf{-0.5 pp} 被观察到在 CIFAR-10，此偏差是统计上可忽略不计的。值得注意的是，SOUL-SFL 恢复强劲性能在复杂的 CIFAR-100 任务上，超越 BP-SFL 由 \textbf{+0.3 pp} 并匹配 ULR-SFL 在 0.1 pp 之内。总体而言，相比于 BP-SFL，SOUL-SFL 展示可忽略的性能波动：最大观察到的准确率下降仅仅是 \textbf{0.5 pp}，而最大改进达到 \textbf{0.8 pp}。这些结果验证了消除反向传播和引入服务器卸载不阻碍学习能力，建立 SOUL-SFL 作为一个高效率的替代方案而不牺牲预测能力。
-
-\subsection{测试床上的客户端资源消耗}
-虽然仿真结果确认了准确率平等，SOUL-SFL 的主要优势在于其能力极大地最小化客户端资源消耗，一个关键要求对于边缘部署。表~\ref{table:compare_memory} 详述了计算成本、内存占用和通信开销在我们的物理测试床上使用 Fashion-MNIST 数据集。结果强调了一个关键的权衡：虽然移除反向传播是必要的，这样做 without 服务器卸载（如在 ULR-SFL 中）产生禁止性的开销来自复杂的本地梯度估计。相比之下，SOUL-SFL 有效地利用服务器卸载以减轻这些成本，实现最低的资源消耗跨越所有指标。
-
-服务器卸载的必要性被 ULR-SFL 的性能鲜明地说明：通过估计梯度本地，ULR-SFL 产生显著更高的计算成本、内存占用和通信开销相比于标准 BP-SFL。这演示了一个朴素的 BP-free 方法是不切实际对于资源受限设备。然而，通过卸载密集任务到服务器，SOUL-SFL 不仅避免了这种计算爆炸而且也超越了效率的两者 BP-SFL 和 ULR-SFL。此优越性是一致跨越计算、内存和通信：
+相比之下，\textbf{SOUL-SFL} 通过高效的服务器卸载策略，成功化解了这一矛盾，在所有指标上均实现了最优的资源效率：
 \begin{itemize}
-    \item 计算： 
-    SOUL-SFL 实现一个客户端计算时间 \textbf{148 ms} (ResNet-5) 和 \textbf{286 ms} (VGG-8)。 
-    这代表了一个减少 \textbf{178 ms} 和 \textbf{418 ms} 相比于 BP-SFL，和一个大幅减少 \textbf{17,412 ms} 和 \textbf{36,605 ms} 对抗 ULR-SFL。
-
+    \item \textbf{计算效率}：SOUL-SFL 将客户端推理延迟大幅压缩。在 ResNet-5 和 VGG-8 上，单次迭代耗时仅需 148 ms 和 286 ms。这不仅比 BP-SFL 分别减少了 178 ms 和 418 ms，更相比 ULR-SFL 实现了高达 99\% 的延迟降低（分别节省约 17.4 s 和 36.6 s）。
     
-    \item 内存： 
-    SOUL-SFL 维持一个轻量级内存占用仅 \textbf{129 MB} (ResNet-5) 和 \textbf{141 MB} (VGG-8)。 
-    这是 \textbf{105 MB} 和 \textbf{165 MB} 低于 BP-SFL，和一个巨大的 \textbf{11,845 MB} 和 \textbf{13,928 MB} 低于 ULR-SFL。
+    \item \textbf{内存占用}：SOUL-SFL 维持了极轻量级的内存 footprint，仅需 129 MB (ResNet-5) 和 141 MB (VGG-8)。相较于 BP-SFL 节省了约 100+ MB 内存，而对比 ULR-SFL 则避免了超过 11 GB 的内存爆炸风险，使其能够轻松运行于低配边缘设备。
     
-    \item 通信： 
-    SOUL-SFL 最小化通信开销到 \textbf{3.2 MB} (ResNet-5) 和 \textbf{5.6 MB} (VGG-8)。 
-    这节省 \textbf{4.6 MB} 和 \textbf{6.8 MB} 相比于 BP-SFL，同时大幅减少流量由 \textbf{314.4 MB} 和 \textbf{536.5 MB} 相对于 ULR-SFL。
+    \item \textbf{通信开销}：得益于优化的传输机制，SOUL-SFL 的通信量降至 3.2 MB (ResNet-5) 和 5.6 MB (VGG-8)。该数值不仅低于 BP-SFL（节省约 4.6--6.8 MB），更较 ULR-SFL 减少了数百 MB 的数据传输量（最大降幅达 536.5 MB），显著缓解了网络带宽压力。
 \end{itemize}
-这些结果确认了服务器卸载机制在 SOUL-SFL 中是不可或缺的。
+
+综上所述，实验结果清晰地表明：服务器卸载机制是 SOUL-SFL 架构中不可或缺的一环。它不仅在理论上可行，更在实际部署中成功打破了“无反向传播”与“高资源消耗”之间的强耦合，为边缘智能提供了一种真正可行的轻量化解决方案。
+
+\section{本章小结}
+本章针对资源受限场景下传统分裂联邦学习客户端负载过高的问题，提出了一种轻量化的 SOUL-SFL 框架。该框架创新性地引入了服务器卸载设计理念与无反向传播梯度估计方法，将客户端模型的复杂梯度计算任务完全迁移至训练服务器，使客户端仅需执行单次前向传播即可完成本地更新，从而实现了计算与内存负载的理论最小化。通过在树莓派物理测试床与仿真环境下的对比实验，从计算成本、内存占用及通信开销三个维度深入分析了客户端资源消耗特征。实验结果表明，SOUL-SFL 在确保模型准确率与基准方法高度可比的前提下，显著降低了边缘设备的资源门槛，有效解决了无反向传播方案与高资源消耗之间的耦合矛盾，为资源受限场景下的边缘智能部署提供了可行的轻量化解决方案。
