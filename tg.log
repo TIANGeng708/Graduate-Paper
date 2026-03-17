@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.18)  17 MAR 2026 03:12
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.18)  17 MAR 2026 17:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1134,48 +1134,7 @@ Package: relsize 2013/03/29 ver 4.1
 \c@savedcount=\count466
 )
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 31.
- (./tg.aux
-
-LaTeX Warning: Label `Gradient of clean loss' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-
-LaTeX Warning: Label `bounded-variance with noise' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-
-LaTeX Warning: Label `proofC' multiply defined.
-
-(./bu.aux)
-
-LaTeX Warning: Label `Gradient of noise loss' multiply defined.
-
-
-LaTeX Warning: Label `bounded-variance with noise' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-
-LaTeX Warning: Label `Derivation of noise loss function' multiply defined.
-
-
-LaTeX Warning: Label `bounded-variance with noise' multiply defined.
-
-
-LaTeX Warning: Label `eq:H' multiply defined.
-
-)
+ (./tg.aux (./bu.aux))
 \openout1 = `tg.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
@@ -1499,7 +1458,11 @@ Overfull \hbox (3.11972pt too wide) in paragraph at lines 35--35
 
 
 
-] (./tg.toc
+] (./tg.toc)
+\tf@toc=\write6
+\openout6 = `tg.toc'.
+
+
 
 [1
 
@@ -1511,13 +1474,7 @@ Overfull \hbox (3.11972pt too wide) in paragraph at lines 35--35
 
 
 
-])
-\tf@toc=\write6
-\openout6 = `tg.toc'.
-
-
-
-[2] (./section/sec_background.tex
+] (./section/sec_background.tex
 第1章
 
 
@@ -1537,73 +1494,126 @@ Overfull \hbox (3.11972pt too wide) in paragraph at lines 35--35
 [6]
 
 [7]
+File: figures/tec_ways.pdf Graphic file (type pdf)
+<use figures/tec_ways.pdf>
 
-LaTeX Warning: Reference `fig:roadmap' on page 8 undefined on input line 145.
+
+LaTeX Warning: Reference `fig:roadmap' on page 8 undefined on input line 152.
 
 
 
-[8]) (./section/sec_way.tex
+[8]) (./section/sec_convergence.tex
 
 [9]
 第2章
 
+LaTeX Warning: Reference `fig:sfl' on page 10 undefined on input line 66.
 
-[10
-
-]) (./section/sec_convergence.tex
-
-[11]
-
-[12]
-第3章
 File: figures/splitfed.pdf Graphic file (type pdf)
 <use figures/splitfed.pdf>
 
 
-[13
+[10
 
 ]
 
-[14]
+[11]
 
-[15]
+[12]
 
-Package natbib Warning: Citation `b8' on page 16 undefined on input line 185.
-
-
-Package natbib Warning: Citation `b4' on page 16 undefined on input line 198.
+LaTeX Warning: Reference `eq:c-agg' on page 13 undefined on input line 163.
 
 
-Package natbib Warning: Citation `b11' on page 16 undefined on input line 198.
+Package natbib Warning: Citation `b8' on page 13 undefined on input line 185.
 
 
-Package natbib Warning: Citation `b8' on page 16 undefined on input line 198.
+LaTeX Warning: Reference `subsec:sfl math back' on page 13 undefined on input line 190.
+
+
+LaTeX Warning: Reference `subsec:training' on page 13 undefined on input line 190.
+
+
+LaTeX Warning: Reference `Objective of SFL' on page 13 undefined on input line 190.
+
+
+Package natbib Warning: Citation `b4' on page 13 undefined on input line 198.
+
+
+Package natbib Warning: Citation `b11' on page 13 undefined on input line 198.
+
+
+Package natbib Warning: Citation `b8' on page 13 undefined on input line 198.
+
+
+LaTeX Warning: Reference `eq:exp-fn' on page 13 undefined on input line 198.
 
 
 
-[16]
+[13]
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on input line 200.
 
 
-Package natbib Warning: Citation `b8' on page 17 undefined on input line 234.
+LaTeX Warning: Reference `Objective of SFL' on page 14 undefined on input line 232.
+
+
+Package natbib Warning: Citation `b8' on page 14 undefined on input line 234.
 
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 234.
 
+LaTeX Warning: Reference `app:lemma1' on page 14 undefined on input line 240.
 
-[17]
+
+
+[14]
+
+LaTeX Warning: Reference `app:lemma2' on page 15 undefined on input line 269.
+
+
+LaTeX Warning: Reference `eq:gradient-variance' on page 15 undefined on input line 274.
+
+
+LaTeX Warning: Reference `eq:gradient' on page 15 undefined on input line 274.
+
+
 Underfull \hbox (badness 10000) detected at line 291
  []$[]  [][] [] [] [][] [] [] [] [] [][][][][] [] []$ [][][]  
  []
 
 
 
-[18]
+[15]
+
+LaTeX Warning: Reference `app:lemma3' on page 16 undefined on input line 294.
+
 Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 298.
 
+LaTeX Warning: Reference `ass:gradient-variance' on page 16 undefined on input line 299.
 
-Package natbib Warning: Citation `b8' on page 19 undefined on input line 330.
+
+LaTeX Warning: Reference `ass:gradient' on page 16 undefined on input line 313.
+
+
+LaTeX Warning: Reference `prop:variance-g mse' on page 16 undefined on input line 324.
+
+
+LaTeX Warning: Reference `prp:square-g mse' on page 16 undefined on input line 324.
+
+
+LaTeX Warning: Reference `app:pro1' on page 16 undefined on input line 324.
+
+
+LaTeX Warning: Reference `app:pro2' on page 16 undefined on input line 324.
+
+
+Package natbib Warning: Citation `b8' on page 16 undefined on input line 330.
 
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 337.
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 16 undefined on input line 341.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 16 undefined on input line 341.
+
 
 Overfull \hbox (6.76425pt too wide) detected at line 349
 [][]
@@ -1611,31 +1621,89 @@ Overfull \hbox (6.76425pt too wide) detected at line 349
 
 
 
-[19]
+[16]
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 17 undefined on input line 351.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 17 undefined on input line 351.
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 351--354
-\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 3.1[]–[]3.4[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 均 方 差 损 失 函 数 下，|  若 $[][] []
+\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 –[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 均 方 差 损 失 函 数 下，|  若 $[][] []
  []
 
 
-Underfull \hbox (badness 4765) in paragraph at lines 377--381
-\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 3.1[]–[]3.4[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 均 方 差 损 失 函 数 [] 下，|  若 $[][] []
- []
+LaTeX Warning: Reference `ass:gradient-variance' on page 17 undefined on input line 367.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 17 undefined on input line 367.
+
+
+LaTeX Warning: Reference `eq:mse' on page 17 undefined on input line 367.
+
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 17 undefined on input line 377.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 17 undefined on input line 377.
+
+
+LaTeX Warning: Reference `eq:mse' on page 17 undefined on input line 377.
 
 
 
-[20]
+[17]
 
-[21]
+[18]
+
+LaTeX Warning: Reference `app:lemma4' on page 19 undefined on input line 432.
+
+
+LaTeX Warning: Reference `eq:gradient-variance' on page 19 undefined on input line 436.
+
+
+LaTeX Warning: Reference `eq:gradient' on page 19 undefined on input line 436.
+
+
 Overfull \hbox (29.55525pt too wide) detected at line 450
  []$[]  [][] [] [] [][] [] [] [] [] [][] []$ []  
  []
 
 
+LaTeX Warning: Reference `app:lemma5' on page 19 undefined on input line 452.
 
-[22]
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 19 undefined on input line 466.
+
+
+
+[19]
+
+LaTeX Warning: Reference `ass:gradient' on page 20 undefined on input line 477.
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 477--478
 [][]\TU/SimSun.ttc(0)/m/n/12.045 在 假 设
  []
+
+
+LaTeX Warning: Reference `prop:variance-g ce' on page 20 undefined on input line 487.
+
+
+LaTeX Warning: Reference `prp:square-g ce' on page 20 undefined on input line 487.
+
+
+LaTeX Warning: Reference `app:pro3' on page 20 undefined on input line 487.
+
+
+LaTeX Warning: Reference `app:pro4' on page 20 undefined on input line 487.
+
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 20 undefined on input line 498.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 20 undefined on input line 498.
 
 
 Overfull \hbox (6.76425pt too wide) detected at line 506
@@ -1643,20 +1711,48 @@ Overfull \hbox (6.76425pt too wide) detected at line 506
  []
 
 
-Underfull \hbox (badness 3965) in paragraph at lines 508--511
-\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 3.1[]–[]3.4[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 \TU/TimesNewRoman(0)/m/n/12.045 Cross-Entropy \TU/SimSun.ttc(0)/m/n/12.045 损 失 函 数 下，|  若 $[][] []
+LaTeX Warning: Reference `ass:gradient-variance' on page 20 undefined on input line 508.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 20 undefined on input line 508.
+
+
+Underfull \hbox (badness 5091) in paragraph at lines 508--511
+\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 –[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 \TU/TimesNewRoman(0)/m/n/12.045 Cross-Entropy \TU/SimSun.ttc(0)/m/n/12.045 损 失 函 数 下，|  若 $[][] []
  []
 
 
 
-[23]
-Underfull \hbox (badness 3965) in paragraph at lines 534--538
-\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 3.1[]–[]3.4[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 \TU/TimesNewRoman(0)/m/n/12.045 Cross-Entropy \TU/SimSun.ttc(0)/m/n/12.045 损 失 函 数 下，|  若 $[][] []
+[20]
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 21 undefined on input line 524.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 21 undefined on input line 524.
+
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 21 undefined on input line 534.
+
+
+LaTeX Warning: Reference `ass:smooth' on page 21 undefined on input line 534.
+
+
+Underfull \hbox (badness 5091) in paragraph at lines 534--538
+\TU/SimSun.ttc(0)/b/n/12.045 非 凸 情 形 下\TU/TimesNewRoman(0)/m/n/12.045 : \TU/SimSun.ttc(0)/m/n/12.045 在 假 设 []\TU/TimesNewRoman(0)/m/n/12.045 –[] \TU/SimSun.ttc(0)/m/n/12.045 以 及 \TU/TimesNewRoman(0)/m/n/12.045 Cross-Entropy \TU/SimSun.ttc(0)/m/n/12.045 损 失 函 数 下，|  若 $[][] []
  []
 
 
 
-[24]
+[21]
+
+LaTeX Warning: Reference `subsec:hyper-con' on page 22 undefined on input line 563.
+
+
+LaTeX Warning: Reference `subsec:noniid-con' on page 22 undefined on input line 563.
+
+
+LaTeX Warning: Reference `subsec:noise-con' on page 22 undefined on input line 563.
+
 File: figures//cifar10/sfl-v1/E.pdf Graphic file (type pdf)
 <use figures//cifar10/sfl-v1/E.pdf>
 File: figures//cifar10/sfl-v2/E.pdf Graphic file (type pdf)
@@ -1673,79 +1769,126 @@ File: figures//cifar100/sfl-v1/N.pdf Graphic file (type pdf)
 <use figures//cifar100/sfl-v1/N.pdf>
 File: figures//cifar100/sfl-v2/N.pdf Graphic file (type pdf)
 <use figures//cifar100/sfl-v2/N.pdf>
-LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 589.
+LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(2)/m/n' will be
-(Font)              scaled to size 11.04242pt on input line 589.
+(Font)              scaled to size 11.04242pt on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(2)/m/n' will be
-(Font)              scaled to size 7.72966pt on input line 589.
+(Font)              scaled to size 7.72966pt on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(2)/m/n' will be
-(Font)              scaled to size 5.5212pt on input line 589.
+(Font)              scaled to size 5.5212pt on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(3)/m/n' will be
-(Font)              scaled to size 11.04005pt on input line 589.
+(Font)              scaled to size 11.04005pt on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(3)/m/n' will be
-(Font)              scaled to size 7.728pt on input line 589.
+(Font)              scaled to size 7.728pt on input line 593.
 LaTeX Font Info:    Font shape `TU/CambriaMath.otf(3)/m/n' will be
-(Font)              scaled to size 5.52002pt on input line 589.
+(Font)              scaled to size 5.52002pt on input line 593.
+
+LaTeX Warning: Reference `fig:compare-E' on page 22 undefined on input line 598.
+
+
+
+[22]
+
+[23]
+
+LaTeX Warning: Reference `fig:compare-N' on page 24 undefined on input line 600.
+
+File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v1/beta.pdf>
+File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v2/beta.pdf>
+File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v1/beta.pdf>
+File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v2/beta.pdf>
+
+LaTeX Warning: Reference `fig:cifar10-noniid-con' on page 24 undefined on input line 633.
+
+
+
+[24]
+File: figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf Graphic file (type pdf)
+<use figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf>
+File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v2/beta.pdf>
+File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v1/beta.pdf>
+File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v2/beta.pdf>
+File: figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf Graphic file (type pdf)
+<use figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf>
+File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v2/beta.pdf>
+File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v1/beta.pdf>
+File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v2/beta.pdf>
+File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v1/beta.pdf>
+File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v2/beta.pdf>
+File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v1/beta.pdf>
+File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v2/beta.pdf>
+File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v1/beta.pdf>
+File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar10/sfl-v2/beta.pdf>
+File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v1/beta.pdf>
+File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
+<use figures//cifar100/sfl-v2/beta.pdf>
+
+
+LaTeX Warning: Reference `theorem-v1-full-mse' on page 25 undefined on input line 705.
+
+
+LaTeX Warning: Reference `theorem-v2-full-ce' on page 25 undefined on input line 705.
+
 
 
 [25]
 
 [26]
-File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v1/beta.pdf>
-File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v2/beta.pdf>
-File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v1/beta.pdf>
-File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v2/beta.pdf>
-
 
 [27]
-File: figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf Graphic file (type pdf)
-<use figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf>
-File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v2/beta.pdf>
-File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v1/beta.pdf>
-File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v2/beta.pdf>
-File: figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf Graphic file (type pdf)
-<use figures//cifar10/v2_cifar10_noniidi_NoiseClient0.6_n=100.pdf>
-File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v2/beta.pdf>
-File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v1/beta.pdf>
-File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v2/beta.pdf>
-File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v1/beta.pdf>
-File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v2/beta.pdf>
-File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v1/beta.pdf>
-File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v2/beta.pdf>
-File: figures//cifar10/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v1/beta.pdf>
-File: figures//cifar10/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar10/sfl-v2/beta.pdf>
-File: figures//cifar100/sfl-v1/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v1/beta.pdf>
-File: figures//cifar100/sfl-v2/beta.pdf Graphic file (type pdf)
-<use figures//cifar100/sfl-v2/beta.pdf>
 
+LaTeX Warning: Reference `fig:cifar10-noise-con-iid' on page 28 undefined on input line 711.
+
+
+LaTeX Warning: Reference `fig:cifar10-noise-con-noniid' on page 28 undefined on input line 711.
+
+
+LaTeX Warning: Reference `fig:cifar100-noise-con-iid' on page 28 undefined on input line 711.
+
+
+LaTeX Warning: Reference `fig:cifar100-noise-con-noniid' on page 28 undefined on input line 711.
+
+
+LaTeX Warning: Reference `theorem-v1-full-mse' on page 28 undefined on input line 718.
+
+
+LaTeX Warning: Reference `theorem-v2-full-ce' on page 28 undefined on input line 718.
+
+) (./section/sec_sflct.tex
 
 [28]
+第3章
 
-[29]
+Package natbib Warning: Citation `b9' on page 29 undefined on input line 5.
 
-[30]) (./section/sec_sflct.tex
 
-[31]
-第4章
+LaTeX Warning: Reference `subsec:training' on page 29 undefined on input line 20.
 
-Package natbib Warning: Citation `b9' on page 32 undefined on input line 5.
+
+LaTeX Warning: Reference `subsec:training' on page 29 undefined on input line 24.
+
+
+LaTeX Warning: Reference `subsec:training' on page 29 undefined on input line 26.
+
+
+LaTeX Warning: Reference `subsec:training' on page 29 undefined on input line 36.
 
 
 Overfull \hbox (24.09pt too wide) detected at line 39
@@ -1758,79 +1901,112 @@ File: figures/gamma.pdf Graphic file (type pdf)
 <use figures/gamma.pdf>
 
 
-[32
+[29
 
 ]
 
-Package natbib Warning: Citation `b9' on page 33 undefined on input line 75.
+Package natbib Warning: Citation `b9' on page 30 undefined on input line 75.
 
 
 
-[33]
+[30]
 
-Package natbib Warning: Citation `b9' on page 34 undefined on input line 79.
-
-
-Package natbib Warning: Citation `amsaleg2015estimating' on page 34 undefined on input line 79.
+Package natbib Warning: Citation `b9' on page 31 undefined on input line 79.
 
 
-Package natbib Warning: Citation `houle2013dimensionality' on page 34 undefined on input line 79.
+Package natbib Warning: Citation `amsaleg2015estimating' on page 31 undefined on input line 79.
+
+
+Package natbib Warning: Citation `houle2013dimensionality' on page 31 undefined on input line 79.
 
 
 
-[34]
+[31]
 File: figures/testbed.png Graphic file (type bmp)
 <figures/testbed.png>
 
 
-[35]
+[32]
 File: figures/testbed_chinese.pdf Graphic file (type pdf)
 <use figures/testbed_chinese.pdf>
 File: figures/time_chinese.pdf Graphic file (type pdf)
 <use figures/time_chinese.pdf>
 
 
-Package natbib Warning: Citation `b9' on page 36 undefined on input line 256.
+[33]
+
+[34]
+
+Package natbib Warning: Citation `b9' on page 35 undefined on input line 284.
 
 
-Package natbib Warning: Citation `b9' on page 36 undefined on input line 256.
+Package natbib Warning: Citation `b9' on page 35 undefined on input line 284.
+
+
+LaTeX Warning: Reference `fig:sfl' on page 35 undefined on input line 284.
+
+
+LaTeX Warning: Reference `fig:sfl' on page 35 undefined on input line 284.
+
+
+
+[35]
+
+Package natbib Warning: Citation `patrini2017making' on page 36 undefined on input line 286.
 
 
 
 [36]
-
-Package natbib Warning: Citation `patrini2017making' on page 37 undefined on input line 258.
-
-
-
-[37]
-
-[38]
 File: figures/power_iid.pdf Graphic file (type pdf)
 <use figures/power_iid.pdf>
 File: figures/power_noniid.pdf Graphic file (type pdf)
 <use figures/power_noniid.pdf>
 
 
-[39]
+[37]
 
-LaTeX Warning: Reference `mnist energy' on page 40 undefined on input line 298.
+LaTeX Warning: Reference `mnist energy' on page 38 undefined on input line 326.
 
 ) (./section/sec_bpfree.tex
 
-[40]
-第5章
+[38]
+第4章
 
 
-[41
+[39
 
 ]
 
-[42]
+LaTeX Warning: Reference `alg:soul-sfl' on page 40 undefined on input line 49.
 
-[43]
 
-LaTeX Warning: Reference `eq:aggregation' on page 44 undefined on input line 127.
+
+[40]
+
+[41]
+
+LaTeX Warning: Reference `eq:act_noise' on page 42 undefined on input line 87.
+
+
+LaTeX Warning: Reference `eq:grad_sigma_act' on page 42 undefined on input line 87.
+
+
+LaTeX Warning: Reference `eq:c-agg' on page 42 undefined on input line 105.
+
+
+LaTeX Warning: Reference `eq:act_noise' on page 42 undefined on input line 120.
+
+
+LaTeX Warning: Reference `eq:grad_sigma_act' on page 42 undefined on input line 120.
+
+
+LaTeX Warning: Reference `eq:param_noise' on page 42 undefined on input line 123.
+
+
+LaTeX Warning: Reference `eq:grad_sigma_act' on page 42 undefined on input line 123.
+
+
+LaTeX Warning: Reference `eq:aggregation' on page 42 undefined on input line 127.
 
 
 Overfull \hbox (24.09pt too wide) detected at line 131
@@ -1840,61 +2016,95 @@ Overfull \hbox (24.09pt too wide) detected at line 131
 File: figures/time2.pdf Graphic file (type pdf)
 <use figures/time2.pdf>
 
+LaTeX Warning: Reference `fig:time2' on page 42 undefined on input line 142.
+
+
+
+[42]
+
+LaTeX Warning: Reference `sec:computation' on page 43 undefined on input line 198.
+
+
+LaTeX Warning: Reference `sec:memory' on page 43 undefined on input line 198.
+
+
+LaTeX Warning: Reference `sec:communication' on page 43 undefined on input line 198.
+
+
+
+[43]
+
+Package natbib Warning: Citation `rumelhart1986learning' on page 44 undefined on input line 206.
+
+
+Package natbib Warning: Citation `goodfellow2016deep' on page 44 undefined on input line 206.
+
+
+Package natbib Warning: Citation `chen2016training' on page 44 undefined on input line 218.
+
+
+Package natbib Warning: Citation `goodfellow2016deep' on page 44 undefined on input line 218.
+
+
+Package natbib Warning: Citation `rhu2016vdnn' on page 44 undefined on input line 218.
+
+
 
 [44]
 
 [45]
 
-Package natbib Warning: Citation `rumelhart1986learning' on page 46 undefined on input line 206.
-
-
-Package natbib Warning: Citation `goodfellow2016deep' on page 46 undefined on input line 206.
-
-
-Package natbib Warning: Citation `chen2016training' on page 46 undefined on input line 218.
-
-
-Package natbib Warning: Citation `goodfellow2016deep' on page 46 undefined on input line 218.
-
-
-Package natbib Warning: Citation `rhu2016vdnn' on page 46 undefined on input line 218.
+LaTeX Warning: Reference `table:compare_accuracy' on page 46 undefined on input line 319.
 
 
 
 [46]
 
+LaTeX Warning: Reference `table:compare_memory' on page 47 undefined on input line 326.
+
+) (./section/sec_sum.tex
+
 [47]
 
-[48]) (./section/sec_sum.tex
+[48]
+第5章
+)
 
-[49]
+[49
+
+]
 
 [50]
-第6章
-
-
-[51
-
-])
-
-[52]
-
-[53]
 \openout4 = `bu.aux'.
 
  (./tg.bbl
 
-[54
+[51
 
 
 
 ]
 
-[55]) (./section/sec_app.tex
+[52]) (./section/sec_app.tex
 
-[56]
+[53]
 附录 A
+
+LaTeX Warning: Reference `lemma:decomp' on page 54 undefined on input line 2.
+
 Package hyperref Info: bookmark level for unknown proof defaults to 0 on input line 11.
+
+LaTeX Warning: Reference `eq:decomposition2' on page 54 undefined on input line 29.
+
+
+LaTeX Warning: Reference `eq:decomposition1' on page 54 undefined on input line 29.
+
+
+LaTeX Warning: Reference `lem:mse' on page 54 undefined on input line 31.
+
+
+LaTeX Warning: Reference `lem:msegra' on page 54 undefined on input line 48.
+
 
 Underfull \hbox (badness 10000) detected at line 55
  []$[]  [][] [] [] [][] [] [] [] [] [][][][][] [] []$ [][]  
@@ -1902,7 +2112,7 @@ Underfull \hbox (badness 10000) detected at line 55
 
 
 
-[57
+[54
 
 ]
 Overfull \hbox (10.09666pt too wide) detected at line 70
@@ -1910,15 +2120,57 @@ Overfull \hbox (10.09666pt too wide) detected at line 70
  []
 
 
+LaTeX Warning: Reference `ass:gradient-variance' on page 55 undefined on input line 75.
+
+
+
+[55]
+
+LaTeX Warning: Reference `eq:lemma3' on page 56 undefined on input line 98.
+
+
+LaTeX Warning: Reference `eq:proof-v1' on page 56 undefined on input line 106.
+
+
+LaTeX Warning: Reference `eq:proof-v2' on page 56 undefined on input line 113.
+
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 56 undefined on input line 113.
+
+
+
+[56]
+
+LaTeX Warning: Reference `eq:proof-v3' on page 57 undefined on input line 122.
+
+
+LaTeX Warning: Reference `eq:proof-v3' on page 57 undefined on input line 130.
+
+
+LaTeX Warning: Reference `eq:proof-v2' on page 57 undefined on input line 130.
+
+
+LaTeX Warning: Reference `ass:gradient' on page 57 undefined on input line 134.
+
+
+LaTeX Warning: Reference `Gradient of clean loss' on page 57 undefined on input line 152.
+
+
+
+[57]
+
+LaTeX Warning: Reference `ass:gradient' on page 58 undefined on input line 160.
+
+) (./section/sec_app2.tex
 
 [58]
-
-[59]
-
-[60]) (./section/sec_app2.tex
-
-[61]
 附录 B
+
+LaTeX Warning: Reference `lem:cross' on page 59 undefined on input line 2.
+
+
+LaTeX Warning: Reference `lem:cross' on page 59 undefined on input line 22.
+
 
 Overfull \hbox (26.40874pt too wide) detected at line 26
  []$[]  [][] [] [] [][] [] [] [] [] [][] []$ []  
@@ -1926,25 +2178,69 @@ Overfull \hbox (26.40874pt too wide) detected at line 26
 
 
 
-[62
+[59
 
 ]
 
-[63]
+LaTeX Warning: Reference `ass:gradient-variance' on page 60 undefined on input line 43.
 
-[64]
 
-[65]
+LaTeX Warning: Reference `eq:lamma5' on page 60 undefined on input line 65.
+
+
+
+[60]
+
+LaTeX Warning: Reference `eq:proof-b-v2' on page 61 undefined on input line 91.
+
+
+LaTeX Warning: Reference `ass:gradient-variance' on page 61 undefined on input line 91.
+
+
+
+[61]
+
+LaTeX Warning: Reference `eq:proof-b-v3' on page 62 undefined on input line 136.
+
+
+LaTeX Warning: Reference `eq:proof-b-v4' on page 62 undefined on input line 136.
+
+
+LaTeX Warning: Reference `eq:proof-b-v2' on page 62 undefined on input line 136.
+
+
+
+[62]
+
+LaTeX Warning: Reference `ass:gradient' on page 63 undefined on input line 152.
+
+
+LaTeX Warning: Reference `eq:lamma5' on page 63 undefined on input line 170.
+
+
 Overfull \hbox (4.83937pt too wide) detected at line 186
  []$[] [] [][][][] []$ 
  []
 
 
 
-[66]
+[63]
+
+LaTeX Warning: Reference `ass:gradient' on page 64 undefined on input line 188.
+
+
 Overfull \hbox (5.84091pt too wide) detected at line 195
  []$[]  [][][][] []$ 
  []
+
+
+LaTeX Warning: Reference `eq:proof-b-s2' on page 64 undefined on input line 205.
+
+
+LaTeX Warning: Reference `eq:proof-b-s3' on page 64 undefined on input line 205.
+
+
+LaTeX Warning: Reference `eq:proof-b-s1' on page 64 undefined on input line 205.
 
 )
 \tf@thm=\write7
@@ -1956,7 +2252,7 @@ Package natbib Warning: There were undefined citations.
 
 
 
-[67] (./tg.aux (./bu.aux))
+[64] (./tg.aux (./bu.aux))
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1966,7 +2262,7 @@ L3 programming layer <2022/08/05>
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 
 Package rerunfilecheck Warning: File `tg.out' has changed.
@@ -1974,16 +2270,16 @@ Package rerunfilecheck Warning: File `tg.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `tg.out':
-(rerunfilecheck)             Before: 1BA4D7ECB26B4A2A0D52AA84158C7F5C;13366
-(rerunfilecheck)             After:  650F3F90BFF45420531DA367E1E9B925;13239.
+(rerunfilecheck)             Before: BECF9876DA385E211E7CC9EF7D33EBFA;2178
+(rerunfilecheck)             After:  549430545AB2EA44CBE6EC96709EFAA8;12741.
  ) 
 Here is how much of TeX's memory you used:
- 45959 strings out of 474234
- 991736 string characters out of 5738231
- 1561961 words of memory out of 5000000
- 67827 multiletter control sequences out of 15000+600000
+ 45940 strings out of 474234
+ 991522 string characters out of 5738231
+ 1542188 words of memory out of 5000000
+ 67810 multiletter control sequences out of 15000+600000
  567238 words of font info for 186 fonts, out of 8000000 for 9000
  1350 hyphenation exceptions out of 8191
  106i,14n,137p,1432b,2685s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on tg.pdf (72 pages).
+Output written on tg.pdf (68 pages).

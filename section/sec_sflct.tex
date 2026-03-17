@@ -146,6 +146,34 @@ SF-LCT 算法的伪代码如 算法~\ref{alg1} 所示，图~\ref{fig:SF-LCT} 展
 
 
 \section{实验部分}
+\subsection{实验设置}
+在本部分实验中，我们继续使用
+\subsection{低质量数据的构造}
+\subsubsection{Non-IID数据}
+遵循分布式学习领域的通用实验范式，本文采用\textbf{狄利克雷分布（Dirichlet Distribution）}来模拟客户端间数据的非独立同分布（Non-IID）特性。在该分布模型中，浓度参数 $\alpha$ 起着关键调控作用：$\alpha$ 值越小，生成的样本标签分布向量越稀疏，意味着不同用户间的数据分布差异越大（即异构性越强）；反之，$\alpha$ 值越大，数据分布则趋向于均匀（IID）。
+
+具体而言，假设数据集中共有 $K$ 个类别，对于第 $n$ 个用户（Client $n$），其本地数据集的类别比例分布向量 $\mathbf{p}_n = [p_{n,1}, p_{n,2}, \dots, p_{n,K}]^\top$ 服从参数为 $\alpha$ 的狄利克雷分布：
+\begin{equation}
+    \mathbf{p}_n \sim \text{Dir}(\alpha \cdot \mathbf{1}_K)
+\end{equation}
+其中，$\mathbf{1}_K$ 表示长度为 $K$ 的全 1 向量。该分布的概率密度函数定义为：
+\begin{equation}
+    f(\mathbf{p}_n; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} p_{n,i}^{\alpha - 1}
+\end{equation}
+式中，$B(\alpha)$ 为归一化常数（多元 Beta 函数），且满足约束条件 $\sum_{i=1}^{K} p_{n,i} = 1$ 及 $p_{n,i} \geq 0$。
+
+在实际数据划分过程中，我们首先针对每个用户独立采样得到其类别比例向量 $\mathbf{p}_n$，随后依据该比例将全局数据集中的样本分配至各用户。通过调整 $\alpha$ 的取值（例如 $\alpha \in \{0.1, 0.5, 1.0\}$），我们可以灵活构建从极度 Non-IID 到近似 IID 的不同实验场景，从而全面评估算法在各类数据异构程度下的鲁棒性。
+
+\subsubsection{标签噪声}
+我们在实验中使用了两种方法构造分类数据集的标签噪声，一种是随机翻转（Random Flipping），另一种是类别相关翻转（Class-Dependent Flipping）。
+
+具体而言，随机翻转 用于模拟对称噪声（Symmetric Noise）。在这种设置下，训练集中每个样本的标签以均匀概率被更改为其他任意类别。若类别总数为 $K$，噪声率为 $\delta$，则原始标签被保留的概率为 $1-\delta$，被翻转到其他 $K-1$ 个类别的概率均为 $\delta/(K-1)$。这种方法主要模拟完全随机的标注错误。
+
+类别相关翻转（Class-Dependent Flipping） 则用于模拟非对称噪声（Asymmetric Noise）。为了更贴近现实场景中人类标注者的混淆行为，我们根据类别间的语义相似性构建翻转矩阵。以 CIFAR-10 为例，我们将“卡车”翻转为“汽车”，“鸟”翻转为“飞机”，“鹿”翻转为“马”，并在“猫”与“狗”之间相互翻转。这种噪声设置比随机翻转更具挑战性，因为它保留了部分错误标签的误导性特征。
+
+需要注意的是，在我们所有实验中，噪声仅注入到训练集中，测试集保持准确标注，以确保评估指标的公正性与真实性。
+
+
 \begin{table*}[t]
 \caption{Average of The Best Accuracies of Various Algorithms on CIFAR-10 (Random Flipping)}
 % \vspace{-5pt}
